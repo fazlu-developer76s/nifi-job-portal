@@ -70,9 +70,18 @@ class CustomConfigServiceProvider extends ServiceProvider
 
                 'sendmail' => $settings->mail_sendmail,
 
-                'pretend' => $settings->mail_pretend
+                'pretend' => $settings->mail_pretend,
+                'stream' => [
+                'ssl' => [
+                    'allow_self_signed' => true,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ],
+
 
             ];
+            
 
             $this->app['config']['services'] = [
 

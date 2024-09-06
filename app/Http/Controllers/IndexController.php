@@ -49,7 +49,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-      
+
         $topCompanyIds = $this->getCompanyIdsAndNumJobs(16);
         $topFunctionalAreaIds = $this->getFunctionalAreaIdsAndNumJobs(8);
         $topIndustryIds = $this->getIndustryIdsFromCompanies(12);

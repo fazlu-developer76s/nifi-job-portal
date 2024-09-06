@@ -165,6 +165,17 @@
       0 => 'SocialiteProviders\\Manager\\ServiceProvider',
     ),
   ),
+  'spatie/laravel-html' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\Html\\HtmlServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Html' => 'Spatie\\Html\\Facades\\Html',
+    ),
+  ),
   'spatie/laravel-ignition' => 
   array (
     'providers' => 

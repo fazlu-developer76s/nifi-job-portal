@@ -21,6 +21,7 @@ use App\ReportAbuseMessage;
 use App\ReportAbuseCompanyMessage;
 use App\SendToFriendMessage;
 use App\Mail\ContactUs;
+use App\Mail\WelcomeMail;
 use App\Mail\EmailToFriend;
 use App\Mail\ReportAbuse;
 use App\Mail\ReportAbuseCompany;
@@ -40,13 +41,15 @@ class ContactController extends Controller
 
     public function postContact(ContactFormRequest $request)
     {
+        
+    
         $data['full_name'] = $request->input('full_name');
         $data['email'] = $request->input('email');
         $data['phone'] = $request->input('phone');
         $data['subject'] = $request->input('subject');
         $data['message_txt'] = $request->input('message_txt');
         $msg_save = ContactMessage::create($data);
-        $when = Carbon::now()->addMinutes(5);
+        // $when = Carbon::now()->addMinutes(5);
         Mail::send(new ContactUs($data));
         return Redirect::route('contact.us.thanks');
     }

@@ -27,7 +27,7 @@ trait CompanyTrait
         }
     }
 
-    private function getCompanyIdsAndNumJobs($limit = 16)
+        private function getCompanyIdsAndNumJobs($limit = 16)
     {
         return DB::table('jobs')
                         ->select('company_id', DB::raw('COUNT(jobs.company_id) AS num_jobs'))

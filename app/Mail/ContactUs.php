@@ -30,8 +30,9 @@ class ContactUs extends Mailable
      *
      * @return $this
      */
-    public function build()
+ public function build()
     {
+
        $recipientAddress = config('mail.recieve_to.address');
         $recipientName = config('mail.recieve_to.name');
         
@@ -39,12 +40,13 @@ class ContactUs extends Mailable
         'address' => config('mail.recieve_to.address'),
         'name' => config('mail.recieve_to.name'),
     ])
-    
+
     ->to($recipientAddress, $recipientName)
     ->replyTo($this->data['email'], $this->data['full_name'])
     ->subject($this->data['subject'])
     ->view('emails.send_contact_message')
     ->with($this->data);
     }
+
 
 }
