@@ -29,7 +29,7 @@ class RegisterController extends Controller
 
 use RegistersUsers;
     use VerifiesUsers;
-
+  
     /**
      * Where to redirect users after registration.
      *
@@ -43,7 +43,7 @@ use RegistersUsers;
      * @return void
      */
     public function __construct()
-    {
+    {   
         $this->middleware('guest', ['except' => ['getVerification', 'getVerificationError', 'notVerified']]);
     }
 

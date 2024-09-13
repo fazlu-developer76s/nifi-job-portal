@@ -11,27 +11,27 @@
         <legend>SMTP Settings:</legend>    
         <div class="form-group {!! APFrmErrHelp::hasError($errors, 'mail_host') !!}">
             {!! Form::label('mail_host', 'Mail Host', ['class' => 'bold']) !!}                    
-            {!! Form::text('mail_host', null, array('class'=>'form-control', 'id'=>'mail_host', 'placeholder'=>'Mail Host')) !!}
+            {!! Form::text('mail_host', null, ['class' => 'form-control','id' => 'mail_host','placeholder' => 'Mail Host','readonly' => !empty('mail_host') ? 'readonly' : null]) !!}
             {!! APFrmErrHelp::showErrors($errors, 'mail_host') !!}                                       
         </div>    
         <div class="form-group {!! APFrmErrHelp::hasError($errors, 'mail_port') !!}">
             {!! Form::label('mail_port', 'Mail Port', ['class' => 'bold']) !!}                    
-            {!! Form::text('mail_port', null, array('class'=>'form-control', 'id'=>'mail_port', 'placeholder'=>'Mail Port')) !!}
+            {!! Form::text('mail_port', null, array('class'=>'form-control', 'id'=>'mail_port', 'placeholder'=>'Mail Port','readonly' => !empty('mail_port') ? 'readonly' : null)) !!}
             {!! APFrmErrHelp::showErrors($errors, 'mail_port') !!}                                       
         </div>    
         <div class="form-group {!! APFrmErrHelp::hasError($errors, 'mail_encryption') !!}">
             {!! Form::label('mail_encryption', 'Mail Encryption', ['class' => 'bold']) !!}                    
-            {!! Form::text('mail_encryption', null, array('class'=>'form-control', 'id'=>'mail_encryption', 'placeholder'=>'Mail Encryption')) !!}
+            {!! Form::text('mail_encryption', null, array('class'=>'form-control', 'id'=>'mail_encryption', 'placeholder'=>'Mail Encryption','readonly' => !empty('mail_encryption') ? 'readonly' : null)) !!}
             {!! APFrmErrHelp::showErrors($errors, 'mail_encryption') !!}                                       
         </div>
         <div class="form-group {!! APFrmErrHelp::hasError($errors, 'mail_username') !!}">
             {!! Form::label('mail_username', 'Mail Username', ['class' => 'bold']) !!}                    
-            {!! Form::text('mail_username', null, array('class'=>'form-control', 'id'=>'mail_username', 'placeholder'=>'Mail Username')) !!}
+            {!! Form::text('mail_username', null, array('class'=>'form-control', 'id'=>'mail_username', 'placeholder'=>'Mail Username','readonly' => !empty('mail_username') ? 'readonly' : null)) !!}
             {!! APFrmErrHelp::showErrors($errors, 'mail_username') !!}                                       
         </div>
         <div class="form-group {!! APFrmErrHelp::hasError($errors, 'mail_password') !!}">
             {!! Form::label('mail_password', 'Mail Password', ['class' => 'bold']) !!}                    
-            {!! Form::text('mail_password', null, array('class'=>'form-control', 'id'=>'mail_password', 'placeholder'=>'Mail Password')) !!}
+            {!! Form::text('mail_password', null, array('class'=>'form-control', 'id'=>'mail_password', 'placeholder'=>'Mail Password','readonly' => !empty('mail_password') ? 'readonly' : null)) !!}
             {!! APFrmErrHelp::showErrors($errors, 'mail_password') !!}                                       
         </div>
     </fieldset>
@@ -40,12 +40,12 @@
         <legend>SendMail - Pretend Settings:</legend>     
         <div class="form-group {!! APFrmErrHelp::hasError($errors, 'mail_sendmail') !!}">
             {!! Form::label('mail_sendmail', 'Mail Sendmail', ['class' => 'bold']) !!}                    
-            {!! Form::text('mail_sendmail', null, array('class'=>'form-control', 'id'=>'mail_sendmail', 'placeholder'=>'Mail Sendmail')) !!}
+            {!! Form::text('mail_sendmail', null, array('class'=>'form-control', 'id'=>'mail_sendmail', 'placeholder'=>'Mail Sendmail','readonly' => !empty('mail_sendmail') ? 'readonly' : null)) !!}
             {!! APFrmErrHelp::showErrors($errors, 'mail_sendmail') !!}                                       
         </div>
         <div class="form-group {!! APFrmErrHelp::hasError($errors, 'mail_pretend') !!}">
             {!! Form::label('mail_pretend', 'Mail Pretend', ['class' => 'bold']) !!}                    
-            {!! Form::text('mail_pretend', null, array('class'=>'form-control', 'id'=>'mail_pretend', 'placeholder'=>'Mail Pretend')) !!}
+            {!! Form::text('mail_pretend', null, array('class'=>'form-control', 'id'=>'mail_pretend', 'placeholder'=>'Mail Pretend','readonly' => !empty('mail_pretend') ? 'readonly' : null)) !!}
             {!! APFrmErrHelp::showErrors($errors, 'mail_pretend') !!}                                       
         </div>
     </fieldset>    

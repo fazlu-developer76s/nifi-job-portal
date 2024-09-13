@@ -29,7 +29,8 @@ use App\SiteSetting;
 use App\Http\Requests;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use DataTables;
@@ -67,15 +68,89 @@ class SiteSettingController extends Controller
     }
 
 
+    public function updateNotification(Request $request)
+    {
+        $updateValue = $request->input('update_value');
+        $rowId = $request->input('row_id');
+        $type = $request->input('type');
+        $id = $request->input('id');
+    
+        $query = DB::table('notification_settings')->where('id', $rowId)->where('type', $type);
+    
+        if (!$id) {
+            $query->update([
+                'whatsapp_notify' => $updateValue,
+                'email_notify' => $updateValue,
+                'sms_notify' => $updateValue,
+            ]);
+        } else {
+            $query->update([$id => $updateValue]);
+        }
+    
+        return response()->json('200 OK');
+    }
+    public function testKeySms(Request $request)
+    {
+  
+        $get_site_setting = DB::table('site_settings')->where('id', 1272)->get()[0];
+        $get_sms_setting = DB::table('sms_settings')->where('id', $request->template_id)->get()[0];
+       
+        $mobileNo = $request->mobile_number; 
+        $userId = $get_site_setting->sms_user_id;
+        $password = $get_site_setting->sms_password;
+        $senderID = $get_sms_setting->sender_id;
+        $entityID = $get_sms_setting->template_name;
+        $templateID = $get_sms_setting->template_id;
+        $msg = $get_sms_setting->template_content;
+        $url = $get_site_setting->sms_url_type;
+        $params = [
+            'UserID' => $userId,
+            'Password' => $password,
+            'SenderID' => $senderID,
+            'Phno' => $mobileNo,
+            'Msg' => $msg,
+            'EntityID' => $entityID,
+            'TemplateID' => $templateID,
+        ];
+        try {
+            $response = Http::asForm()->get($url, $params);
+            Log::info('SMS API Response', [$response->body()]);
+            if ($response->successful()) {
+                echo json_encode('200 OK');die;
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to send OTP',
+                    'error' => $response->body(),
+                ], $response->status());
+            }
+        } catch (\Exception $e) {
+            Log::error('Error sending SMS: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to send OTP',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
+
+    public function fetchsmsSetting(Request $request)
+    {
+
+        $get_sms_setting = DB::table('sms_settings')->where('id', $request->template_id)->get()[0];
+
+        echo json_encode($get_sms_setting);
+    }
+
 
     public function editSiteSetting()
 
     {
 
         $id = 1272;
-
         $countries = DataArrayHelper::defaultCountriesArray();
-
         $currency_codes = CountryDetail::select('countries_details.code')->orderBy('countries_details.code')->pluck('countries_details.code', 'countries_details.code')->toArray();
 
         $mail_drivers = [
@@ -83,19 +158,21 @@ class SiteSettingController extends Controller
             'smtp' => 'SMTP'
 
         ];
-
         $siteSetting = SiteSetting::findOrFail($id);
-
+        $sms_setting = DB::table('sms_settings')->where('status', 2)->get();
+        $template = DB::table('sms_settings')->where('status', 1)->get();
+        $employer_noti = DB::table('notification_settings')->where('type',1)->get();
+        $candidate_noti = DB::table('notification_settings')->where('type',2)->get();
+       
         return view('admin.site_setting.edit')
-
-                        ->with('siteSetting', $siteSetting)
-
-                        ->with('mail_drivers', $mail_drivers)
-
-                        ->with('countries', $countries)
-
-                        ->with('currency_codes', $currency_codes);
-
+            ->with('siteSetting', $siteSetting)
+            ->with('mail_drivers', $mail_drivers)
+            ->with('countries', $countries)
+            ->with('currency_codes', $currency_codes)
+            ->with('sms_setting', $sms_setting)
+            ->with('template', $template)
+            ->with('employer_noti', $employer_noti)
+            ->with('candidate_noti', $candidate_noti);
     }
 
 
@@ -117,7 +194,6 @@ class SiteSettingController extends Controller
             $fileName = ImgUploader::UploadImage('sitesetting_images', $request->file('image'), $image_name);
 
             $siteSetting->site_logo = $fileName;
-
         }
 
         if ($request->hasFile('favicon')) {
@@ -125,7 +201,6 @@ class SiteSettingController extends Controller
             $file = $request->file('favicon');
 
             $file->move(public_path(), 'favicon.ico');
-
         }
 
         $siteSetting->site_name = $request->input('site_name');
@@ -144,7 +219,7 @@ class SiteSettingController extends Controller
 
         $siteSetting->mail_to_name = $request->input('mail_to_name');
 
-        
+
         $siteSetting->is_payu_active = $request->input('is_payu_active');
         $siteSetting->payu_money_key = $request->input('payu_money_key');
         $siteSetting->payu_money_mode = $request->input('payu_money_mode');
@@ -247,41 +322,66 @@ class SiteSettingController extends Controller
         $siteSetting->stripe_key = $request->input('stripe_key');
 
         $siteSetting->stripe_secret = $request->input('stripe_secret');
-        
+
         $siteSetting->is_paypal_active = $request->input('is_paypal_active');
 
         $siteSetting->is_stripe_active = $request->input('is_stripe_active');
 
+        $siteSetting->nifi_payment_key = $request->input('nifi_payment_key');
+
+        $siteSetting->nifi_payment_secret = $request->input('nifi_payment_secret');
+
+
+        $siteSetting->is_nifi_payment_active = $request->input('is_nifi_payment_active');
+
+
         $siteSetting->is_jobseeker_package_active = $request->input('is_jobseeker_package_active');
 
-		$siteSetting->is_company_package_active = $request->input('is_company_package_active');
+        $siteSetting->is_company_package_active = $request->input('is_company_package_active');
 
         $siteSetting->is_slider_active = $request->input('is_slider_active');
 
-		$siteSetting->mailchimp_api_key = $request->input('mailchimp_api_key');
+        // $siteSetting->mailchimp_api_key = $request->input('mailchimp_api_key');
 
-        $siteSetting->mailchimp_list_name = $request->input('mailchimp_list_name');
+        // $siteSetting->mailchimp_list_name = $request->input('mailchimp_list_name');
 
-		$siteSetting->mailchimp_list_id = $request->input('mailchimp_list_id');
+        // $siteSetting->mailchimp_list_id = $request->input('mailchimp_list_id');
 
         $siteSetting->ganalytics = $request->input('ganalytics');
 
         $siteSetting->google_tag_manager_for_head = $request->input('google_tag_manager_for_head');
 
-        $siteSetting->google_tag_manager_for_body = $request->input('google_tag_manager_for_body'); 
+        $siteSetting->google_tag_manager_for_body = $request->input('google_tag_manager_for_body');
 
         $siteSetting->username_jobg8 = $request->input('username_jobg8');
 
-        $siteSetting->password_jobg8 = $request->input('password_jobg8'); 
-        
-        $siteSetting->accountnumber_jobg8 = $request->input('accountnumber_jobg8'); 
+        $siteSetting->password_jobg8 = $request->input('password_jobg8');
+
+        $siteSetting->accountnumber_jobg8 = $request->input('accountnumber_jobg8');
+        $siteSetting->live_chat = $request->input('live_chat');
+        $siteSetting->sms_provider_name = $request->input('sms_provider_name');
+        $siteSetting->sms_url_type = $request->input('sms_url_type');
+        $siteSetting->sms_user_id = $request->input('sms_user_id');
+        $siteSetting->sms_password = $request->input('sms_password');
 
         $siteSetting->update();
 
+
+        if ($request->template_title_id && $request->template_name != '' && $request->template_id != '' && $request->template_content != '' && $request->sender_id != '') {
+            DB::table('sms_settings')
+                ->where('id', $request->template_title_id) // Specify the record to update
+                ->update([
+                    'template_id' => $request->template_id,
+                    'template_name' => $request->template_name,
+                    'sender_id' => $request->sender_id,
+                    'template_content' => $request->template_content,
+                    'status' => $request->template_status,
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+        }
         flash('Site Setting has been updated!')->success();
 
         return \Redirect::route('edit.site.setting');
-
     }
 
 
@@ -303,20 +403,12 @@ class SiteSettingController extends Controller
                 File::delete(ImgUploader::real_public_path() . 'sitesetting_images/mid/' . $image);
 
                 File::delete(ImgUploader::real_public_path() . 'sitesetting_images/' . $image);
-
             }
 
             return 'ok';
-
         } catch (ModelNotFoundException $e) {
 
             return 'notok';
-
         }
-
     }
-
-
-
 }
-

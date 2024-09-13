@@ -30,18 +30,20 @@ $direction = MiscHelper::getLangDirection($lang);
                     </div>
                     <div class="portlet-body form">          
                         <ul class="nav nav-tabs">              
-                            <li class="active"> <a href="#site" data-toggle="tab" aria-expanded="false"> Site </a> </li>              
-                            <li class=""> <a href="#email" data-toggle="tab" aria-expanded="false"> Email </a> </li>
-                            <li class=""> <a href="#social" data-toggle="tab" aria-expanded="false"> Social Networks </a> </li>
-                            <li class=""> <a href="#ads" data-toggle="tab" aria-expanded="false"> Manage Ads </a> </li>
-                            <li class=""> <a href="#captcha" data-toggle="tab" aria-expanded="false"> Captcha </a> </li>
-                            <li class=""> <a href="#socialMediaLogin" data-toggle="tab" aria-expanded="false"> Social Media Login </a> </li>
-                            <li class=""> <a href="#paymentGateways" data-toggle="tab" aria-expanded="false"> Payment Gateways </a> </li>
-                            <li class=""> <a href="#homePageSlider" data-toggle="tab" aria-expanded="false"> Home Page Slider </a> </li>
-                            <li class=""> <a href="#mailChimp" data-toggle="tab" aria-expanded="false"> Mail Chimp </a> </li>
-
-                            <li class=""> <a href="#googleAnalytics" data-toggle="tab" aria-expanded="false"> Google Analytics </a> </li>              
-                            <li class=""> <a href="#jobg8_API " data-toggle="tab" aria-expanded="false"> jobg8 API </a> </li>              
+                            <li class="active"> <a href="#site" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Site </a> </li>              
+                            <li class=""> <a href="#email" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Email </a> </li>
+                            <li class=""> <a href="#social" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Social Networks </a> </li>
+                            <li class=""> <a href="#ads" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Manage Ads </a> </li>
+                            <li class=""> <a href="#captcha" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Captcha </a> </li>
+                            <li class=""> <a href="#socialMediaLogin" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Social Media Login </a> </li>
+                            <li class=""> <a href="#paymentGateways" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Payment Gateways </a> </li>
+                            <li class=""> <a href="#homePageSlider" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Home Page Slider </a> </li>
+                            {{-- <li class=""> <a href="#mailChimp" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Mail Chimp </a> </li>
+                            <li class=""> <a href="#googleAnalytics" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Google Analytics </a> </li>              
+                            <li class=""> <a href="#jobg8_API " data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> jobg8 API </a> </li>               --}}
+                            <li class=""> <a href="#LIVEChat " data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Live Chat </a> </li>            
+                            <li class=""> <a href="#NotificationSetting" data-toggle="tab" onclick="hideUpdateButton('1');" aria-expanded="false"> Notification Setting </a> </li>
+                            {{-- <li class=""> <a href="#SMSSetting " onclick="hideUpdateButton('1');" data-toggle="tab" aria-expanded="false"> SMS Setting </a> </li>               --}}
                         </ul>
                         {!! Form::model($siteSetting, array('method' => 'put', 'route' => array('update.site.setting'), 'class' => 'form', 'files'=>true)) !!}
                         <div class="tab-content">              
@@ -53,12 +55,16 @@ $direction = MiscHelper::getLangDirection($lang);
                             <div class="tab-pane fade" id="socialMediaLogin"> @include('admin.site_setting.forms.socialMediaLoginSetting_form') </div>
                             <div class="tab-pane fade" id="paymentGateways"> @include('admin.site_setting.forms.paymentGatewaysSetting_form') </div>
                             <div class="tab-pane fade" id="homePageSlider"> @include('admin.site_setting.forms.homePageSliderSetting_form') </div>
-                            <div class="tab-pane fade" id="mailChimp"> @include('admin.site_setting.forms.mailChimpSetting_form') </div>
+                            {{-- <div class="tab-pane fade" id="mailChimp"> @include('admin.site_setting.forms.mailChimpSetting_form') </div>
                             <div class="tab-pane fade" id="googleAnalytics"> @include('admin.site_setting.forms.googleAnalytics_form') </div>
-                            <div class="tab-pane fade" id="jobg8_API"> @include('admin.site_setting.forms.jobg8_API_form') </div>
+                            <div class="tab-pane fade" id="jobg8_API"> @include('admin.site_setting.forms.jobg8_API_form') </div> --}}
+                            <div class="tab-pane fade" id="LIVEChat"> @include('admin.site_setting.forms.LIVEChat') </div>
+                            <div class="tab-pane fade" id="NotificationSetting"> @include('admin.site_setting.forms.notification_form') </div>
+                            {{-- <div class="tab-pane fade" id="SMSSetting"> @include('admin.site_setting.forms.sms_setting') </div> --}}
                         </div>
-                        <div class="form-actions">
-                            {!! Form::button('Update <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>', array('class'=>'btn btn-large btn-primary', 'type'=>'submit')) !!}
+
+                        <div class="form-actions" >
+                            {!! Form::button('Update <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>', array('class'=>'btn btn-large btn-primary hide_update_button ', 'type'=>'submit')) !!}
                         </div>
                         {!! Form::close() !!}
                     </div>
@@ -71,3 +77,12 @@ $direction = MiscHelper::getLangDirection($lang);
     @push('scripts')
     @include('admin.shared.tinyMCE')
     @endpush
+    <script>
+        function hideUpdateButton(val){
+            if(val==1){
+                $(".hide_update_button").addClass("hidden", true);
+            }else{
+                $(".hide_update_button").removeClass("hidden");
+            }
+        }
+    </script>

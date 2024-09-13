@@ -37,7 +37,7 @@ class CustomConfigServiceProvider extends ServiceProvider
         if ($settings = SiteSetting::findOrFail(1272)) {
 
 
-
+             
             $this->app['config']['mail'] = [
 
                 'driver' => $settings->mail_driver,
@@ -233,6 +233,11 @@ class CustomConfigServiceProvider extends ServiceProvider
 
 				'lists' => ['subscribers' => ['id' =>$settings->mailchimp_list_id]]
 
+            ];
+
+			$this->app['config']['live_chat'] = [
+
+                'live_chat' => $settings->live_chat,
             ];
 
         }

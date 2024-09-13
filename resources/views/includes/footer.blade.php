@@ -83,3 +83,6 @@
 
     </div>
 </div>
+<script type="text/javascript">
+    <?php echo config('live_chat.live_chat');?>
+</script>

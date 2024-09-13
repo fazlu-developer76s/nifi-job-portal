@@ -4,7 +4,7 @@
 
 <div class="form-body">
 
-    <fieldset>
+    <fieldset class="hidden">
 
         <legend>PayPal:</legend>
 
@@ -96,7 +96,7 @@
 
     </fieldset>
 
-    <fieldset>
+    <fieldset class="hidden">
 
         <legend>PayU Money:</legend>
         <?php 
@@ -155,7 +155,7 @@
 
     </fieldset>
 
-    <fieldset>
+    <fieldset class="hidden">
 
         <legend>Stripe:</legend>
 
@@ -197,6 +197,47 @@
 
     </fieldset>
 
+    <fieldset >
+
+        <legend>Nifi Payment:</legend>
+
+        <div class="form-group {!! APFrmErrHelp::hasError($errors, 'nifi_payment_key') !!}">
+            
+            {!! Form::label('nifi_payment_key', 'Nifi Payment Publishable Key', ['class' => 'bold']) !!}                    
+
+            {!! Form::text('nifi_payment_key', null, array('class'=>'form-control', 'id'=>'nifi_payment_key', 'placeholder'=>'Nifi Payment Publishable Key','readonly' => !empty('nifi_payment_key') ? 'readonly' : null)) !!}
+
+            {!! APFrmErrHelp::showErrors($errors, 'nifi_payment_key') !!}                                       
+
+        </div>    
+
+        <div class="form-group {!! APFrmErrHelp::hasError($errors, 'nifi_payment_secret') !!}">
+
+            {!! Form::label('nifi_payment_secret', 'Nifi Payment Secret', ['class' => 'bold']) !!}                    
+
+            {!! Form::text('nifi_payment_secret', null, array('class'=>'form-control', 'id'=>'nifi_payment_secret', 'placeholder'=>'Nifi Payment Secret','readonly' => !empty('nifi_payment_secret') ? 'readonly' : null)) !!}
+
+            {!! APFrmErrHelp::showErrors($errors, 'nifi_payment_secret') !!}                                       
+
+        </div>    
+
+        <div class="form-group {!! APFrmErrHelp::hasError($errors, 'is_nifi_payment_active') !!}">
+
+            {!! Form::label('is_nifi_payment_active', 'Is Nifi Payment active?', ['class' => 'bold']) !!}
+
+            <div class="radio-list">
+
+                <label class="radio-inline">{!! Form::radio('is_nifi_payment_active', 1, true, ['id' => 'is_nifi_payment_active_yes']) !!} Yes </label>
+
+                <label class="radio-inline">{!! Form::radio('is_nifi_payment_active', 0, null, ['id' => 'is_nifi_payment_active_no']) !!} No </label>
+
+            </div>
+
+            {!! APFrmErrHelp::showErrors($errors, 'is_nifi_payment_active') !!}
+
+        </div>
+
+    </fieldset>
     <fieldset>
 
         <legend>Packages:</legend>

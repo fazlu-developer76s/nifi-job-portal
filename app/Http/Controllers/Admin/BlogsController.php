@@ -11,6 +11,13 @@ use Image;
 
 class BlogsController extends Base
 {
+    public function __construct()
+
+    {
+
+        $this->middleware('check.blog.segment');
+
+    }
     public function index()
     {
         $user = Blog::get();

@@ -90,7 +90,7 @@ class BlogController extends Controller
 
     {
 
-        //$this->middleware('auth');
+        $this->middleware('check.blog.segment');
 
     }
 

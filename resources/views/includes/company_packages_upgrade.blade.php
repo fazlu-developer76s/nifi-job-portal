@@ -61,6 +61,9 @@
 		@if((bool)$siteSetting->is_payu_active)
 		   <li class="order payu"><a href="{{route('payu.order.package', ['package_id='.$package->id, 'type=upgrade'])}}">{{__('PayU')}}</a></li>
 		@endif
+		@if((bool)$siteSetting->is_nifi_payment_active)
+		   <li class="order payu"><a href="{{route('payu.order.package', ['package_id='.$package->id, 'type=upgrade'])}}">{{__('Nifi Payment')}}</a></li>
+		@endif
 		</ul>
 		</div>
 		</div>

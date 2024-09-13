@@ -45,7 +45,7 @@
 @include('includes.video')
 <!-- Video end --> 
 <!-- Testimonials start -->
-@include('includes.home_blogs')
+{{-- @include('includes.home_blogs') --}}
 <!-- Testimonials End -->
 <!-- Subscribe start -->
 @include('includes.subscribe')
@@ -63,6 +63,6 @@
         });
         $("form").find(":input").prop("disabled", false);
     });
-</script>
+</script>           
 @include('includes.country_state_city_js')
 @endpush

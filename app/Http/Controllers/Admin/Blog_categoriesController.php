@@ -12,6 +12,14 @@ use Image;
 class Blog_categoriesController extends Base
 {
 
+    public function __construct()
+
+    {
+       
+        $this->middleware('check.blog.segment');
+
+    }
+
     public function index()
     {
 

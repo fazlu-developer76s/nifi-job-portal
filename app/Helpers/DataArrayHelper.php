@@ -351,9 +351,9 @@ class DataArrayHelper
 
 
         $arr = array(
-            '£'=>'GBP (£)',
-            '$'=>'USD ($)',
-            '€'=>'EUR (€)',
+            // '£'=>'GBP (£)',
+            // '$'=>'USD ($)',
+            // '€'=>'EUR (€)',
         );
         if(null!==($array)){
             foreach ($array as $key => $val) {

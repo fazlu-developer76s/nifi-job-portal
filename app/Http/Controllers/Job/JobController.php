@@ -62,6 +62,7 @@ class JobController extends Controller
 
     public function jobsBySearch(Request $request)
     {
+        
         $search = $request->query('search', '');
         $job_titles = $request->query('job_title', array());
         $company_ids = $request->query('company_id', array());
@@ -291,6 +292,7 @@ class JobController extends Controller
 
     public function applyJob(Request $request, $job_slug)
     {
+        
         $user = Auth::user();
         $job = Job::where('slug', 'like', $job_slug)->first();
         
@@ -328,6 +330,7 @@ class JobController extends Controller
 
     public function postApplyJob(ApplyJobFormRequest $request, $job_slug)
     {
+     
         $user = Auth::user();
         $user_id = $user->id;
         $job = Job::where('slug', 'like', $job_slug)->first();
@@ -339,6 +342,7 @@ class JobController extends Controller
         $jobApply->current_salary = $request->post('current_salary');
         $jobApply->expected_salary = $request->post('expected_salary');
         $jobApply->salary_currency = $request->post('salary_currency');
+        $jobApply->comment = $request->post('comment');
         $jobApply->save();
 
         /*         * ******************************* */

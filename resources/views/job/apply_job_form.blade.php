@@ -31,6 +31,10 @@
                                 <div class="formrow{{ $errors->has('salary_currency') ? ' has-error' : '' }}"> {!! Form::text('salary_currency', Request::get('salary_currency', $siteSetting->default_currency_code), array('class'=>'form-control', 'id'=>'salary_currency', 'placeholder'=>__('Salary Currency'), 'autocomplete'=>'off')) !!}
                                     @if ($errors->has('salary_currency')) <span class="help-block"> <strong>{{ $errors->first('salary_currency') }}</strong> </span> @endif </div>
                             </div>
+                            <div class="col-md-12 w-100">
+                                <div class="formrow{{ $errors->has('comment') ? ' has-error' : '' }}"> {!! Form::textarea('comment', Request::get('comment', $siteSetting->comment), array('class'=>'form-control', 'id'=>'comment', 'placeholder'=>__(''), 'autocomplete'=>'off')) !!}
+                                    @if ($errors->has('comment')) <span class="help-block"> <strong>{{ $errors->first('comment') }}</strong> </span> @endif </div>
+                            </div>
                         </div>
                         <br>
                         <input type="submit" class="btn" value="{{__('Apply on Job')}}">

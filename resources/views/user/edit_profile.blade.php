@@ -60,6 +60,21 @@
 @endpush
 @push('scripts')
 @include('includes.immediate_available_btn')
+<?php if(!empty($_GET['user']) && $_GET['user'] == "verified"){ ?>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>        
+    <script type='text/javascript'>
+        Swal.fire({
+            icon: 'success',
+            title: 'Email Verified Successfully',
+            confirmButtonText: 'OK',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'http://127.0.0.1:8000/my-profile'; // Fixed redirection
+            }
+        });
+    </script>
+<?php } ?>
 
 <script>
     $(document).on('click', '.btn-close', function() {
