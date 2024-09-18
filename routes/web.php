@@ -287,7 +287,8 @@ Route::get('set-location', 'Job8Controller@set_location')->name('set_location');
 Route::post('ajax_upload_file','FilerController::class@upload')->name('filer.image-upload');
 
 Route::post('ajax_remove_file','FilerController::class@fileDestroy')->name('filer.image-remove');
-
+Route::get('/verify-otp', 'Auth\LoginController@verify_otp')->name('auth.verify_otp');
+Route::post('/check-otp', 'Auth\LoginController@check_otp')->name('auth.check_otp');
 
 
 

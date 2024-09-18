@@ -196,6 +196,13 @@ class CustomConfigServiceProvider extends ServiceProvider
                 'stripe_secret' => env('stripe_secret', $settings->stripe_secret),
 
             ]; 
+            $this->app['config']['verification'] = [
+
+                'candidate' => $settings->candidate_verification,
+
+                'employer' =>  $settings->emp_verification,
+
+            ]; 
 
             
 

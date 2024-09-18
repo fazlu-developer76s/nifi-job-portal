@@ -148,7 +148,7 @@ class SiteSettingController extends Controller
     public function editSiteSetting()
 
     {
-
+        
         $id = 1272;
         $countries = DataArrayHelper::defaultCountriesArray();
         $currency_codes = CountryDetail::select('countries_details.code')->orderBy('countries_details.code')->pluck('countries_details.code', 'countries_details.code')->toArray();
@@ -163,7 +163,6 @@ class SiteSettingController extends Controller
         $template = DB::table('sms_settings')->where('status', 1)->get();
         $employer_noti = DB::table('notification_settings')->where('type',1)->get();
         $candidate_noti = DB::table('notification_settings')->where('type',2)->get();
-       
         return view('admin.site_setting.edit')
             ->with('siteSetting', $siteSetting)
             ->with('mail_drivers', $mail_drivers)
@@ -363,6 +362,8 @@ class SiteSettingController extends Controller
         $siteSetting->sms_url_type = $request->input('sms_url_type');
         $siteSetting->sms_user_id = $request->input('sms_user_id');
         $siteSetting->sms_password = $request->input('sms_password');
+        $siteSetting->candidate_verification = $request->input('candidate_verification');
+        $siteSetting->emp_verification = $request->input('emp_verification');
 
         $siteSetting->update();
 

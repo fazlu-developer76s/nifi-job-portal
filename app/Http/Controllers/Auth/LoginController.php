@@ -4,19 +4,20 @@
 
 namespace App\Http\Controllers\Auth;
 
-
+use DB;
 
 use App\User;
 
 use Auth;
+use Carbon\Carbon;
 
 use Socialite;
 
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
-
+use Illuminate\Support\Arr;
 
 class LoginController extends Controller
 
@@ -44,7 +45,7 @@ class LoginController extends Controller
 
 
 
-use AuthenticatesUsers;
+    use AuthenticatesUsers;
 
 
 
@@ -77,7 +78,6 @@ use AuthenticatesUsers;
     {
 
         $this->middleware('guest')->except('logout');
-
     }
 
 
@@ -97,7 +97,6 @@ use AuthenticatesUsers;
     {
 
         return Socialite::driver($provider)->redirect();
-
     }
 
 
@@ -129,7 +128,6 @@ use AuthenticatesUsers;
         Auth::login($authUser, true);
 
         return redirect($this->redirectTo);
-
     }
 
 
@@ -165,40 +163,85 @@ use AuthenticatesUsers;
                   $authUser->update(); */
 
                 return $authUser;
-
             }
-
         }
 
         $str = $user->getName() . $user->getId() . $user->getEmail();
 
         return User::create([
 
-                    'first_name' => $user->getName(),
+            'first_name' => $user->getName(),
 
-                    'middle_name' => $user->getName(),
+            'middle_name' => $user->getName(),
 
-                    'last_name' => $user->getName(),
+            'last_name' => $user->getName(),
 
-                    'name' => $user->getName(),
+            'name' => $user->getName(),
 
-                    'email' => $user->getEmail(),
+            'email' => $user->getEmail(),
 
-                    //'provider' => $provider,
+            //'provider' => $provider,
 
-                    //'provider_id' => $user->getId(),
+            //'provider_id' => $user->getId(),
 
-                    'password' => bcrypt($str),
+            'password' => bcrypt($str),
 
-                    'is_active' => 1,
+            'is_active' => 1,
 
-                    'verified' => 1,
+            'verified' => 1,
 
         ]);
-
     }
 
+    public function verify_otp()
+    {
 
+        $email = isset($_GET['email']) ? base64_decode($_GET['email']) : '';
+        $candidate_or_employer = isset($_GET['type']) ? base64_decode($_GET['type']) : '';
+        $password_decode = isset($_GET['cre']) ? base64_decode($_GET['cre']) : '';
 
+        if ($email == '' || $password_decode == '') {
+            return redirect()->route('login');
+        }
+        $password = json_decode($password_decode);
+        $user = array(
+            'email' => $email,
+            'candidate_or_employer' => $candidate_or_employer,
+            'password' => $password
+        );
+        return view('auth.verify_otp')->with('user', $user);
+    }
+
+    public function check_otp(Request $request)
+    {
+        
+        $otp = $request->otp;
+        $email = $request->email;
+        $candidate_or_employer = $request->candidate_or_employer;
+        $get_otp = DB::table('user_otp')->where('otp', $otp)->where('otp_status', 1)->where('user_email', $email)->where('login_type',$candidate_or_employer)->first();
+
+        if ($get_otp) {
+            $created_at = Carbon::parse($get_otp->created_at);
+            $minutes_diff = $created_at->diffInMinutes(Carbon::now());
+            if ($minutes_diff < 5) {
+                // OTP expired, update the status to 2 (expired)
+                $update_otp_status = DB::table('user_otp')  
+                    ->where('id', $get_otp->id)
+                    ->where('login_type', $get_otp->login_type)
+                    ->where('otp', $otp)
+                    ->where('user_email', $email)
+                    ->update(['otp_status' => 2]);
+                if ($update_otp_status) {
+                    echo 1;
+                    die;
+                }
+            } else {
+                echo 2;
+                die;
+            }
+        } else {
+            echo 2;
+            die;
+        }
+    }
 }
-
