@@ -64,9 +64,18 @@ use RegistersUsers;
 
     public function register(CompanyFrontRegisterFormRequest $request)
     {
+       
         $company = new Company();
         $company->name = $request->input('name');
         $company->email = $request->input('email');
+        $company->company_type = $request->input('company_type');
+        $company->company_name = $request->input('company_name');
+        $company->company_pan_no = $request->input('company_pan');
+        $company->company_coi = $request->input('company_coi');
+        $company->company_gst = $request->input('company_gst');
+        $company->firm_name = $request->input('firm_name');
+        $company->firm_pan = $request->input('firm_pan');
+        $company->firm_gst = $request->input('firm_gst');
         $company->password = bcrypt($request->input('password'));
         $company->is_active = 0;
         $company->verified = 0;

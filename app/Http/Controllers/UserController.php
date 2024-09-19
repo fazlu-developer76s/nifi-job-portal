@@ -82,7 +82,7 @@ class UserController extends Controller
     }
 
     public function myProfile()
-    {
+    {    
         $genders = DataArrayHelper::langGendersArray();
         $maritalStatuses = DataArrayHelper::langMaritalStatusesArray();
         $nationalities = DataArrayHelper::langNationalitiesArray();
@@ -158,6 +158,8 @@ class UserController extends Controller
         $user->salary_currency = $request->input('salary_currency');
         $user->video_link = $request->video_link;
         $user->street_address = $request->input('street_address');
+        $user->adhar_no = $request->input('adhar_no');
+        $user->pan_no = $request->input('pan_no');
 		$user->is_subscribed = $request->input('is_subscribed', 0);
 		
         $user->update();

@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'company' => \App\Http\Middleware\RedirectIfCompanyNotAuthenticated::class,
         'company.guest' => \App\Http\Middleware\RedirectIfCompanyAuthenticated::class,
         'verified' => \App\Http\Middleware\VerifiedMiddleware::class,
+        'kyc_middlware' => \App\Http\Middleware\Kyc_middleware::class,
     ];
 
 }

@@ -54,6 +54,8 @@ use RegistersUsers;
         $user->middle_name = $request->input('middle_name');
         $user->last_name = $request->input('last_name');
         $user->email = $request->input('email');
+        $user->adhar_no = $request->input('adhar_no');
+        $user->pan_no = $request->input('pan_no');
         $user->password = bcrypt($request->input('password'));
         $user->is_active = 1;
         $user->verified = 0;

@@ -1,10 +1,12 @@
 <?php
+Route::get('admin/public-company/{id}','ajaxcontroller@companyprofile')->name('public.company');
+Route::group(['middleware'=>['kyc_middlware']],function(){
 Route::get('company-packages', 'Company\CompanyController@resume_search_packages')->name('company.packages');
 Route::get('unloced-seekers', 'Company\CompanyController@unlocked_users')->name('company.unloced-users');
 Route::get('unlock/{user}', 'Company\CompanyController@unlock')->name('company.unlock');
 Route::get('company-home', 'Company\CompanyController@index')->name('company.home');
 Route::get('companies', 'Company\CompaniesController@company_listing')->name('company.listing');
-Route::get('company-profile', 'Company\CompanyController@companyProfile')->name('company.profile');
+
 Route::put('update-company-profile', 'Company\CompanyController@updateCompanyProfile')->name('update.company.profile');
 Route::get('posted-jobs', 'Company\CompanyController@postedJobs')->name('posted.jobs');
 Route::get('company/{slug}', 'Company\CompanyController@companyDetail')->name('company.detail');
@@ -17,7 +19,7 @@ Route::get('add-to-favourite-applicant/{application_id}/{user_id}/{job_id}/{comp
 Route::get('remove-from-favourite-applicant/{application_id}/{user_id}/{job_id}/{company_id}', 'Company\CompanyController@removeFromFavouriteApplicant')->name('remove.from.favourite.applicant');
 Route::get('hire-from-favourite-applicant/{application_id}/{user_id}/{job_id}/{company_id}', 'Company\CompanyController@hireFromFavouriteApplicant')->name('hire.from.favourite.applicant');
 
-Route::get('admin/public-company/{id}','ajaxcontroller@companyprofile')->name('public.company');
+
 
 Route::get('removed-from-hired-applicant/{application_id}/{user_id}/{job_id}/{company_id}', 'Company\CompanyController@removehireFromFavouriteApplicant')->name('remove.hire.from.favourite.applicant');
 Route::get('applicant-profile/{application_id}', 'Company\CompanyController@applicantProfile')->name('applicant.profile');
@@ -32,3 +34,5 @@ Route::get('append-messages', 'CompanyMessagesController@append_messages')->name
 Route::get('append-only-messages', 'CompanyMessagesController@appendonly_messages')->name('append-only-message');
 Route::post('company-submit-messages', 'CompanyMessagesController@submit_message')->name('company.submit-message');
 Route::get('company-message-detail/{id}', 'Company\CompanyController@companyMessageDetail')->name('company.message.detail');
+});
+Route::get('company-profile', 'Company\CompanyController@companyProfile')->name('company.profile');

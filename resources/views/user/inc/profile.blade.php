@@ -160,6 +160,18 @@
 			<label for="">{{__('Mobile')}}</label>
 			{!! Form::text('mobile_num', null, array('class'=>'form-control', 'id'=>'mobile_num', 'placeholder'=>__('Mobile Number'))) !!}
             {!! APFrmErrHelp::showErrors($errors, 'mobile_num') !!} </div>
+    </div>
+    <div class="col-md-6">
+        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'adhar_no') !!}">
+			<label for="">{{__('Aadhar')}}</label>
+			{!! Form::text('adhar_no', null, array('class'=>'form-control', 'id'=>'adhar_no', 'placeholder'=>__('Aadhar Number'))) !!}
+            {!! APFrmErrHelp::showErrors($errors, 'adhar_no') !!} </div>
+    </div>
+    <div class="col-md-6">
+        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'pan_no') !!}">
+			<label for="">{{__('Pancard')}}</label>
+			{!! Form::text('pan_no', null, array('class'=>'form-control', 'id'=>'pan_no', 'placeholder'=>__('Pancard Number'))) !!}
+            {!! APFrmErrHelp::showErrors($errors, 'pan_no') !!} </div>
     </div>   
     <div class="col-md-12">
         <div class="formrow {!! APFrmErrHelp::hasError($errors, 'street_address') !!}">
@@ -251,7 +263,7 @@
       </div>
   </div>
     <div class="col-md-12">
-        <div class="formrow"><button type="submit" class="btn">{{__('Update Profile and Save')}}  <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></div>
+        <div class="formrow"><button type="submit" id="Update_profile" class="btn">{{__('Update Profile and Save')}}  <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button></div>
     </div>
 </div>
 
@@ -393,5 +405,33 @@
             format: 'yyyy-m-d'
         });
     }
-</script> 
+
+    // Aadhaar validation
+    $('#adhar_no').on('input', function () {
+        const adharRegex = /^\d{12}$/; // 12 digits
+        const adharInput = $(this).val();
+        if (!adharRegex.test(adharInput)) {
+            $(this).next('.error-message').remove(); // Remove any previous error message
+            $(this).after('<span class="error-message" style="color:red;">Invalid Aadhaar number. It must be 12 digits.</span>');
+            $("#Update_profile").attr("disabled",true);
+        } else {
+            $(this).next('.error-message').remove(); // Valid, so remove the error message
+            $("#Update_profile").attr("disabled",false);
+        }
+    });
+
+    // PAN card validation
+    $('#pan_no').on('input', function () {
+        const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/; // 5 letters, 4 digits, 1 letter
+        const panInput = $(this).val();
+        if (!panRegex.test(panInput)) {
+            $(this).next('.error-message').remove(); // Remove any previous error message
+            $(this).after('<span class="error-message" style="color:red;">Invalid PAN number. Format should be AAAAA9999A.</span>');
+            $("#Update_profile").attr("disabled",true);
+        } else {
+            $(this).next('.error-message').remove(); // Valid, so remove the error message
+            $("#Update_profile").attr("disabled",false);
+        }
+    });
+</script>
 @endpush            

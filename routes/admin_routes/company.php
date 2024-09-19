@@ -11,6 +11,8 @@ Route::get('public-job/{id}','AjaxController@jobdetail')->name('public.job');
 Route::get('fetch-payment-history', array_merge(['uses' => 'Admin\CompanyController@fetchCompaniesHistory'], $all_users))->name('fetch.data.companiesHistory');
 
 Route::get('create-company', array_merge(['uses' => 'Admin\CompanyController@createCompany'], $all_users))->name('create.company');
+Route::post('update-kyc-status', array_merge(['uses' => 'Admin\CompanyController@update_kyc_status'], $all_users))->name('update.kyc_status');
+Route::post('reject-kyc', array_merge(['uses' => 'Admin\CompanyController@reject_kyc'], $all_users))->name('reject.kyc');
 
 Route::post('store-company', array_merge(['uses' => 'Admin\CompanyController@storeCompany'], $all_users))->name('store.company');
 
