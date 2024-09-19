@@ -2600,7 +2600,11 @@ label.partTime[title="Rotating"] {
 .btn-bars::after{display: none;}
 .btn-bars:hover{background-color: #ddd;}
 
-.btn-primary{background-color: #056cb8; line-height: normal; padding: 10px 25px;}
+.btn-primary{background-color: #056cb8; 
+/*line-height: normal; */
+padding: 10px 25px;
+    margin-top: 10%;
+}
 
 .searchList > li .dropdown-menu{z-index: 10;}
 .searchList > li .dropdown-menu li a{padding: 10px 15px;}
@@ -3392,10 +3396,10 @@ ul.skillslist li a:hover{text-decoration: none; background:#056cb8; color: #fff;
 	padding-bottom: 20px;
 }
 .socialLogin a {
-	display: inline-block;
+	/*display: inline-block;*/
 	width: 36px;
 	height: 36px;
-	color: #fff;
+	/*color: #fff;*/
 	font-size: 18px;
 	margin: 0 5px;
 	line-height: 36px;

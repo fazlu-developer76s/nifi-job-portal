@@ -1,5 +1,5 @@
 <?php
-Route::get('admin/public-company/{id}','ajaxcontroller@companyprofile')->name('public.company');
+Route::get('admin/public-company/{id}','AjaxController@companyprofile')->name('public.company');
 Route::group(['middleware'=>['kyc_middlware']],function(){
 Route::get('company-packages', 'Company\CompanyController@resume_search_packages')->name('company.packages');
 Route::get('unloced-seekers', 'Company\CompanyController@unlocked_users')->name('company.unloced-users');
@@ -35,4 +35,5 @@ Route::get('append-only-messages', 'CompanyMessagesController@appendonly_message
 Route::post('company-submit-messages', 'CompanyMessagesController@submit_message')->name('company.submit-message');
 Route::get('company-message-detail/{id}', 'Company\CompanyController@companyMessageDetail')->name('company.message.detail');
 });
+
 Route::get('company-profile', 'Company\CompanyController@companyProfile')->name('company.profile');

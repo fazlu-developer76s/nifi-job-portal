@@ -21,9 +21,9 @@
                         <form class="form-horizontal" method="POST" action="{{ route('company.password.email') }}">
                             {{ csrf_field() }}
                             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <label for="email" class="col-md-4 control-label">{{__('Email Address')}}</label>
+                                <label for="email" class="col-md-4 control-label"></label>
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+                                    <input id="email" type="email" placeholder="Registered Email Address" class="form-control" name="email" value="{{ old('email') }}" required>
                                     @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>

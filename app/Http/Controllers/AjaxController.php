@@ -158,6 +158,7 @@ class AjaxController extends Controller
     public function companyProfile($id)
 
     {
+        
          if(Auth::guard('admin')->user()){
         $countries = DataArrayHelper::defaultCountriesArray();
 

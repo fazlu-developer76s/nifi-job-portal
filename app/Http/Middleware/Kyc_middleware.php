@@ -19,8 +19,13 @@ class Kyc_middleware
         $company_id = Auth::guard('company')->user()->id;
         $get_user_info = DB::table('companies')->where('id',$company_id)->first();
         $get_kyc_reject_reason = DB::table('kyc_rejects')->where('company_id',$company_id)->orderBy('id','desc')->first();
-        $reason = '';
-        $reason = $get_kyc_reject_reason->reason;
+    $reason = ''; // Default value
+
+if (isset($get_kyc_reject_reason->reason) && !empty($get_kyc_reject_reason->reason)) {
+    $reason = $get_kyc_reject_reason->reason; // Assign the reason if it's set and not empty
+} else {
+    $reason = 'No specific reason provided'; // Assign a default
+}
         
 
         if($get_user_info->kyc_status == "pending" ){
