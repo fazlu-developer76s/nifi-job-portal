@@ -18,84 +18,167 @@
 </div>
 <hr>
 <h5>{{__('Complete Your KYC')}}</h5>
-@if($company->company_type == "private_limited" || $company->company_type == "public_limited" )
+<span class="text_success text-success"></span>
+<input type="hidden" id="company_type" value="{{ $company->company_type }}">
+<input type="hidden" id="company_id" value="{{ $company->id }}">
+@if($company->company_type == "private_limited" || $company->company_type == "public_limited")
 <div class="row mb-3">
-    <!-- <div class="col-md-6">
-        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'company_name') !!}">
-            <label>{{__('Company Type ')}}</label>
-        </div>
-    </div> -->
     <div class="col-md-12">
-        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'company_name') !!}">
-          <h4>{{ ucwords(str_replace('_',' ',$company->company_type)) }}</h4>
-        </div>
+        <h4>{{ ucwords(str_replace('_',' ', $company->company_type)) }}</h4>
     </div>
     <div class="col-md-6">
-        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'company_name') !!}">
-            <label>{{__('Company Name ')}}</label>
-            {!! Form::text('company_name', null, array('class'=>'form-control', 'id'=>'company_name', 'placeholder'=>__('Company Name'))) !!}
-            {!! APFrmErrHelp::showErrors($errors, 'company_name') !!}
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'company_pan_no') !!}">
-            <label>{{__('Pancard ')}}</label>
-            {!! Form::text('company_pan_no', null, array('class'=>'form-control', 'id'=>'company_pan_no', 'placeholder'=>__('Company Pancard'))) !!}
-            {!! APFrmErrHelp::showErrors($errors, 'company_pan_no') !!}
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'company_coi') !!}">
-            <label>{{__('COI ')}}</label>
-            {!! Form::text('company_coi', null, array('class'=>'form-control', 'id'=>'company_coi', 'placeholder'=>__('Company COI'))) !!}
-            {!! APFrmErrHelp::showErrors($errors, 'company_coi') !!}
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'company_gst') !!}">
-            <label>{{__('GST ')}}</label>
-            {!! Form::text('company_gst', null, array('class'=>'form-control', 'id'=>'company_gst', 'placeholder'=>__('Company GST '))) !!}
-            {!! APFrmErrHelp::showErrors($errors, 'company_gst') !!}
+        <div class="formrow">
+            <label for="company_name">Company Name</label>
+            <input type="text" name="company_name" class="form-control" id="company_name" placeholder="Company Name" value="{{ $company->company_name ?? old('company_name') }}">
         </div>
     </div>
 
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="company_pan_no">Company PAN</label>
+            <input type="text" name="company_pan_no" class="form-control" id="company_pan_no" placeholder="Company Pancard" value="{{ $company->company_pan_no ?? old('company_pan_no') }}">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="company_coi">Company COI</label>
+            <input type="text" name="company_coi" class="form-control" id="company_coi" placeholder="Company COI" value="{{ $company->company_coi ?? old('company_coi') }}">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="company_gst">Company GST (Optional)</label>
+            <input type="text" name="company_gst" class="form-control" id="company_gst" placeholder="Company GST" value="{{ $company->company_gst ?? old('company_gst') }}">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="company_pan_attachment">Attach Company PAN</label>
+            <input type="file" name="company_pan_attachment" class="form-control" id="company_pan_attachment">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="company_coi_attachment">Attach Company COI</label>
+            <input type="file" name="company_coi_attachment" class="form-control" id="company_coi_attachment">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="company_gst_attachment">Attach GST (Optional)</label>
+            <input type="file" name="company_gst_attachment" class="form-control" id="company_gst_attachment">
+        </div>
+    </div>
 </div>
 @endif
-@if($company->company_type == "partnership" || $company->company_type == "proprietorship")
+
+<!-- For Partnership -->
+@if($company->company_type == "partnership")
 <div class="row mb-3">
-    <!-- <div class="col-md-6">
-        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'company_name') !!}">
-            <label>{{__('Company Type ')}}</label>
-        </div>
-    </div> -->
     <div class="col-md-12">
-        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'company_name') !!}">
-           <h4>{{ ucwords(str_replace('_',' ',$company->company_type)) }}</h4>
-        </div>
+        <h4>{{ ucwords(str_replace('_',' ', $company->company_type)) }}</h4>
     </div>
+
     <div class="col-md-6">
-        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'firm_name') !!}">
-            <label>{{__('Firm Name ')}}</label>
-            {!! Form::text('firm_name', null, array('class'=>'form-control', 'id'=>'firm_name', 'placeholder'=>__('Firm Name'))) !!}
-            {!! APFrmErrHelp::showErrors($errors, 'firm_name') !!}
+        <div class="formrow">
+            <label for="firm_name">Firm Name</label>
+            <input type="text" name="firm_name" class="form-control" id="firm_name" placeholder="Firm Name" value="{{ $company->firm_name ?? old('firm_name') }}">
         </div>
     </div>
+
     <div class="col-md-6">
-        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'firm_pan') !!}">
-            <label>{{__('Firm Pancard ')}}</label>
-            {!! Form::text('firm_pan', null, array('class'=>'form-control', 'id'=>'firm_pan', 'placeholder'=>__('Firm Pancard'))) !!}
-            {!! APFrmErrHelp::showErrors($errors, 'firm_pan') !!}
+        <div class="formrow">
+            <label for="firm_pan">Firm PAN</label>
+            <input type="text" name="firm_pan" class="form-control" id="firm_pan" placeholder="Firm Pancard" value="{{ $company->firm_pan ?? old('firm_pan') }}">
         </div>
     </div>
-    <div class="col-md-12">
-        <div class="formrow {!! APFrmErrHelp::hasError($errors, 'firm_gst') !!}">
-            <label>{{__('Firm GST ')}}</label>
-            {!! Form::text('firm_gst', null, array('class'=>'form-control', 'id'=>'firm_gst', 'placeholder'=>__('Firm GST'))) !!}
-            {!! APFrmErrHelp::showErrors($errors, 'firm_gst') !!}
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="firm_gst">Firm GST (Optional)</label>
+            <input type="text" name="firm_gst" class="form-control" id="firm_gst" placeholder="Firm GST" value="{{ $company->firm_gst ?? old('firm_gst') }}">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="partnership_deed_attachment">Attach Partnership Deed</label>
+            <input type="file" name="partnership_deed_attachment" class="form-control" id="partnership_deed_attachment" value="{{ $company->company_pan_no ?? old('company_pan_no') }}">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="company_pan_attachment">Attach Company PAN</label>
+            <input type="file" name="company_pan_attachment" class="form-control" id="company_pan_attachment" value="{{ $company->company_pan_no ?? old('company_pan_no') }}">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="company_gst_attachment">Attach GST</label>
+            <input type="file" name="company_gst_attachment" class="form-control" id="company_gst_attachment" value="{{ $company->company_pan_no ?? old('company_pan_no') }}">
         </div>
     </div>
 </div>
 @endif
+
+<!-- For Proprietorship -->
+@if($company->company_type == "proprietorship")
+<div class="row mb-3">
+    <div class="col-md-12">
+        <h4>{{ ucwords(str_replace('_',' ', $company->company_type)) }}</h4>
+    </div>
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="firm_name">Firm Name</label>
+            <input type="text" name="firm_name" class="form-control" id="firm_name" placeholder="Firm Name" value="{{ $company->firm_name ?? old('firm_name') }}">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="firm_pan">Firm Pancard</label>
+            <input type="text" name="firm_pan" class="form-control" id="firm_pan" placeholder="Firm Pancard" value="{{ $company->firm_pan ?? old('firm_pan') }}">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="firm_gst">Firm GST (Optional)</label>
+            <input type="text" name="firm_gst" class="form-control" id="firm_gst" placeholder="Firm GST" value="{{ $company->firm_gst ?? old('firm_gst') }}">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="company_pan_attachment">Attach Company PAN (Optional)</label>
+            <input type="file" name="company_pan_attachment" class="form-control" id="company_pan_attachment" value="{{ $company->company_pan_no ?? old('company_pan_no') }}">
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="formrow">
+            <label for="company_gst_attachment">Attach GST</label>
+            <input type="file" name="company_gst_attachment" class="form-control" id="company_gst_attachment" value="{{ $company->company_pan_no ?? old('company_pan_no') }}">
+        </div>
+    </div>
+</div>
+@endif
+
+<div class="col-md-12 mt-3">
+    <span type="submit" id="submit_kyc" class="btn btn-primary">Submit</button>
+</div>
+
+
+
+
 <hr>
 
 <h5>{{__('Company Information')}}</h5>
@@ -356,4 +439,192 @@
         }
     }
 </script>
+<script>
+    $(document).ready(function() {
+        $("#submit_kyc").click(function(event) {
+            var company_type = $("#company_type").val();
+            
+            event.preventDefault(); // Prevent the default form submission
+
+            // Clear previous error messages
+            $('.error').remove();
+
+            // Validation flags
+            let valid = true;
+
+            // Helper function to validate fields
+            function validateField(selector, message) {
+                const value = $(selector).val();
+                if (value === undefined || value.trim() === "") {
+                    valid = false;
+                    $(selector).after(`<span class="error" style="color:red;">${message}</span>`);
+                }
+            }
+
+            // Helper function to validate PDF attachments
+            function validatePDF(selector, message) {
+                const fileInput = $(selector)[0].files[0];
+                if (fileInput && fileInput.type !== "application/pdf") {
+                    valid = false;
+                    $(selector).after(`<span class="error" style="color:red;">${message}</span>`);
+                }
+            }
+
+            // Regex for PAN Card and GST validation
+            const panCardRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+            const gstNumberRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z]{1}[Z][0-9A-Z]{1}$/;
+          
+            if(company_type == "private_limited" || company_type == "public_limited"){
+                // Validate text fields
+                validateField("#company_name", "Company Name is required.");
+                validateField("#company_pan_no", "Company PAN Number is required.");
+                validateField("#company_coi", "Company COI is required.");
+                validateField("#company_gst", "Company GST Number is required.");
+            }
+            if(company_type == "partnership"){
+                validateField("#firm_name", "Firm Name is required.");
+                validateField("#firm_pan", "Firm PAN is required.");
+            }
+            if(company_type == "proprietorship"){
+                validateField("#firm_name", "Firm Name is required.");
+                validateField("#firm_pan", "Firm PAN is required.");
+            }
+
+            // Validate PAN and GST numbers
+            const companyPanNo = $("#company_pan_no").val();
+            const firmPan = $("#firm_pan").val();
+
+            if(company_type == "private_limited" || company_type == "public_limited"){
+                if (!panCardRegex.test(companyPanNo)) {
+                    valid = false;
+                    $("#company_pan_no").after('<span class="error" style="color:red;">Invalid Company PAN Number.</span>');
+                }
+            }
+            if(company_type == "partnership" || company_type == "proprietorship"){
+                if (!panCardRegex.test(firmPan)) {
+                    valid = false;
+                    $("#firm_pan").after('<span class="error" style="color:red;">Invalid Firm PAN Number.</span>');
+                }
+            }
+
+            // Validate file inputs and check for PDF
+            if(company_type == "private_limited" || company_type == "public_limited"){
+                if (!$("#company_pan_attachment")[0].files.length) {
+                    valid = false;
+                    $("#company_pan_attachment").after('<span class="error" style="color:red;">Company PAN Attachment is required.</span>');
+                } else {
+                    validatePDF("#company_pan_attachment", "Company PAN Attachment must be a PDF.");
+                }
+
+                if (!$("#company_coi_attachment")[0].files.length) {
+                    valid = false;
+                    $("#company_coi_attachment").after('<span class="error" style="color:red;">Company COI Attachment is required.</span>');
+                } else {
+                    validatePDF("#company_coi_attachment", "Company COI Attachment must be a PDF.");
+                }
+
+                if (!$("#company_gst_attachment")[0].files.length) {
+                    // valid = false;
+                    // $("#company_gst_attachment").after('<span class="error" style="color:red;">Company GST Attachment is required.</span>');
+                } else {
+                    validatePDF("#company_gst_attachment", "Company GST Attachment must be a PDF.");
+                }
+            }
+            if(company_type == "partnership"){
+                if (!$("#partnership_deed_attachment")[0].files.length) {
+                    valid = false;
+                    $("#partnership_deed_attachment").after('<span class="error" style="color:red;">Partnership Deed Attachment is required.</span>');
+                } else {
+                    validatePDF("#partnership_deed_attachment", "Partnership Deed Attachment must be a PDF.");
+                }
+
+                if (!$("#company_pan_attachment")[0].files.length) {
+                    valid = false;
+                    $("#company_pan_attachment").after('<span class="error" style="color:red;">Firm PAN Attachment is required.</span>');
+                } else {
+                    validatePDF("#company_pan_attachment", "Firm PAN Attachment must be a PDF.");
+                }
+
+                if (!$("#company_gst_attachment")[0].files.length) {
+                    valid = false;
+                    $("#company_gst_attachment").after('<span class="error" style="color:red;">Firm GST Attachment is required.</span>');
+                } else {
+                    validatePDF("#company_gst_attachment", "Firm GST Attachment must be a PDF.");
+                }
+            }
+            if(company_type == "proprietorship"){
+                if (!$("#company_pan_attachment")[0].files.length) {
+                    // valid = false;
+                    // $("#company_pan_attachment").after('<span class="error" style="color:red;">Firm PAN Attachment is required.</span>');
+                } else {
+                    validatePDF("#company_pan_attachment", "Firm PAN Attachment must be a PDF.");
+                }
+
+                if (!$("#company_gst_attachment")[0].files.length) {
+                    valid = false;
+                    $("#company_gst_attachment").after('<span class="error" style="color:red;">Firm GST Attachment is required.</span>');
+                } else {
+                    validatePDF("#company_gst_attachment", "Firm GST Attachment must be a PDF.");
+                }
+            }
+
+            if (!valid) {
+                return; // Stop the form submission if validation fails
+            }
+
+            // If validation passes, proceed with AJAX
+            var formData = new FormData();
+            
+            formData.append('_token', '{{ csrf_token() }}');
+            formData.append('company_type', $("#company_type").val());
+            formData.append('company_id', $("#company_id").val());
+            
+            if(company_type == "private_limited" || company_type == "public_limited"){
+                formData.append('company_name', $("#company_name").val());
+                formData.append('company_pan_no', $("#company_pan_no").val());
+                formData.append('company_coi', $("#company_coi").val());
+                formData.append('company_gst', $("#company_gst").val());
+                formData.append('company_pan_attachment', $("#company_pan_attachment")[0].files[0]);
+                formData.append('company_coi_attachment', $("#company_coi_attachment")[0].files[0]);
+                formData.append('company_gst_attachment', $("#company_gst_attachment")[0].files[0]);
+            }
+            if(company_type == "partnership"){
+                formData.append('firm_name', $("#firm_name").val());
+                formData.append('firm_gst', $("#firm_gst").val());
+                formData.append('firm_pan', $("#firm_pan").val());
+                formData.append('partnership_deed_attachment', $("#partnership_deed_attachment")[0].files[0]);
+                formData.append('company_pan_attachment', $("#company_pan_attachment")[0].files[0]);
+                formData.append('company_gst_attachment', $("#company_gst_attachment")[0].files[0]);
+            }
+            if(company_type == "proprietorship"){
+                formData.append('firm_name', $("#firm_name").val());
+                formData.append('firm_gst', $("#firm_gst").val());
+                formData.append('firm_pan', $("#firm_pan").val());
+                formData.append('company_pan_attachment', $("#company_pan_attachment")[0].files[0]);
+                formData.append('company_gst_attachment', $("#company_gst_attachment")[0].files[0]);
+            }
+
+            $.ajax({
+                url: '{{ route('update.kyc') }}',
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function(response) {
+                    if(response){
+                        $(".text_success").text("Kyc Submit Successfully");
+                    }
+                    console.log('Success:', response);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('AJAX Error: ', textStatus);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
 @endpush

@@ -157,8 +157,9 @@ class AjaxController extends Controller
 
     public function companyProfile($id)
 
-    {
-        
+    { 
+         $site_setting = DB::table('site_settings')->where('id',1272)->first();     
+         
          if(Auth::guard('admin')->user()){
         $countries = DataArrayHelper::defaultCountriesArray();
 
@@ -173,6 +174,7 @@ class AjaxController extends Controller
                         ->with('company', $company)
 
                         ->with('countries', $countries)
+                        ->with('site_setting', $site_setting)
 
                         ->with('industries', $industries)
 

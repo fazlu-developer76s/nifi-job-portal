@@ -7,7 +7,7 @@ Route::get('unlock/{user}', 'Company\CompanyController@unlock')->name('company.u
 Route::get('company-home', 'Company\CompanyController@index')->name('company.home');
 Route::get('companies', 'Company\CompaniesController@company_listing')->name('company.listing');
 
-Route::put('update-company-profile', 'Company\CompanyController@updateCompanyProfile')->name('update.company.profile');
+
 Route::get('posted-jobs', 'Company\CompanyController@postedJobs')->name('posted.jobs');
 Route::get('company/{slug}', 'Company\CompanyController@companyDetail')->name('company.detail');
 Route::post('contact-company-message-send', 'Company\CompanyController@sendContactForm')->name('contact.company.message.send');
@@ -35,5 +35,7 @@ Route::get('append-only-messages', 'CompanyMessagesController@appendonly_message
 Route::post('company-submit-messages', 'CompanyMessagesController@submit_message')->name('company.submit-message');
 Route::get('company-message-detail/{id}', 'Company\CompanyController@companyMessageDetail')->name('company.message.detail');
 });
+Route::put('update-company-profile', 'Company\CompanyController@updateCompanyProfile')->name('update.company.profile');
+Route::post('update-kyc', 'Company\CompanyController@update_kyc')->name('update.kyc');
 
 Route::get('company-profile', 'Company\CompanyController@companyProfile')->name('company.profile');

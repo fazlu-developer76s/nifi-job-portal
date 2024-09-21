@@ -814,4 +814,12 @@ class CompanyController extends Controller
             return redirect()->route('public.company', ['id' => $company_id]);
         }
     }
+
+    public function approved_kyc(Request $request){
+        $kyc_status = $request->kyc_status;
+        $update_kyc_status = DB::table('site_settings')->where('id',1272)->update([
+            'kyc_auto_approved' => $kyc_status
+        ]);
+        echo 1; die;
+    }
 }

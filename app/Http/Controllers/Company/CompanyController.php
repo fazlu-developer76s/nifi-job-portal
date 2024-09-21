@@ -1051,6 +1051,80 @@ class CompanyController extends Controller
 
     }
 
+    public function update_kyc(Request $request){
+    
+        $company_type = $request->company_type;
+        $company_id = $request->company_id;
+
+        $fetch_data = DB::table('companies')->where('id',$company_id)->first();
+        if($company_type=="private_limited" || $company_type == "public_limited"){
+            $company_name = $request->company_name;
+            $company_pan_no = $request->company_pan_no;
+            $company_coi = $request->company_coi;
+            $company_gst = $request->company_gst;
+            $company_pan_attachment = $request->file('company_pan_attachment')->store('attachments','public');
+            $company_coi_attachment = $request->file('company_coi_attachment')->store('attachments','public');
+            if($request->file('company_gst_attachment')){
+                $company_gst_attachment = $request->file('company_gst_attachment')->store('attachments','public');
+            }else{
+                $company_gst_attachment = $fetch_data->company_gst_attachment;
+            }
+            $data = array(
+                'company_name'=>$company_name,
+                'company_pan_no'=>$company_pan_no,
+                'company_coi'=>$company_coi,
+                'company_gst'=>$company_gst,
+                'kyc_status'=>"submited",
+                'company_pan_attachment'=>$company_pan_attachment,
+                'company_coi_attachment'=>$company_coi_attachment,
+                'company_gst_attachment'=>$company_gst_attachment,
+            );
+            $insert = DB::table('companies')->where('id',$company_id)->update($data);
+        }
+        if($company_type=="partnership"){
+            $firm_name = $request->firm_name;
+            $firm_pan = $request->firm_pan;
+            $firm_gst = $request->firm_gst;
+            $partnership_deed_attachment = $request->file('partnership_deed_attachment')->store('attachments','public');
+            $company_pan_attachment = $request->file('company_pan_attachment')->store('attachments','public');
+            $company_gst_attachment = $request->file('company_gst_attachment')->store('attachments','public');
+            
+            $data = array(
+                'firm_name'=>$firm_name,
+                'firm_pan'=>$firm_pan,
+                'firm_gst'=>$firm_gst,
+                'kyc_status'=>"submited",
+                'partnership_deed_attachment'=>$partnership_deed_attachment,
+                'company_pan_attachment'=>$company_pan_attachment,
+                'company_gst_attachment'=>$company_gst_attachment,
+            );
+            $insert = DB::table('companies')->where('id',$company_id)->update($data);
+        }        
+        if($company_type=="proprietorship"){
+            $firm_name = $request->firm_name;
+            $firm_pan = $request->firm_pan;
+            $firm_gst = $request->firm_gst;
+            if($request->file('company_pan_attachment')){
+                $company_pan_attachment = $request->file('company_pan_attachment')->store('attachments','public');
+            }else{
+                $company_pan_attachment = $fetch_data->company_pan_attachment;
+            }
+            $company_gst_attachment = $request->file('company_gst_attachment')->store('attachments','public');
+            
+            $data = array(
+                'firm_name'=>$firm_name,
+                'firm_pan'=>$firm_pan,
+                'firm_gst'=>$firm_gst,
+                'kyc_status'=>"submited",
+                'company_pan_attachment'=>$company_pan_attachment,
+                'company_gst_attachment'=>$company_gst_attachment,
+            );
+            $insert = DB::table('companies')->where('id',$company_id)->update($data);
+        }
+        return response()->json(['success' => 'KYC information submitted successfully.']);
+    
+    }
+
 
 
 }

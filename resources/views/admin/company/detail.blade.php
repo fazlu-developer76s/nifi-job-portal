@@ -42,6 +42,8 @@
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-4">
+                            
+
                                 <!-- Candidate Contact -->
                                 <div class="candidateinfo">
                                     @if(!empty($company->phone))
@@ -115,8 +117,22 @@
                         <div class="job-header">
                             <div class="jobdetail">
                                 <h3>{{__('KYC Status')}}</h3>
+                                <div class="form-group">
+                                <label>Kyc Auto Approved:</label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="status" value="active"  onclick="AutoapprovedKyc('1')" {{ ($site_setting->kyc_auto_approved==1)?'checked':''; }}> On
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="status" value="inactive" onclick="AutoapprovedKyc('0')" {{ ($site_setting->kyc_auto_approved==0)?'checked':''; }}> Off
+                                    </label>
+                                </div>
+                            </div>
                                 @if($company->company_type == "private_limited" || $company->company_type == "public_limited")
                                 <ul class="jbdetail">
+                                <span class="kyc_status_update text-primary"></span>
                                     <li class="row">
                                         <div class="col-md-6 col-xs-6">{{__('Company Type')}}</div>
                                         <div class="col-md-6 col-xs-6"><span>{{$company->company_type}}</span>
@@ -143,30 +159,39 @@
                                         </div>
                                     </li>
                                     <li class="row">
-                                        <div class="col-md-6 col-xs-6">{{__('Status')}}</div>
-                                        <div class="col-md-6 col-xs-6"><span>{{$company->kyc_status}}</span></div>
+                                        <div class="col-md-6 col-xs-6">{{__('Company PAN')}}</div>
+                                        <div class="col-md-6 col-xs-6"> <span><a href="{{ Storage::url($company->company_pan_attachment) }}" target="_blank">View PAN Attachment</a></span>
+                                        </div>
+                                    </li>
+                                    <li class="row">
+                                        <div class="col-md-6 col-xs-6">{{__('Company COI')}}</div>
+                                        <div class="col-md-6 col-xs-6"> <span><a href="{{ Storage::url($company->company_coi_attachment) }}" target="_blank">View COI Attachment</a></span>
+                                        </div>
+                                    </li>
+                                    <li class="row">
+                                        <div class="col-md-6 col-xs-6">{{__('Company Gst PDF')}}</div>
+                                        <div class="col-md-6 col-xs-6"> <span><a href="{{ Storage::url($company->company_gst_attachment) }}" target="_blank">View GST Attachment</a></span>
+                                        </div>
                                     </li>
                                     <li class="row">
                                         <div class="col-md-6 col-xs-6">{{__('Action')}}</div>
-                                        <div class="col-md-6 col-xs-6"><span>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                                        Status <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a href="#" onclick="Kyc_status_update('pending',{{$company->id}});">Pending</a></li>
-                                                        <li><a href="#" onclick="Kyc_status_update('submited',{{$company->id}});">Submited</a></li>
-                                                        <li><a href="#" onclick="Kyc_status_update('approved',{{$company->id}});">Approved</a></li>
-                                                        <li><a href="#" onclick="Kyc_status_update('rejected',{{$company->id}});">Rejected</a></li>
-                                                    </ul>
-                                                </div>
-                                            </span></div>
-                                            <span class="kyc_status_update text-primary"></span>
+                                        <div class="col-md-6 col-xs-6">
+                                            <span>
+                                                <select class="form-control" onchange="Kyc_status_update(this.value, {{$company->id}});">
+                                                    <option value="" disabled selected>Select Status</option>
+                                                    <option value="pending" {{ ($company->kyc_status == "pending")?'selected':'';}}>Pending</option>
+                                                    <option value="submited" {{ ($company->kyc_status == "submited")?'selected':'';}}>Submited</option>
+                                                    <option value="approved" {{ ($company->kyc_status == "approved")?'selected':'';}}>Approved</option>
+                                                    <option value="rejected" {{ ($company->kyc_status == "rejected")?'selected':'';}}>Rejected</option>
+                                                </select>
+                                            </span>
+                                        </div>
                                     </li>
                                 </ul>
                                 @endif
                                 @if($company->company_type == "proprietorship" || $company->company_type == "partnership")
                                 <ul class="jbdetail">
+                                    <span class="kyc_status_update text-primary"></span>
                                     <li class="row">
                                         <div class="col-md-6 col-xs-6">{{__('Company Type')}}</div>
                                         <div class="col-md-6 col-xs-6"><span>{{$company->company_type}}</span>
@@ -187,25 +212,36 @@
                                         <div class="col-md-6 col-xs-6"><span>{{$company->firm_gst}}</span>
                                         </div>
                                     </li>
+                                    @if($company->company_type!="proprietorship")
                                     <li class="row">
-                                        <div class="col-md-6 col-xs-6">{{__('Status')}}</div>
-                                        <div class="col-md-6 col-xs-6"><span>{{$company->kyc_status}}</span></div>
+                                        <div class="col-md-6 col-xs-6">{{__('Partnership Deed')}}</div>
+                                        <div class="col-md-6 col-xs-6"> <span><a href="{{ Storage::url($company->partnership_deed_attachment) }}" target="_blank">View Partnership Deed Attachment</a></span>
+                                        </div>
+                                    </li>
+                                    @endif
+                                    <li class="row">
+                                        <div class="col-md-6 col-xs-6">{{__('Company PAN')}}</div>
+                                        <div class="col-md-6 col-xs-6"> <span><a href="{{ Storage::url($company->company_pan_attachment) }}" target="_blank">View Company Pan Attachment</a></span>
+                                        </div>
+                                    </li>
+                                    <li class="row">
+                                        <div class="col-md-6 col-xs-6">{{__('Gst')}}</div>
+                                        <div class="col-md-6 col-xs-6"> <span><a href="{{ Storage::url($company->company_gst_attachment) }}" target="_blank">View Company GST Attachment</a></span>
+                                        </div>
                                     </li>
                                     <li class="row">
                                         <div class="col-md-6 col-xs-6">{{__('Action')}}</div>
-                                        <div class="col-md-6 col-xs-6"><span>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                                        Status <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a href="#">Pending</a></li>
-                                                        <li><a href="#">Submited</a></li>
-                                                        <li><a href="#">Approved</a></li>
-                                                        <li><a href="#">Rejected</a></li>
-                                                    </ul>
-                                                </div>
-                                            </span></div>
+                                        <div class="col-md-6 col-xs-6">
+                                            <span>
+                                                <select class="form-control" onchange="Kyc_status_update(this.value, {{$company->id}});">
+                                                    <option value="" disabled selected>Select Status</option>
+                                                    <option value="pending" {{ ($company->kyc_status == "pending")?'selected':'';}}>Pending</option>
+                                                    <option value="submited" {{ ($company->kyc_status == "submited")?'selected':'';}}>Submited</option>
+                                                    <option value="approved" {{ ($company->kyc_status == "approved")?'selected':'';}}>Approved</option>
+                                                    <option value="rejected" {{ ($company->kyc_status == "rejected")?'selected':'';}}>Rejected</option>
+                                                </select>
+                                            </span>
+                                        </div>
                                     </li>
                                 </ul>
                                 @endif
@@ -327,6 +363,31 @@
             }
         }
 
+    }
+</script>
+<script>
+    function AutoapprovedKyc(kyc_status){
+        
+        
+        var kyc_status = kyc_status;
+      
+        $.ajax({
+            url: '{{ route('kyc.autoapproved') }}',
+            type: 'post',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({
+                _token: '{{ csrf_token() }}',
+                kyc_status: kyc_status,
+            }),
+            success: function(response) {
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('AJAX Error: ', textStatus);
+            }
+        });
+    
     }
 </script>
 @endpush
