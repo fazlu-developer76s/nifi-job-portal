@@ -12,6 +12,18 @@
         </div>
         <div class="clearfix"></div>
     </div>
+    <div class="switchbox">
+        <div class="txtlbl">{{__('Available Job')}} <i class="fas fa-question-circle" title="{{__('Available Job')}}?"></i>
+        </div> 
+        <div class="">
+            <label class="switch switch-green"> @php
+                $checked = ((bool)Auth::user()->available_job)? 'checked="checked"':'';
+                @endphp
+                <input type="checkbox" name="available_job" id="available_job" class="switch-input" {{$checked}} onchange="AvalibaleJob({{Auth::user()->id}}, {{Auth::user()->available_job}});">
+                <span class="switch-label" data-on="On" data-off="Off"></span> <span class="switch-handle"></span> </label>
+        </div>
+        <div class="clearfix"></div>
+    </div>
     <ul class="usernavdash">
         <li class="{{ Request::url() == route('home') ? 'active' : '' }}"><a href="{{route('home')}}"><i class="fas fa-tachometer" aria-hidden="true"></i> {{__('Dashboard')}}</a>
         </li>

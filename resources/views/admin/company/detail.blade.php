@@ -129,6 +129,7 @@
                                         <input type="radio" name="status" value="inactive" onclick="AutoapprovedKyc('0')" {{ ($site_setting->kyc_auto_approved==0)?'checked':''; }}> Off
                                     </label>
                                 </div>
+                                
                             </div>
                                 @if($company->company_type == "private_limited" || $company->company_type == "public_limited")
                                 <ul class="jbdetail">

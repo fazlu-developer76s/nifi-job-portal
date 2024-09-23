@@ -6,6 +6,7 @@ Route::put('my-profile', 'UserController@updateMyProfile')->name('my.profile');
 Route::get('view-public-profile/{id}', 'UserController@viewPublicProfile')->name('view.public.profile');
 Route::post('update-front-profile-summary/{id}', 'UserController@updateProfileSummary')->name('update.front.profile.summary');
 Route::post('update-immediate-available-status', 'UserController@updateImmediateAvailableStatus')->name('update.immediate.available.status');
+Route::post('update-available-job-status', 'UserController@updateAvailableJob')->name('update.available.job.status');
 Route::get('add-to-favourite-company/{company_slug}', 'UserController@addToFavouriteCompany')->name('add.to.favourite.company');
 Route::get('remove-from-favourite-company/{company_slug}', 'UserController@removeFromFavouriteCompany')->name('remove.from.favourite.company');
 Route::get('my-followings', 'UserController@myFollowings')->name('my.followings');
@@ -23,7 +24,9 @@ Route::get('applicant-message-detail/{id}', 'UserController@applicantMessageDeta
 /* * *********************************** */
 Route::post('show-front-profile-cvs/{id}', 'UserController@showProfileCvs')->name('show.front.profile.cvs');
 Route::post('get-front-profile-cv-form/{id}', 'UserController@getFrontProfileCvForm')->name('get.front.profile.cv.form');
+Route::post('get-cv-request-form/{id}', 'UserController@getCVrequestForm')->name('get.cv.request.form');
 Route::post('store-front-profile-cv/{id}', 'UserController@storeProfileCv')->name('store.front.profile.cv');
+Route::post('store-cv-request/{id}', 'UserController@storeCVrequest')->name('store.cv.request');
 Route::post('get-front-profile-cv-edit-form/{user_id}', 'UserController@getFrontProfileCvEditForm')->name('get.front.profile.cv.edit.form');
 Route::post('update-front-profile-cv/{id}/{user_id}', 'UserController@updateFrontProfileCv')->name('update.front.profile.cv');
 Route::delete('delete-front-profile-cv', 'UserController@deleteProfileCv')->name('delete.front.profile.cv');

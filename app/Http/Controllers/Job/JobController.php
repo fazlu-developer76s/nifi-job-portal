@@ -37,6 +37,7 @@ use App\Http\Requests\Front\ApplyJobFormRequest;
 use App\Http\Controllers\Controller;
 use App\Traits\FetchJobs;
 use App\Events\JobApplied;
+use Illuminate\Support\Arr;
 
 class JobController extends Controller
 {
@@ -192,8 +193,13 @@ class JobController extends Controller
 
     public function jobDetail(Request $request, $job_slug)
     {
-
+        $user_id = Auth::user()->id;
+        
         $job = Job::where('slug', 'like', $job_slug)->firstOrFail();
+        $job_track_data = DB::table('job_apply')
+        ->leftJoin('job_track', 'job_apply.id', '=', 'job_track.job_apply_id')
+        ->select('job_track.created_at', 'job_track.status', 'job_track.id', 'job_apply.job_id')->where('job_apply.job_id',$job->id)->where('user_id',$user_id)->get();
+        
         /*         * ************************************************** */
         $search = '';
         $job_titles = array();
@@ -231,6 +237,7 @@ class JobController extends Controller
         );
         return view('job.detail')
                         ->with('job', $job)
+                        ->with('track_job', $job_track_data)
                         ->with('relatedJobs', $relatedJobs)
                         ->with('seo', $seo);
     }
@@ -244,20 +251,75 @@ class JobController extends Controller
         $shortlist = json_decode($request->shortlist, true);
         $hired = json_decode($request->hired, true);
         $rejected = json_decode($request->rejected, true);
- 
 
         if($applied){
             JobApply::whereIn('id', $applied)->update(['status' => 'applied']);
+            $prev_job_track = DB::table('job_track')->where('job_apply_id',$request->dataId)->where('status','applied')->first();
+            if(!$prev_job_track){
+                // tracking code 
+                $job_track_array = array(
+                    'job_apply_id'=>$request->dataId,
+                    'status' => "applied"
+                );
+                $track_job = DB::table('job_track')->insert($job_track_array);
+                // tracking code 
+            }
         }
         if($shortlist){
             JobApply::whereIn('id', $shortlist)->update(['status' => 'shortlist']);
+            $prev_job_track = DB::table('job_track')->where('job_apply_id',$request->dataId)->where('status','shortlist')->first();
+            if(!$prev_job_track){
+                // tracking code 
+                $job_track_array = array(
+                    'job_apply_id'=>$request->dataId,
+                    'status' => "shortlist"
+                );
+                $track_job = DB::table('job_track')->insert($job_track_array);
+                // tracking code 
+            }
         }
         if($hired){
             JobApply::whereIn('id', $hired)->update(['status' => 'hired']);
+            $prev_job_track = DB::table('job_track')->where('job_apply_id',$request->dataId)->where('status','hired')->first();
+            $check_reject_job = DB::table('job_track')->where('job_apply_id',$request->dataId)->where('status','rejected')->first();
+            if($check_reject_job){
+              // tracking code 
+              $delete_reject = DB::table('job_track')->where('id',$check_reject_job->id)->delete();
+              // tracking code 
+               
+            }
+            if(!$prev_job_track){
+                // tracking code 
+                $job_track_array = array(
+                    'job_apply_id'=>$request->dataId,
+                    'status' => "hired"
+                );
+                $track_job = DB::table('job_track')->insert($job_track_array);
+                // tracking code 
+            }
         }
         if($rejected){
             JobApply::whereIn('id', $rejected)->update(['status' => 'rejected']);
+            $prev_job_track = DB::table('job_track')->where('job_apply_id',$request->dataId)->where('status','rejected')->first();
+            $check_reject_job = DB::table('job_track')->where('job_apply_id',$request->dataId)->where('status','hired')->first();
+            if($check_reject_job){
+                // tracking code 
+                $delete_reject = DB::table('job_track')->where('id',$check_reject_job->id)->delete();
+                // tracking code 
+                 
+              }
+            if(!$prev_job_track){
+                // tracking code 
+                $job_track_array = array(
+                    'job_apply_id'=>$request->dataId,
+                    'status' => "rejected"
+                );
+                $track_job = DB::table('job_track')->insert($job_track_array);
+                // tracking code 
+            }
         }
+
+
 
 
         
@@ -330,7 +392,7 @@ class JobController extends Controller
 
     public function postApplyJob(ApplyJobFormRequest $request, $job_slug)
     {
-     
+        
         $user = Auth::user();
         $user_id = $user->id;
         $job = Job::where('slug', 'like', $job_slug)->first();
@@ -351,16 +413,35 @@ class JobController extends Controller
             $user->update();
         }
         /*         * ******************************* */
-        event(new JobApplied($job, $jobApply));
-
+        $event = new JobApplied($job, $jobApply);
+        $insertId = $event->getInsertId();
+        // tracking code 
+        $job_track_array = array(
+            'job_apply_id'=>$insertId,
+            'status' => "applied"
+        );
+        $track_job = DB::table('job_track')->insert($job_track_array);
+        // tracking code 
         flash(__('You have successfully applied for this job'))->success();
         return \Redirect::route('job.detail', $job_slug);
     }
 
     public function myJobApplications(Request $request)
     {
+        $user_id = Auth::user()->id;
+
         $myAppliedJobIds = Auth::user()->getAppliedJobIdsArray();
-        $jobs = Job::whereIn('id', $myAppliedJobIds)->paginate(10);
+        $jobs = array();
+        $create_job_array = Job::whereIn('id', $myAppliedJobIds)->paginate(10);
+        foreach($create_job_array as $job_id){
+          
+            $job_track_data = DB::table('job_apply')
+            ->leftJoin('job_track', 'job_apply.id', '=', 'job_track.job_apply_id')
+            ->select('job_track.created_at', 'job_track.status', 'job_track.id', 'job_apply.job_id')->where('job_apply.job_id',$job_id->id)->where('user_id',$user_id)->get(); 
+            $job_id->track_job = $job_track_data;
+            $jobs[] = $job_id;
+        
+        }
         return view('job.my_applied_jobs')
                         ->with('jobs', $jobs);
     }

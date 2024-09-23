@@ -92,6 +92,19 @@ trait CommonUserFunctions
             echo 'notok';
         }
     }
+    public function updateAvailableJob(Request $request)
+    {
+        $id = $request->input('user_id');
+        $old_status = $request->input('old_status');
+        try {
+            $user = User::findOrFail($id);
+            $user->available_job = !$old_status;
+            $user->update();
+            echo 'ok';
+        } catch (ModelNotFoundException $e) {
+            echo 'notok';
+        }
+    }
 
     private function updateUserFullTextSearch($user)
     {

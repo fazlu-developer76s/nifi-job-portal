@@ -68,6 +68,13 @@ trait ProfileCvsTrait
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
 
+    public function getCVrequestForm(Request $request, $user_id)
+    {
+        $user = User::find($user_id);
+        $returnHTML = view('user.forms.cv.cv_request_model')->with('user', $user)->render();
+        return response()->json(array('success' => true, 'html' => $returnHTML));
+    }
+
     public function getProfileCvForm(Request $request, $user_id)
     {
         $user = User::find($user_id);
@@ -78,6 +85,16 @@ trait ProfileCvsTrait
     public function storeProfileCv(ProfileCvFormRequest $request, $user_id)
     {
 
+        $profileCv = new ProfileCv();
+        $profileCv = $this->assignValues($profileCv, $request, $user_id);
+        $profileCv->save();
+
+        $returnHTML = view('admin.user.forms.cv.cv_thanks')->render();
+        return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
+    }
+    public function storeCVrequest(Request $request)
+    {
+        dd(234234234);
         $profileCv = new ProfileCv();
         $profileCv = $this->assignValues($profileCv, $request, $user_id);
         $profileCv->save();

@@ -1,17 +1,17 @@
 @extends('layouts.app')
-@section('content') 
-<!-- Header start --> 
-@include('includes.header') 
-<!-- Header end --> 
-<!-- Inner Page Title start --> 
-@include('includes.inner_page_title', ['page_title'=>__('Apply on Job')]) 
+@section('content')
+<!-- Header start -->
+@include('includes.header')
+<!-- Header end -->
+<!-- Inner Page Title start -->
+@include('includes.inner_page_title', ['page_title'=>__('Apply on Job')])
 <!-- Inner Page Title end -->
 <div class="listpgWraper">
     <div class="container"> @include('flash::message')
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="userccount">
-                    <div class="formpanel"> {!! Form::open(array('method' => 'post', 'route' => ['post.apply.job', $job_slug])) !!} 
+                    <div class="formpanel"> {!! Form::open(array('method' => 'post', 'route' => ['post.apply.job', $job_slug])) !!}
                         <!-- Job Information -->
                         <h5>{{$job->title}}</h5>
                         <div class="row">
@@ -32,13 +32,21 @@
                                     @if ($errors->has('salary_currency')) <span class="help-block"> <strong>{{ $errors->first('salary_currency') }}</strong> </span> @endif </div>
                             </div>
                             <div class="col-md-12 w-100">
-                                <div class="formrow{{ $errors->has('comment') ? ' has-error' : '' }}"> {!! Form::textarea('comment', Request::get('comment', $siteSetting->comment), array('class'=>'form-control', 'id'=>'comment', 'placeholder'=>__(''), 'autocomplete'=>'off')) !!}
-                                    @if ($errors->has('comment')) <span class="help-block"> <strong>{{ $errors->first('comment') }}</strong> </span> @endif </div>
+                                <div class="formrow{{ $errors->has('comment') ? ' has-error' : '' }}">
+                                    {!! Form::textarea('comment', Request::get('comment', $siteSetting->comment), array('class'=>'form-control', 'id'=>'comment', 'placeholder'=>__(''), 'autocomplete'=>'off', 'maxlength' => 200)) !!}
+                                    @if ($errors->has('comment'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('comment') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
                             </div>
+
                         </div>
                         <br>
                         <input type="submit" class="btn" value="{{__('Apply on Job')}}">
-                        {!! Form::close() !!} </div>
+                        {!! Form::close() !!}
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,12 +54,14 @@
 </div>
 @include('includes.footer')
 @endsection
-@push('scripts') 
+@push('scripts')
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#salary_currency').typeahead({
-            source: function (query, process) {
-                return $.get("{{ route('typeahead.currency_codes') }}", {query: query}, function (data) {
+            source: function(query, process) {
+                return $.get("{{ route('typeahead.currency_codes') }}", {
+                    query: query
+                }, function(data) {
                     console.log(data);
                     data = $.parseJSON(data);
                     return process(data);
@@ -60,5 +70,5 @@
         });
 
     });
-</script> 
+</script>
 @endpush

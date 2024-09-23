@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Events;
 
 use App\Job;
@@ -8,7 +7,6 @@ use Illuminate\Queue\SerializesModels;
 
 class JobApplied
 {
-
     use SerializesModels;
 
     public $job;
@@ -25,4 +23,13 @@ class JobApplied
         $this->jobApply = $jobApply;
     }
 
+    /**
+     * Get the insert_id of the job application.
+     *
+     * @return int
+     */
+    public function getInsertId()
+    {
+        return $this->jobApply->id; // Access the ID of the jobApply
+    }
 }

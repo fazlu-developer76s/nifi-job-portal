@@ -2,7 +2,11 @@
 
 <div class="resumebuildwrap">
 <h5 id="cvs" onclick="showCvs();">{{__('Curriculum vitae')}}</h5>
+
 <div class="row">
+    <div class="col-md-10"></div>
+    <div class="col-md-2"><a href="javascript:;" data-bs-toggle="modal" data-bs-target="#cv_request_model" class="prolinkadd" onclick="CVRequestModel();"> {{__('CV Request')}} </a></div>
+    
     <div class="col-md-12">
         <div class="" id="cvs_div"></div>
     </div>
@@ -11,6 +15,7 @@
 
 
 <div class="modal fade" id="add_cv_modal"  aria-labelledby="addcvModalLabel" aria-hidden="true"></div>
+<div class="modal fade" id="cv_request_model"  aria-labelledby="addcvRequestLabel" aria-hidden="true"></div>
 </div>
 
 
@@ -63,6 +68,21 @@
 
     }
 
+    function CVRequestModel(){
+
+    $('#cv_request_model').css('display','block');
+    var myclosemodal = $('<div></div>');
+    myclosemodal.addClass('modal-backdrop fade show');
+    $('body').append(myclosemodal);
+    
+
+
+    $("#cv_request_model").modal('show');
+
+    loadCVRequestForm();
+
+    }
+
     function loadProfileCvForm(){
 
     $.ajax({
@@ -78,6 +98,27 @@
             success: function (json) {
 
             $("#add_cv_modal").html(json.html);
+
+            }
+
+    });
+
+    }
+    function loadCVRequestForm(){
+
+    $.ajax({
+
+    type: "POST",
+
+            url: "{{ route('get.cv.request.form', $user->id) }}",
+
+            data: {"_token": "{{ csrf_token() }}"},
+
+            datatype: 'json',
+
+            success: function (json) {
+            
+            $("#cv_request_model").html(json.html);
 
             }
 
@@ -160,6 +201,66 @@
     });
 
     }
+
+function submitCvFormRequest() {
+    alert(form.attr('action'));
+var form = $('#add_edit_profile_cv');
+var formData = new FormData();
+formData.append("id", $('#id').val());
+formData.append("_token", $('input[name=_token]').val());
+$.ajax({
+
+        url     : form.attr('action'),
+
+        type    : 'POST',
+
+        data    : formData,
+
+        dataType: 'json',
+
+        contentType: false,
+
+        processData: false,
+
+        success : function (json){
+
+        $ ("#add_cv_modal").html(json.html);
+
+        showCvs();
+
+        },
+
+        error: function(json){
+
+        if (json.status === 422) {
+
+        var resJSON = json.responseJSON;
+
+        $('.help-block').html('');
+
+        $.each(resJSON.errors, function (key, value) {
+
+        $('.' + key + '-error').html('<strong>' + value + '</strong>');
+
+        $('#div_' + key).addClass('has-error');
+
+        });
+
+        } else {
+
+        // Error
+
+        // Incorrect credentials
+
+        // alert('Incorrect credentials. Please try again.')
+
+        }
+
+        }
+
+});
+
+}
 
     /*****************************************/
 

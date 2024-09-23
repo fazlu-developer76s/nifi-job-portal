@@ -55,7 +55,10 @@
                                 {{$job_application->expected_salary}} {{$job_application->salary_currency}} 
                                 <span>/ {{$job->getSalaryPeriod('salary_period')}}</span>
                             </div>
-                        
+                            <div class="minsalary">
+                              <i class="fas fa-comment"></i> <!-- You can use fa-comment-alt as well -->
+                              <span>{{ $job_application->comment }}</span>
+                            </div>
                             
                             <div class="d-flex justify-content-end jobskrbtnact">
                             <a class="me-auto profbtn" href="{{route('applicant.profile', $job_application->id)}}" target="_blank">{{__('View Profile')}}</a>
@@ -100,7 +103,10 @@
                                 {{$job_application->expected_salary}} {{$job_application->salary_currency}} 
                                 <span>/ {{$job->getSalaryPeriod('salary_period')}}</span>
                             </div>
-                        
+                            <div class="minsalary">
+                              <i class="fas fa-comment"></i> <!-- You can use fa-comment-alt as well -->
+                              <span>{{ $job_application->comment }}</span>
+                            </div>
                             
                             <div class="d-flex justify-content-end jobskrbtnact">
                             <a class="me-auto profbtn" href="{{route('applicant.profile', $job_application->id)}}" target="_blank">{{__('View Profile')}}</a>
@@ -142,8 +148,10 @@
                                 {{$job_application->expected_salary}} {{$job_application->salary_currency}} 
                                 <span>/ {{$job->getSalaryPeriod('salary_period')}}</span>
                             </div>
-                        
-                            
+                            <div class="minsalary">
+                              <i class="fas fa-comment"></i> <!-- You can use fa-comment-alt as well -->
+                              <span>{{ $job_application->comment }}</span>
+                            </div>                            
                             <div class="d-flex justify-content-end jobskrbtnact">
                             <a class="me-auto profbtn" href="{{route('applicant.profile', $job_application->id)}}" target="_blank">{{__('View Profile')}}</a>
                             <button class="move-btn backward" onclick="moveTask(this, 'backward')"><i class="fas fa-reply"></i></button>
@@ -183,6 +191,10 @@
                             <div class="minsalary"><i class="fas fa-money-bill"></i>
                                 {{$job_application->expected_salary}} {{$job_application->salary_currency}} 
                                 <span>/ {{$job->getSalaryPeriod('salary_period')}}</span>
+                            </div>
+                            <div class="minsalary">
+                              <i class="fas fa-comment"></i> <!-- You can use fa-comment-alt as well -->
+                              <span>{{ $job_application->comment }}</span>
                             </div>
                         
                             
