@@ -23,14 +23,7 @@ trait ProfileCvsTrait
 
     public function showProfileCvs(Request $request, $user_id)
     {
-        $user = DB::where('user_id',$user_id)->get();
-
-        // Retrieve profile CVs
-        $profileCvs = $user->profileCvs(); // This will return a collection of profile CVs
-        
-        // Count profile CVs
-        $count = $user->countProfileCvs(); // This will return the count of profile CVs
-        
+        $user = User::find($user_id);        
         $html = '<div class="col-mid-12"><table class="table table-bordered table-striped"><thead><tr>
         <th><strong>CV Title</strong></th>
         <th><strong>Default CV</strong></th>
