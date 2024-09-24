@@ -9,6 +9,7 @@ $real_path = realpath(__DIR__) . DIRECTORY_SEPARATOR . 'admin_routes' . DIRECTOR
 include_once($real_path . 'admin_user.php');
 include_once($real_path . 'site_user.php');
 include_once($real_path . 'faq.php');
+include_once($real_path . 'resume_request.php');
 include_once($real_path . 'seo.php');
 include_once($real_path . 'cms.php');
 include_once($real_path . 'site_setting.php');

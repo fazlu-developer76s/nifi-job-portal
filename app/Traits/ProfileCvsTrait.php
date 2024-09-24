@@ -23,7 +23,14 @@ trait ProfileCvsTrait
 
     public function showProfileCvs(Request $request, $user_id)
     {
-        $user = User::find($user_id);
+        $user = DB::where('user_id',$user_id)->get();
+
+        // Retrieve profile CVs
+        $profileCvs = $user->profileCvs(); // This will return a collection of profile CVs
+        
+        // Count profile CVs
+        $count = $user->countProfileCvs(); // This will return the count of profile CVs
+        
         $html = '<div class="col-mid-12"><table class="table table-bordered table-striped"><thead><tr>
         <th><strong>CV Title</strong></th>
         <th><strong>Default CV</strong></th>
@@ -92,15 +99,21 @@ trait ProfileCvsTrait
         $returnHTML = view('admin.user.forms.cv.cv_thanks')->render();
         return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
     }
-    public function storeCVrequest(Request $request)
+    public function storeCVrequest(Request $request,$user_id)
     {
-        dd(234234234);
-        $profileCv = new ProfileCv();
-        $profileCv = $this->assignValues($profileCv, $request, $user_id);
-        $profileCv->save();
 
-        $returnHTML = view('admin.user.forms.cv.cv_thanks')->render();
-        return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
+        $user_id = $user_id;
+        $title = $request->title;
+        $insert_cv_request = DB::table('resume_request')->insert([
+            'user_id' => $user_id,
+            'title' => $title,
+            'resume_status' => 2
+        ]);
+        if($insert_cv_request){
+            $returnHTML = view('admin.user.forms.cv.cv_thanks')->render();
+            return response()->json(array('success' => true, 'status' => 200, 'html' => $returnHTML), 200);
+        }
+        
     }
 
     public function storeFrontProfileCv(ProfileCvFormRequest $request, $user_id)

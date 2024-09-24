@@ -118,17 +118,7 @@
                             <div class="jobdetail">
                                 <h3>{{__('KYC Status')}}</h3>
                                 <div class="form-group">
-                                <label>Kyc Auto Approved:</label>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="status" value="active"  onclick="AutoapprovedKyc('1')" {{ ($site_setting->kyc_auto_approved==1)?'checked':''; }}> On
-                                    </label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="status" value="inactive" onclick="AutoapprovedKyc('0')" {{ ($site_setting->kyc_auto_approved==0)?'checked':''; }}> Off
-                                    </label>
-                                </div>
+                               
                                 
                             </div>
                                 @if($company->company_type == "private_limited" || $company->company_type == "public_limited")
@@ -366,29 +356,5 @@
 
     }
 </script>
-<script>
-    function AutoapprovedKyc(kyc_status){
-        
-        
-        var kyc_status = kyc_status;
-      
-        $.ajax({
-            url: '{{ route('kyc.autoapproved') }}',
-            type: 'post',
-            contentType: 'application/json',
-            dataType: 'json',
-            data: JSON.stringify({
-                _token: '{{ csrf_token() }}',
-                kyc_status: kyc_status,
-            }),
-            success: function(response) {
-
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('AJAX Error: ', textStatus);
-            }
-        });
     
-    }
-</script>
 @endpush

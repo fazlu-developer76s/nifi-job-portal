@@ -69,6 +69,7 @@
         <li class="heading">
             <h3 class="uppercase">Job Attributes</h3>
         </li>
+        @include('admin/shared/side_bars/resume_request')
         @include('admin/shared/side_bars/language_level')
         @include('admin/shared/side_bars/career_level')
         @include('admin/shared/side_bars/functional_area')

@@ -36,6 +36,8 @@ $direction = MiscHelper::getLangDirection($lang);
                             <li class=""> <a href="#ads" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Manage Ads </a> </li>
                             <li class=""> <a href="#captcha" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Captcha </a> </li>
                             <li class=""> <a href="#user_verification" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> OTP Verification </a> </li>
+                            <li class=""> <a href="#Kyc_Auto_Approved" data-toggle="tab" onclick="hideUpdateButton('1');" aria-expanded="false"> Kyc Auto Approved </a> </li>
+                            <li class=""> <a href="#Setting_sms" data-toggle="tab" onclick="hideUpdateButton('1');" aria-expanded="false"> SMS Setting </a> </li>
                             <li class=""> <a href="#socialMediaLogin" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Social Media Login </a> </li>
                             <li class=""> <a href="#paymentGateways" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Payment Gateways </a> </li>
                             <li class=""> <a href="#homePageSlider" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Home Page Slider </a> </li>
@@ -54,6 +56,8 @@ $direction = MiscHelper::getLangDirection($lang);
                             <div class="tab-pane fade" id="ads"> @include('admin.site_setting.forms.siteAds_form') </div>
                             <div class="tab-pane fade" id="captcha"> @include('admin.site_setting.forms.captchaSetting_form') </div>
                             <div class="tab-pane fade" id="user_verification"> @include('admin.site_setting.forms.user_verification') </div>
+                            <div class="tab-pane fade" id="Kyc_Auto_Approved"> @include('admin.site_setting.forms.kyc_auto_approved') </div>
+                            <div class="tab-pane fade" id="Setting_sms"> @include('admin.site_setting.forms.setting_sms') </div>
                             <div class="tab-pane fade" id="socialMediaLogin"> @include('admin.site_setting.forms.socialMediaLoginSetting_form') </div>
                             <div class="tab-pane fade" id="paymentGateways"> @include('admin.site_setting.forms.paymentGatewaysSetting_form') </div>
                             <div class="tab-pane fade" id="homePageSlider"> @include('admin.site_setting.forms.homePageSliderSetting_form') </div>
