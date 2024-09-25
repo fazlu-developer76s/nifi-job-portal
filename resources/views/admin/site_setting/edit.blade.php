@@ -36,7 +36,7 @@ $direction = MiscHelper::getLangDirection($lang);
                             <li class=""> <a href="#ads" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Manage Ads </a> </li>
                             <li class=""> <a href="#captcha" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Captcha </a> </li>
                             <li class=""> <a href="#user_verification" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> OTP Verification </a> </li>
-                            <li class=""> <a href="#Kyc_Auto_Approved" data-toggle="tab" onclick="hideUpdateButton('1');" aria-expanded="false"> Kyc Auto Approved </a> </li>
+                            <li class=""> <a href="#Kyc_Auto_Approved" data-toggle="tab" onclick="hideUpdateButton('1');" aria-expanded="false"> Employer Kyc Auto Approved </a> </li>
                             <li class=""> <a href="#Setting_sms" data-toggle="tab" onclick="hideUpdateButton('1');" aria-expanded="false"> SMS Setting </a> </li>
                             <li class=""> <a href="#socialMediaLogin" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Social Media Login </a> </li>
                             <li class=""> <a href="#paymentGateways" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Payment Gateways </a> </li>

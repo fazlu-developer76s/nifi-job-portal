@@ -209,6 +209,7 @@ class UserController extends Controller
 
     public function myFollowings()
     {
+        
         $user = User::findOrFail(Auth::user()->id);
         $companiesSlugArray = $user->getFollowingCompaniesSlugArray();
         $companies = Company::whereIn('slug', $companiesSlugArray)->get();

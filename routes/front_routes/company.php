@@ -1,15 +1,16 @@
 <?php
 Route::get('admin/public-company/{id}','AjaxController@companyprofile')->name('public.company');
+Route::get('company/{slug}', 'Company\CompanyController@companyDetail')->name('company.detail');
+Route::get('companies', 'Company\CompaniesController@company_listing')->name('company.listing');
 Route::group(['middleware'=>['kyc_middlware']],function(){
 Route::get('company-packages', 'Company\CompanyController@resume_search_packages')->name('company.packages');
 Route::get('unloced-seekers', 'Company\CompanyController@unlocked_users')->name('company.unloced-users');
 Route::get('unlock/{user}', 'Company\CompanyController@unlock')->name('company.unlock');
 Route::get('company-home', 'Company\CompanyController@index')->name('company.home');
-Route::get('companies', 'Company\CompaniesController@company_listing')->name('company.listing');
 
 
 Route::get('posted-jobs', 'Company\CompanyController@postedJobs')->name('posted.jobs');
-Route::get('company/{slug}', 'Company\CompanyController@companyDetail')->name('company.detail');
+
 Route::post('contact-company-message-send', 'Company\CompanyController@sendContactForm')->name('contact.company.message.send');
 Route::post('contact-applicant-message-send', 'Company\CompanyController@sendApplicantContactForm')->name('contact.applicant.message.send');
 Route::get('list-applied-users/{job_id}', 'Company\CompanyController@listAppliedUsers')->name('list.applied.users');

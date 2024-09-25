@@ -13,7 +13,7 @@
         <div class="clearfix"></div>
     </div>
     <div class="switchbox">
-        <div class="txtlbl">{{__('Available Job')}} <i class="fas fa-question-circle" title="{{__('Available Job')}}?"></i>
+        <div class="txtlbl">{{__('Looking For Job')}} <i class="fas fa-question-circle" title="{{__('Looking For Job')}}?"></i>
         </div> 
         <div class="">
             <label class="switch switch-green"> @php
@@ -33,6 +33,8 @@
         <li><a href="{{ route('view.public.profile', Auth::user()->id) }}"><i class="fas fa-eye" aria-hidden="true"></i> {{__('View Public Profile')}}</a>
         </li>
         <li class="{{ Request::url() == route('my.job.applications') ? 'active' : '' }}"><a href="{{ route('my.job.applications') }}"><i class="fas fa-desktop" aria-hidden="true"></i> {{__('My Job Applications')}}</a>
+        </li>
+        <li class="{{ Request::url() == route('recomanded.job') ? 'active' : '' }}"><a href="{{ route('recomanded.job') }}"><i class="fas fa-briefcase" aria-hidden="true"></i> {{__('Recommended Job')}}</a>
         </li>
         <li class="{{ Request::url() == route('my.favourite.jobs') ? 'active' : '' }}"><a href="{{ route('my.favourite.jobs') }}"><i class="fas fa-heart" aria-hidden="true"></i> {{__('My Favourite Jobs')}}</a>
         </li>

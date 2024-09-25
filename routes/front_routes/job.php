@@ -8,6 +8,7 @@ Route::get('jobs/{category}', 'Job\JobController@jobsByCategory')->name('job.cat
 Route::get('add-to-favourite-job/{job_slug}', 'Job\JobController@addToFavouriteJob')->name('add.to.favourite');
 Route::get('remove-from-favourite-job/{job_slug}', 'Job\JobController@removeFromFavouriteJob')->name('remove.from.favourite');
 Route::get('my-job-applications', 'Job\JobController@myJobApplications')->name('my.job.applications');
+Route::get('recomanded-job', 'Job\JobController@RecomandedJob')->name('recomanded.job');
 Route::get('list-rejected-users/{id}', 'Company\CompanyController@listRejectedUsers')->name('rejected-users');
 Route::get('my-favourite-jobs', 'Job\JobController@myFavouriteJobs')->name('my.favourite.jobs');
 Route::get('post-job', 'Job\JobPublishController@createFrontJob')->name('post.job');

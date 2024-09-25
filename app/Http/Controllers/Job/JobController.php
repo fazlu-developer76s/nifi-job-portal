@@ -37,6 +37,7 @@ use App\Http\Requests\Front\ApplyJobFormRequest;
 use App\Http\Controllers\Controller;
 use App\Traits\FetchJobs;
 use App\Events\JobApplied;
+use App\FavouriteCompany;
 use Illuminate\Support\Arr;
 
 class JobController extends Controller
@@ -194,7 +195,6 @@ class JobController extends Controller
     public function jobDetail(Request $request, $job_slug)
     {
         $user_id = Auth::user()->id;
-        
         $job = Job::where('slug', 'like', $job_slug)->firstOrFail();
         $job_track_data = DB::table('job_apply')
         ->leftJoin('job_track', 'job_apply.id', '=', 'job_track.job_apply_id')
@@ -392,10 +392,18 @@ class JobController extends Controller
 
     public function postApplyJob(ApplyJobFormRequest $request, $job_slug)
     {
-        
+      
         $user = Auth::user();
         $user_id = $user->id;
         $job = Job::where('slug', 'like', $job_slug)->first();
+        
+        // Favourite Company 
+        $get_company_info = DB::table('companies')->where('id',$job->company_id)->first();
+        $data['company_slug'] = $get_company_info->slug;
+        $data['user_id'] = Auth::user()->id;
+        $data_save = FavouriteCompany::create($data);
+        
+        // Favourite Company 
 
         $jobApply = new JobApply();
         $jobApply->user_id = $user_id;
@@ -427,9 +435,10 @@ class JobController extends Controller
     }
 
     public function myJobApplications(Request $request)
-    {
+    {   
+        
+  
         $user_id = Auth::user()->id;
-
         $myAppliedJobIds = Auth::user()->getAppliedJobIdsArray();
         $jobs = array();
         $create_job_array = Job::whereIn('id', $myAppliedJobIds)->paginate(10);
@@ -443,6 +452,43 @@ class JobController extends Controller
         
         }
         return view('job.my_applied_jobs')
+                        ->with('jobs', $jobs);
+    }
+
+    public function RecomandedJob(Request $request)
+    {   
+
+        $user_id = Auth::user()->id;
+        $getUser = DB::table('users')->where('id',$user_id)->first();
+        $getTitle = DB::table('functional_areas')->where('id',$getUser->functional_area_id)->first();
+        $title = (!empty($getTitle->functional_area))?$getTitle->functional_area:'';
+        $functional_area_id = (!empty($getTitle->functional_area_id))?$getTitle->functional_area_id:'';
+        $current_salary = $getUser->current_salary;
+        $expected_salary = $getUser->expected_salary;
+        $country = $getUser->country_id;
+        $state = $getUser->state_id;
+        $city  = $getUser->city_id;
+        $jobs = Job::when($title, function ($query) use ($title) {
+                return $query->where('title', 'LIKE', "%{$title}%");
+            })
+            ->when($current_salary, function ($query) use ($current_salary) {
+                return $query->where('salary_from', '>=', $current_salary);
+            })
+            ->when($expected_salary, function ($query) use ($expected_salary) {
+                return $query->where('salary_to',    '<=', $expected_salary);
+            })
+      
+            ->when($country, function ($query) use ($functional_area_id) {
+                return $query->orWhere('functional_area_id', $functional_area_id);
+            })
+            ->when($state, function ($query) use ($state) {
+                return $query->orWhere('state_id', $state);
+            })
+            ->when($city, function ($query) use ($city) {
+                return $query->orWhere('city_id', $city);
+            })
+            ->paginate(10);
+        return view('job.recomanded_job')
                         ->with('jobs', $jobs);
     }
 

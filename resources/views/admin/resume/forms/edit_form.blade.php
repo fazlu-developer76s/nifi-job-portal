@@ -63,7 +63,7 @@
                                     </div>
                                     @if($cv->resume_file!='')
                                     <div class="form-group">
-                                        <a href="{{ asset('cvs/' . $cv->resume_file) }}"><span>View Resume</span></a>
+                                        <a href="{{ asset('cvs/' . $cv->resume_file) }}" target="_blank"><span>View Resume</span></a>
                                     </div>
                                     @endif
                                 </div>

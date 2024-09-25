@@ -33,12 +33,25 @@ class SeekerSendController extends Controller
     }
     public function all_messages()
     {
+
         $messages = CompanyMessage::where('seeker_id', Auth::user()->id)->get();
         $ids = array();
         foreach ($messages as $key => $value) {
             $ids[] = $value->company_id;
         }
-        $data['companies'] = Company::whereIn('id', $ids)->get();
+
+        $fetch_job = DB::table('job_apply')->where('user_id', Auth::user()->id)->get();
+        $getCompaniesId = array();
+        foreach ($fetch_job as $key => $value) {
+            $getcompany = DB::table('jobs')
+                ->where('id', $value->job_id)
+                ->pluck('company_id')
+                ->toArray();
+            $getCompaniesId[] = $getcompany[0];
+        }
+
+        $data['companies'] = Company::whereIn('id', $getCompaniesId)->get();
+      
         return view('seeker.all-messages')->with($data);
     }
     public function append_messages(Request $request)
@@ -46,7 +59,7 @@ class SeekerSendController extends Controller
         $seeker_id = Auth::user()->id;
         $company_id = $request->get('company_id');
         $messages = CompanyMessage::where('company_id', $company_id)->where('seeker_id', $seeker_id)->get();
-     
+
         $seeker = User::where('id', $seeker_id)->first();
         $company = Company::where('id', $company_id)->first();
         $search = view("seeker.append-messages", compact('messages', 'seeker', 'company'))->render();

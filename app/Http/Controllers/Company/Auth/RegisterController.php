@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Auth;
 
 use Auth;
+use DB;
 use App\Company;
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -64,8 +65,10 @@ use RegistersUsers;
 
     public function register(CompanyFrontRegisterFormRequest $request)
     {
-       
+        
         $company = new Company();
+        $get_kyc_info = DB::table('site_settings')->where('id',1272)->first();
+
         $company->name = $request->input('name');
         $company->email = $request->input('email');
         $company->company_type = $request->input('company_type');
@@ -77,6 +80,11 @@ use RegistersUsers;
         $company->firm_pan = $request->input('firm_pan');
         $company->firm_gst = $request->input('firm_gst');
         $company->password = bcrypt($request->input('password'));
+        if($get_kyc_info->kyc_auto_approved ==  1){
+        $company->kyc_status = "approved";
+        }else{
+        $company->kyc_status = "pending";
+        }
         $company->is_active = 0;
         $company->verified = 0;
         $company->save();
