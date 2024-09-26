@@ -119,7 +119,6 @@ class CompanyController extends Controller
         $this->middleware('company', ['except' => ['companyDetail', 'sendContactForm']]);
 
         $this->runCheckPackageValidity();
-
     }
 
 
@@ -129,17 +128,15 @@ class CompanyController extends Controller
     {
 
         return view('company_home');
-
     }
 
     public function company_listing()
 
     {
 
-        $data['companies']=Company::paginate(20);
+        $data['companies'] = Company::paginate(20);
 
         return view('company.listing')->with($data);
-
     }
 
 
@@ -158,14 +155,13 @@ class CompanyController extends Controller
 
         return view('company.edit_profile')
 
-                        ->with('company', $company)
+            ->with('company', $company)
 
-                        ->with('countries', $countries)
+            ->with('countries', $countries)
 
-                        ->with('industries', $industries)
+            ->with('industries', $industries)
 
-                        ->with('ownershipTypes', $ownershipTypes);
-
+            ->with('ownershipTypes', $ownershipTypes);
     }
 
 
@@ -187,7 +183,6 @@ class CompanyController extends Controller
             $fileName = ImgUploader::UploadImage('company_logos', $image, $request->input('name'), 300, 300, false);
 
             $company->logo = $fileName;
-
         }
 
         /*         * ************************************** */
@@ -199,7 +194,6 @@ class CompanyController extends Controller
         if (!empty($request->input('password'))) {
 
             $company->password = Hash::make($request->input('password'));
-
         }
 
         $company->ceo = $request->input('ceo');
@@ -244,40 +238,39 @@ class CompanyController extends Controller
 
         $company->city_id = $request->input('city_id');
 
-		$company->is_subscribed = $request->input('is_subscribed', 0);
+        $company->is_subscribed = $request->input('is_subscribed', 0);
 
-		
+
 
         $company->slug = Str::slug($company->name, '-') . '-' . $company->id;
 
         $company->update();
 
-		/*************************/
+        /*************************/
 
-		// Subscription::where('email', 'like', $company->email)->delete();
-		// if((bool)$company->is_subscribed)
-		// {			
+        // Subscription::where('email', 'like', $company->email)->delete();
+        // if((bool)$company->is_subscribed)
+        // {			
 
-		// 	$subscription = new Subscription();
-		// 	$subscription->email = $company->email;
-		// 	$subscription->name = $company->name;
-		// 	$subscription->save();
+        // 	$subscription = new Subscription();
+        // 	$subscription->email = $company->email;
+        // 	$subscription->name = $company->name;
+        // 	$subscription->save();
 
-		// 	Newsletter::subscribeOrUpdate($subscription->email, ['FNAME'=>$subscription->name]);
-		// }
-		// else
-		// {
-		// 	Newsletter::unsubscribe($company->email);
-		// }
+        // 	Newsletter::subscribeOrUpdate($subscription->email, ['FNAME'=>$subscription->name]);
+        // }
+        // else
+        // {
+        // 	Newsletter::unsubscribe($company->email);
+        // }
 
 
 
-        
+
 
         flash(__('Company has been updated'))->success();
 
         return \Redirect::route('company.profile');
-
     }
 
 
@@ -299,7 +292,6 @@ class CompanyController extends Controller
         flash(__('Job seeker has been added in favorites list'))->success();
 
         return \Redirect::route('applicant.profile', $application_id);
-
     }
 
 
@@ -316,19 +308,18 @@ class CompanyController extends Controller
 
         FavouriteApplicant::where('user_id', $user_id)
 
-                ->where('job_id', '=', $job_id)
+            ->where('job_id', '=', $job_id)
 
-                ->where('company_id', '=', $company_id)
+            ->where('company_id', '=', $company_id)
 
-                ->delete();
+            ->delete();
 
 
 
         flash(__('Job seeker has been removed from favorites list'))->success();
 
         return \Redirect::route('applicant.profile', $application_id);
-
-    } 
+    }
 
 
 
@@ -346,22 +337,21 @@ class CompanyController extends Controller
 
         $fev = FavouriteApplicant::where('user_id', $user_id)
 
-                ->where('job_id', '=', $job_id)
+            ->where('job_id', '=', $job_id)
 
-                ->where('company_id', '=', $company_id)
+            ->where('company_id', '=', $company_id)
 
-                ->first();
+            ->first();
 
         $fev->status = 'hired';
 
-        $fev->update();        
+        $fev->update();
 
 
 
         flash(__('Job seeker has been Hired from favorites list'))->success();
 
         return \Redirect::route('applicant.profile', $application_id);
-
     }
 
 
@@ -378,22 +368,21 @@ class CompanyController extends Controller
 
         $fev = FavouriteApplicant::where('user_id', $user_id)
 
-                ->where('job_id', '=', $job_id)
+            ->where('job_id', '=', $job_id)
 
-                ->where('company_id', '=', $company_id)
+            ->where('company_id', '=', $company_id)
 
-                ->first();
+            ->first();
 
         $fev->status = null;
 
-        $fev->update();        
+        $fev->update();
 
 
 
         flash(__('Job seeker has been removed from hired list'))->success();
 
         return \Redirect::route('applicant.profile', $application_id);
-
     }
 
 
@@ -412,10 +401,9 @@ class CompanyController extends Controller
 
         return view('company.detail')
 
-                        ->with('company', $company)
+            ->with('company', $company)
 
-                        ->with('seo', $seo);
-
+            ->with('seo', $seo);
     }
 
 
@@ -424,7 +412,7 @@ class CompanyController extends Controller
 
     {
 
-        $msgresponse = Array();
+        $msgresponse = array();
 
         $rules = array(
 
@@ -471,7 +459,6 @@ class CompanyController extends Controller
             echo $msgresponse;
 
             exit;
-
         } else {
 
             $receiver_company = Company::findOrFail($request->input('to_id'));
@@ -509,9 +496,7 @@ class CompanyController extends Controller
             echo json_encode($msgresponse);
 
             exit;
-
         }
-
     }
 
 
@@ -520,7 +505,7 @@ class CompanyController extends Controller
 
     {
 
-        $msgresponse = Array();
+        $msgresponse = array();
 
         $rules = array(
 
@@ -565,7 +550,6 @@ class CompanyController extends Controller
             echo $msgresponse;
 
             exit;
-
         } else {
 
             $receiver_user = User::findOrFail($request->input('to_id'));
@@ -603,9 +587,7 @@ class CompanyController extends Controller
             echo json_encode($msgresponse);
 
             exit;
-
         }
-
     }
 
 
@@ -618,8 +600,7 @@ class CompanyController extends Controller
 
         return view('job.company_posted_jobs')
 
-                        ->with('jobs', $jobs);
-
+            ->with('jobs', $jobs);
     }
 
 
@@ -627,15 +608,14 @@ class CompanyController extends Controller
     public function listAppliedUsers(Request $request, $job_id)
 
     {
-        
+
         $job_applications = JobApply::where('job_id', '=', $job_id)->get();
 
 
 
         return view('job.job_applications')
 
-                        ->with('job_applications', $job_applications);
-
+            ->with('job_applications', $job_applications);
     }
 
 
@@ -646,7 +626,7 @@ class CompanyController extends Controller
 
         $company_id = Auth::guard('company')->user()->id;
 
-        $user_ids = FavouriteApplicant::where('job_id', '=', $job_id)->where('company_id', '=', $company_id)->where('status','hired')->pluck('user_id')->toArray();
+        $user_ids = FavouriteApplicant::where('job_id', '=', $job_id)->where('company_id', '=', $company_id)->where('status', 'hired')->pluck('user_id')->toArray();
 
         $job_applications = JobApply::where('job_id', '=', $job_id)->whereIn('user_id', $user_ids)->get();
 
@@ -654,8 +634,7 @@ class CompanyController extends Controller
 
         return view('job.hired_applications')
 
-                        ->with('job_applications', $job_applications);
-
+            ->with('job_applications', $job_applications);
     }
 
 
@@ -670,8 +649,7 @@ class CompanyController extends Controller
 
         return view('job.job_rejected_users')
 
-                        ->with('job_applications', $job_applications);
-
+            ->with('job_applications', $job_applications);
     }
 
 
@@ -682,7 +660,7 @@ class CompanyController extends Controller
 
         $company_id = Auth::guard('company')->user()->id;
 
-        $user_ids = FavouriteApplicant::where('job_id', '=', $job_id)->where('company_id', '=', $company_id)->where('status',null)->pluck('user_id')->toArray();
+        $user_ids = FavouriteApplicant::where('job_id', '=', $job_id)->where('company_id', '=', $company_id)->where('status', null)->pluck('user_id')->toArray();
 
         $job_applications = JobApply::where('job_id', '=', $job_id)->whereIn('user_id', $user_ids)->get();
 
@@ -690,8 +668,7 @@ class CompanyController extends Controller
 
         return view('job.job_applications')
 
-                        ->with('job_applications', $job_applications);
-
+            ->with('job_applications', $job_applications);
     }
 
 
@@ -701,7 +678,7 @@ class CompanyController extends Controller
     {
 
 
-
+        
         $job_application = JobApply::findOrFail($application_id);
 
         $user = $job_application->getUser();
@@ -728,22 +705,21 @@ class CompanyController extends Controller
 
         return view('user.applicant_profile')
 
-                        ->with('job_application', $job_application)
+            ->with('job_application', $job_application)
 
-                        ->with('user', $user)
+            ->with('user', $user)
 
-                        ->with('job', $job)
+            ->with('job', $job)
 
-                        ->with('company', $company)
+            ->with('company', $company)
 
-                        ->with('profileCv', $profileCv)
+            ->with('profileCv', $profileCv)
 
-                        ->with('page_title', 'Applicant Profile')
+            ->with('page_title', 'Applicant Profile')
 
-                        ->with('form_title', 'Contact Applicant')
+            ->with('form_title', 'Contact Applicant')
 
-                        ->with('is_applicant', $is_applicant);
-
+            ->with('is_applicant', $is_applicant);
     }
 
     public function rejectApplicantProfile($application_id)
@@ -782,7 +758,7 @@ class CompanyController extends Controller
 
         $job_application->delete();
 
-        Mail::send(new JobSeekerRejectedMailable($job,$rej));
+        Mail::send(new JobSeekerRejectedMailable($job, $rej));
 
 
 
@@ -790,8 +766,7 @@ class CompanyController extends Controller
 
         flash(__('Job seeker has been rejected successfully'))->success();
 
-        return \Redirect::route('rejected-users',$job->id);
-
+        return \Redirect::route('rejected-users', $job->id);
     }
 
 
@@ -820,14 +795,13 @@ class CompanyController extends Controller
 
         return view('user.applicant_profile')
 
-                        ->with('user', $user)
+            ->with('user', $user)
 
-                        ->with('profileCv', $profileCv)
+            ->with('profileCv', $profileCv)
 
-                        ->with('page_title', 'Job Seeker Profile')
+            ->with('page_title', 'Job Seeker Profile')
 
-                        ->with('form_title', 'Contact Job Seeker');
-
+            ->with('form_title', 'Contact Job Seeker');
     }
 
 
@@ -846,12 +820,67 @@ class CompanyController extends Controller
 
         return view('company.follower_users')
 
-                        ->with('users', $users)
+            ->with('users', $users)
 
-                        ->with('company', $company);
-
+            ->with('company', $company);
     }
 
+    public function recommendedSeekers()
+    {
+
+        $company = Company::findOrFail(Auth::guard('company')->user()->id);
+        $getCompanyJobs = DB::table('jobs')->where('company_id', $company->id)->get();
+        $getUser= array();
+        foreach ($getCompanyJobs as $jobs) {
+    
+            $functional_area_id = '';
+            $functional_area_id = $jobs->functional_area_id;
+
+            $state = '';
+            $state = $jobs->state_id;
+
+            $city = '';
+            $city = $jobs->city_id;
+
+            $location = '';
+            $location = $jobs->location;
+            
+            $getUser = DB::table('users') 
+            ->when($functional_area_id, function ($query, $functional_area_id) {
+                return $query->where('functional_area_id', 'LIKE', "%{$functional_area_id}%");
+            })
+
+            ->when($functional_area_id, function ($query, $functional_area_id) {
+                return $query->orWhere('functional_area_id', 'LIKE', "%{$functional_area_id}%");
+            })
+            ->when($state, function ($query, $state) {
+                return $query->orWhere('state_id', $state);
+            })
+        
+            ->when($city, function ($query, $city) {
+                return $query->orWhere('city_id', $city);
+            })
+
+            ->when($location, function ($query, $location) {
+                return $query->orWhere('street_address', $location);
+            })
+            ->paginate(10);
+        }
+
+        $userIdsArray = array();
+        foreach($getUser as $user){
+            $userIdsArray[] = $user->id;
+        }
+        // dd($userIdsArray);
+        // $userIdsArray = $company->getFollowerIdsArray();
+        // dd($userIdsArray);
+        $users = User::whereIn('id', $userIdsArray)->get();
+        return view('company.recommended_seeksers')
+
+            ->with('users', $users)
+
+            ->with('company', $company);
+    }
 
 
     public function companyMessages()
@@ -862,20 +891,19 @@ class CompanyController extends Controller
 
         $messages = CompanyMessage::where('company_id', '=', $company->id)
 
-                ->orderBy('is_read', 'asc')
+            ->orderBy('is_read', 'asc')
 
-                ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'desc')
 
-                ->get();
+            ->get();
 
 
 
         return view('company.company_messages')
 
-                        ->with('company', $company)
+            ->with('company', $company)
 
-                        ->with('messages', $messages);
-
+            ->with('messages', $messages);
     }
 
 
@@ -894,15 +922,14 @@ class CompanyController extends Controller
 
         return view('company.company_message_detail')
 
-                        ->with('company', $company)
+            ->with('company', $company)
 
-                        ->with('message', $message);
-
+            ->with('message', $message);
     }
 
 
 
-    
+
 
     public function resume_search_packages()
 
@@ -919,11 +946,9 @@ class CompanyController extends Controller
         if (Auth::guard('company')->user()->cvs_package_id > 0) {
 
             $data['success_package'] = Package::findorfail(Auth::guard('company')->user()->cvs_package_id);
-
         } else {
 
             $data['success_package'] = '';
-
         }
 
 
@@ -931,7 +956,6 @@ class CompanyController extends Controller
         //dd($data['success_package']);
 
         return view('company_resume_search_packages')->with($data);
-
     }
 
     public function unlocked_users()
@@ -947,7 +971,6 @@ class CompanyController extends Controller
         if (null !== ($unlocked_users)) {
 
             $data['users'] = User::whereIn('id', explode(',', $unlocked_users->unlocked_users_ids))->get();
-
         }
 
         //dd($data['users']);
@@ -955,7 +978,6 @@ class CompanyController extends Controller
 
 
         return view('company.unlocked_users')->with($data);
-
     }
 
 
@@ -966,75 +988,62 @@ class CompanyController extends Controller
 
         $cvsSearch = Auth::guard('company')->user();
         //dd($cvsSearch);
-        if($cvsSearch->cvs_package_id && $cvsSearch->cvs_package_end_date>= date('Y-m-d') && ($cvsSearch->cvs_quota-$cvsSearch->availed_cvs_quota)>0){
+        if ($cvsSearch->cvs_package_id && $cvsSearch->cvs_package_end_date >= date('Y-m-d') && ($cvsSearch->cvs_quota - $cvsSearch->availed_cvs_quota) > 0) {
 
 
             if (null !== ($cvsSearch)) {
 
-            if ($cvsSearch->availed_cvs_ids != '') {
+                if ($cvsSearch->availed_cvs_ids != '') {
 
 
 
-                $newString = $this->addtoString($cvsSearch->availed_cvs_ids, $user_id);
+                    $newString = $this->addtoString($cvsSearch->availed_cvs_ids, $user_id);
+                } else {
 
+                    $newString = $user_id;
+                }
+
+
+
+                $cvsSearch->availed_cvs_ids  = $newString;
+
+                $cvsSearch->availed_cvs_quota += 1;
+
+                $cvsSearch->update();
+
+
+
+                $unlock = Unlocked_users::where('company_id', Auth::guard('company')->user()->id)->first();
+
+                if (null !== ($unlock)) {
+
+                    $unlock->unlocked_users_ids  = $newString;
+
+                    $unlock->update();
+                } else {
+
+                    $unlock = new Unlocked_users();
+
+
+
+                    $unlock->company_id  = Auth::guard('company')->user()->id;
+
+                    $unlock->unlocked_users_ids  = $newString;
+
+                    $unlock->save();
+                }
+
+                return redirect()->back();
             } else {
 
-                $newString = $user_id;
-
+                return redirect('/company-packages');
             }
-
-
-
-            $cvsSearch->availed_cvs_ids  = $newString;
-
-            $cvsSearch->availed_cvs_quota += 1;
-
-            $cvsSearch->update();
-
-
-
-            $unlock = Unlocked_users::where('company_id', Auth::guard('company')->user()->id)->first();
-
-            if (null !== ($unlock)) {
-
-                $unlock->unlocked_users_ids  = $newString;
-
-                $unlock->update();
-
-            } else {
-
-                $unlock = new Unlocked_users();
-
-
-
-                $unlock->company_id  = Auth::guard('company')->user()->id;
-
-                $unlock->unlocked_users_ids  = $newString;
-
-                $unlock->save();
-
-            }
-
-            return redirect()->back();
-
         } else {
-
-            return redirect('/company-packages');
-
-        }
-
-
-            
-        }else{
 
             flash(__('Your Package has been expired!'))->error();
 
             return redirect('/company-packages');
-            
         }
-
-        
-
     }
 
     function addtoString($str, $item)
@@ -1048,84 +1057,79 @@ class CompanyController extends Controller
 
 
         return implode(',', $parts);
-
     }
 
-    public function update_kyc(Request $request){
-    
+    public function update_kyc(Request $request)
+    {
+
         $company_type = $request->company_type;
         $company_id = $request->company_id;
 
-        $fetch_data = DB::table('companies')->where('id',$company_id)->first();
-        if($company_type=="private_limited" || $company_type == "public_limited"){
+        $fetch_data = DB::table('companies')->where('id', $company_id)->first();
+        if ($company_type == "private_limited" || $company_type == "public_limited") {
             $company_name = $request->company_name;
             $company_pan_no = $request->company_pan_no;
             $company_coi = $request->company_coi;
             $company_gst = $request->company_gst;
-            $company_pan_attachment = $request->file('company_pan_attachment')->store('attachments','public');
-            $company_coi_attachment = $request->file('company_coi_attachment')->store('attachments','public');
-            if($request->file('company_gst_attachment')){
-                $company_gst_attachment = $request->file('company_gst_attachment')->store('attachments','public');
-            }else{
+            $company_pan_attachment = $request->file('company_pan_attachment')->store('attachments', 'public');
+            $company_coi_attachment = $request->file('company_coi_attachment')->store('attachments', 'public');
+            if ($request->file('company_gst_attachment')) {
+                $company_gst_attachment = $request->file('company_gst_attachment')->store('attachments', 'public');
+            } else {
                 $company_gst_attachment = $fetch_data->company_gst_attachment;
             }
             $data = array(
-                'company_name'=>$company_name,
-                'company_pan_no'=>$company_pan_no,
-                'company_coi'=>$company_coi,
-                'company_gst'=>$company_gst,
-                'kyc_status'=>"submited",
-                'company_pan_attachment'=>$company_pan_attachment,
-                'company_coi_attachment'=>$company_coi_attachment,
-                'company_gst_attachment'=>$company_gst_attachment,
+                'company_name' => $company_name,
+                'company_pan_no' => $company_pan_no,
+                'company_coi' => $company_coi,
+                'company_gst' => $company_gst,
+                'kyc_status' => "submited",
+                'company_pan_attachment' => $company_pan_attachment,
+                'company_coi_attachment' => $company_coi_attachment,
+                'company_gst_attachment' => $company_gst_attachment,
             );
-            $insert = DB::table('companies')->where('id',$company_id)->update($data);
+            $insert = DB::table('companies')->where('id', $company_id)->update($data);
         }
-        if($company_type=="partnership"){
+        if ($company_type == "partnership") {
             $firm_name = $request->firm_name;
             $firm_pan = $request->firm_pan;
             $firm_gst = $request->firm_gst;
-            $partnership_deed_attachment = $request->file('partnership_deed_attachment')->store('attachments','public');
-            $company_pan_attachment = $request->file('company_pan_attachment')->store('attachments','public');
-            $company_gst_attachment = $request->file('company_gst_attachment')->store('attachments','public');
-            
+            $partnership_deed_attachment = $request->file('partnership_deed_attachment')->store('attachments', 'public');
+            $company_pan_attachment = $request->file('company_pan_attachment')->store('attachments', 'public');
+            $company_gst_attachment = $request->file('company_gst_attachment')->store('attachments', 'public');
+
             $data = array(
-                'firm_name'=>$firm_name,
-                'firm_pan'=>$firm_pan,
-                'firm_gst'=>$firm_gst,
-                'kyc_status'=>"submited",
-                'partnership_deed_attachment'=>$partnership_deed_attachment,
-                'company_pan_attachment'=>$company_pan_attachment,
-                'company_gst_attachment'=>$company_gst_attachment,
+                'firm_name' => $firm_name,
+                'firm_pan' => $firm_pan,
+                'firm_gst' => $firm_gst,
+                'kyc_status' => "submited",
+                'partnership_deed_attachment' => $partnership_deed_attachment,
+                'company_pan_attachment' => $company_pan_attachment,
+                'company_gst_attachment' => $company_gst_attachment,
             );
-            $insert = DB::table('companies')->where('id',$company_id)->update($data);
-        }        
-        if($company_type=="proprietorship"){
+            $insert = DB::table('companies')->where('id', $company_id)->update($data);
+        }
+        if ($company_type == "proprietorship") {
             $firm_name = $request->firm_name;
             $firm_pan = $request->firm_pan;
             $firm_gst = $request->firm_gst;
-            if($request->file('company_pan_attachment')){
-                $company_pan_attachment = $request->file('company_pan_attachment')->store('attachments','public');
-            }else{
+            if ($request->file('company_pan_attachment')) {
+                $company_pan_attachment = $request->file('company_pan_attachment')->store('attachments', 'public');
+            } else {
                 $company_pan_attachment = $fetch_data->company_pan_attachment;
             }
-            $company_gst_attachment = $request->file('company_gst_attachment')->store('attachments','public');
-            
+            $company_gst_attachment = $request->file('company_gst_attachment')->store('attachments', 'public');
+
             $data = array(
-                'firm_name'=>$firm_name,
-                'firm_pan'=>$firm_pan,
-                'firm_gst'=>$firm_gst,
-                'kyc_status'=>"submited",
-                'company_pan_attachment'=>$company_pan_attachment,
-                'company_gst_attachment'=>$company_gst_attachment,
+                'firm_name' => $firm_name,
+                'firm_pan' => $firm_pan,
+                'firm_gst' => $firm_gst,
+                'kyc_status' => "submited",
+                'company_pan_attachment' => $company_pan_attachment,
+                'company_gst_attachment' => $company_gst_attachment,
             );
-            $insert = DB::table('companies')->where('id',$company_id)->update($data);
+            $insert = DB::table('companies')->where('id', $company_id)->update($data);
         }
         return response()->json(['success' => 'KYC information submitted successfully.']);
-    
     }
-
-
-
 }
-

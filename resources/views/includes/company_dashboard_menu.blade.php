@@ -12,6 +12,7 @@
         <li class="{{ Request::url() == route('company.unloced-users') ? 'active' : '' }}"><a href="{{ route('company.unloced-users') }}"><i class="fas fa-user" aria-hidden="true"></i> {{__('Unlocked Users')}}</a></li>
 
         <li class="{{ Request::url() == route('company.messages') ? 'active' : '' }}"><a href="{{route('company.messages')}}"><i class="fas fa-envelope" aria-hidden="true"></i> {{__('Company Messages')}}</a></li>
+        <li class="{{ Request::url() == route('recommended.seekers') ? 'active' : '' }}"><a href="{{route('recommended.seekers')}}"><i class="fas fa-briefcase" aria-hidden="true"></i> {{__('Recommended Seekers')}}</a></li>
         <li class="{{ Request::url() == route('company.followers') ? 'active' : '' }}"><a href="{{route('company.followers')}}"><i class="fas fa-users" aria-hidden="true"></i> {{__('Company Followers')}}</a></li>
         <li><a href="{{ route('company.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-sign-out" aria-hidden="true"></i> {{__('Logout')}}</a>
             <form id="logout-form" action="{{ route('company.logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>

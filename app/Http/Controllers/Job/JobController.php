@@ -194,11 +194,12 @@ class JobController extends Controller
 
     public function jobDetail(Request $request, $job_slug)
     {
-        $user_id = Auth::user()->id;
-        $job = Job::where('slug', 'like', $job_slug)->firstOrFail();
+        $user_id = (!empty(Auth::user()->id))?Auth::user()->id:'';
+        $job = Job::where('slug', 'like', $job_slug)->firstOrFail();        
         $job_track_data = DB::table('job_apply')
         ->leftJoin('job_track', 'job_apply.id', '=', 'job_track.job_apply_id')
         ->select('job_track.created_at', 'job_track.status', 'job_track.id', 'job_apply.job_id')->where('job_apply.job_id',$job->id)->where('user_id',$user_id)->get();
+        
         
         /*         * ************************************************** */
         $search = '';
@@ -336,6 +337,15 @@ class JobController extends Controller
 
     public function addToFavouriteJob(Request $request, $job_slug)
     {
+        
+        $job = Job::where('slug', 'like', $job_slug)->first();
+        // Favourite Company 
+        $get_company_info = DB::table('companies')->where('id',$job->company_id)->first();
+        $data['company_slug'] = $get_company_info->slug;
+        $data['user_id'] = Auth::user()->id;
+        $data_save = FavouriteCompany::create($data);
+        // Favourite Company 
+
         $data['job_slug'] = $job_slug;
         $data['user_id'] = Auth::user()->id;
         $data_save = FavouriteJob::create($data);
@@ -478,7 +488,7 @@ class JobController extends Controller
                 return $query->where('salary_to',    '<=', $expected_salary);
             })
       
-            ->when($country, function ($query) use ($functional_area_id) {
+            ->when($title, function ($query) use ($functional_area_id) {
                 return $query->orWhere('functional_area_id', $functional_area_id);
             })
             ->when($state, function ($query) use ($state) {

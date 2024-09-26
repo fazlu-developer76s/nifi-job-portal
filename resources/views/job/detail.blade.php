@@ -136,11 +136,18 @@
         }
 
         .blur {
+            -webkit-user-select: none;
+            /* Safari */
+            -ms-user-select: none;
+            /* IE 10 and IE 11 */
+            user-select: none;
+            /* Standard syntax */
             filter: blur(5px);
             opacity: 0.5;
         }
 
         .status-dot.blur {
+
             background-color: #ddd;
             /* Optional: make the dot look faded */
         }
@@ -395,21 +402,24 @@
 
                             <hr>
                             <!-- Job Tracking Status -->
-                            
+
                             <div class="job-tracking-vertical">
                                 @if (!empty($filtered_jobs))
                                     @if (isset($filtered_jobs[0]->status) && $filtered_jobs[0]->status == 'applied')
                                         <div class="status">
                                             <div class="status-dot submitted"></div>
                                             <div class="status-text">
-                                                <strong>Application Submitted</strong><br>
+                                                <strong>Application Submitted</strong><br><br>
+                                                <small>{{ \Carbon\Carbon::parse($filtered_jobs[0]->created_at)->format('jS M Y, g:i A') }}</small>
                                             </div>
                                         </div>
 
                                         <div class="status">
                                             <div class="status-dot completed"></div>
                                             <div class="status-text">
-                                                <strong>{{ ucfirst($filtered_jobs[0]->status) }}</strong><br>
+                                                <strong>{{ ucfirst($filtered_jobs[0]->status) }}</strong><br><br>
+                                                <small>{{ \Carbon\Carbon::parse($filtered_jobs[0]->created_at)->format('jS M Y, g:i A') }}</small>
+
                                             </div>
                                         </div>
                                     @endif
@@ -418,28 +428,36 @@
                                         <div class="status">
                                             <div class="status-dot in-progress"></div>
                                             <div class="status-text">
-                                                <strong>Viewed</strong><br>
+                                                <strong>Viewed</strong><br><br>
+                                                <small>{{ \Carbon\Carbon::parse($filtered_jobs[0]->created_at)->format('jS M Y, g:i A') }}</small>
+
                                             </div>
                                         </div>
 
                                         <div class="status">
                                             <div class="status-dot shortlisted"></div>
                                             <div class="status-text">
-                                                <strong>Shortlisted</strong><br>
+                                                <strong>Shortlisted</strong><br><br>
+                                                <small>{{ \Carbon\Carbon::parse($filtered_jobs[0]->created_at)->format('jS M Y, g:i A') }}</small>
+
                                             </div>
                                         </div>
                                     @else
                                         <div class="status blur">
                                             <div class="status-dot in-progress"></div>
                                             <div class="status-text">
-                                                <strong>Viewed</strong><br>
+                                                <strong>Viewed</strong><br><br>
+                                                <small>{{ \Carbon\Carbon::parse($filtered_jobs[0]->created_at)->format('jS M Y, g:i A') }}</small>
+
                                             </div>
                                         </div>
 
                                         <div class="status blur">
                                             <div class="status-dot shortlisted"></div>
                                             <div class="status-text">
-                                                <strong>Shortlisted</strong><br>
+                                                <strong>Shortlisted</strong><br><br>
+                                                <small>{{ \Carbon\Carbon::parse($filtered_jobs[0]->created_at)->format('jS M Y, g:i A') }}</small>
+
                                             </div>
                                         </div>
                                     @endif
@@ -448,28 +466,36 @@
                                         <div class="status">
                                             <div class="status-dot interview"></div>
                                             <div class="status-text">
-                                                <strong>Interview Scheduled</strong><br>
+                                                <strong>Interview Scheduled</strong><br><br>
+                                                <small>{{ \Carbon\Carbon::parse($filtered_jobs[0]->created_at)->format('jS M Y, g:i A') }}</small>
+
                                             </div>
                                         </div>
 
                                         <div class="status">
                                             <div class="status-dot hired"></div>
                                             <div class="status-text">
-                                                <strong>Hired</strong><br>
+                                                <strong>Hired</strong><br><br>
+                                                <small>{{ \Carbon\Carbon::parse($filtered_jobs[0]->created_at)->format('jS M Y, g:i A') }}</small>
+
                                             </div>
                                         </div>
                                     @else
                                         <div class="status blur">
                                             <div class="status-dot interview"></div>
                                             <div class="status-text">
-                                                <strong>Interview Scheduled</strong><br>
+                                                <strong>Interview Scheduled</strong><br><br>
+                                                <small>{{ \Carbon\Carbon::parse($filtered_jobs[0]->created_at)->format('jS M Y, g:i A') }}</small>
+
                                             </div>
                                         </div>
 
                                         <div class="status blur">
                                             <div class="status-dot hired"></div>
                                             <div class="status-text">
-                                                <strong>Hired</strong><br>
+                                                <strong>Hired</strong><br><br>
+                                                <small>{{ \Carbon\Carbon::parse($filtered_jobs[0]->created_at)->format('jS M Y, g:i A') }}</small>
+
                                             </div>
                                         </div>
                                     @endif
@@ -478,7 +504,9 @@
                                         <div class="status">
                                             <div class="status-dot rejected"></div>
                                             <div class="status-text">
-                                                <strong>Rejected</strong><br>
+                                                <strong>Rejected</strong><br><br>
+                                                <small>{{ \Carbon\Carbon::parse($filtered_jobs[0]->created_at)->format('jS M Y, g:i A') }}</small>
+
                                             </div>
                                         </div>
                                     @endif

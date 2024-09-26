@@ -27,6 +27,7 @@ Route::get('applicant-profile/{application_id}', 'Company\CompanyController@appl
 Route::get('reject-applicant-profile/{application_id}', 'Company\CompanyController@rejectApplicantProfile')->name('reject.applicant.profile');
 Route::get('user-profile/{id}', 'Company\CompanyController@userProfile')->name('user.profile');
 Route::get('company-followers', 'Company\CompanyController@companyFollowers')->name('company.followers');
+Route::get('recommended-seekers', 'Company\CompanyController@recommendedSeekers')->name('recommended.seekers');
 /* Route::get('company-messages', 'Company\CompanyController@companyMessages')->name('company.messages'); */
 Route::post('submit-message-seeker', 'CompanyMessagesController@submitnew_message_seeker')->name('submit-message-seeker');
 

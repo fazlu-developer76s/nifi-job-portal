@@ -152,10 +152,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
 
     public function profileCvs()
-
+ 
     {
-
-        return $this->hasMany('App\ProfileCv', 'user_id', 'id');
+        return $this->hasMany('App\ProfileCv', 'user_id', 'id')->where('resume_status', 1);
 
     }
 
