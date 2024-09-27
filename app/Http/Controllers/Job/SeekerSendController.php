@@ -33,13 +33,13 @@ class SeekerSendController extends Controller
     }
     public function all_messages()
     {
-
+        
         $messages = CompanyMessage::where('seeker_id', Auth::user()->id)->get();
         $ids = array();
         foreach ($messages as $key => $value) {
             $ids[] = $value->company_id;
         }
-
+        
         $fetch_job = DB::table('job_apply')->where('user_id', Auth::user()->id)->get();
         $getCompaniesId = array();
         foreach ($fetch_job as $key => $value) {
@@ -49,9 +49,10 @@ class SeekerSendController extends Controller
                 ->toArray();
             $getCompaniesId[] = $getcompany[0];
         }
+        $create_new_id = array_merge($ids,$getCompaniesId);
+   
+        $data['companies'] = Company::whereIn('id', $create_new_id)->get();
 
-        $data['companies'] = Company::whereIn('id', $getCompaniesId)->get();
-      
         return view('seeker.all-messages')->with($data);
     }
     public function append_messages(Request $request)

@@ -755,7 +755,7 @@ class CompanyController extends Controller
     public function listAppliedUsers(Request $request, $job_id)
 
     {
-
+   
         $job_applications = JobApply::where('job_id', '=', $job_id)->get();
 
         $job = Job::findorFail($job_id);

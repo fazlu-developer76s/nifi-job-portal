@@ -5,7 +5,7 @@
 namespace App;
 
 
-
+use DB;
 use Auth;
 
 use App\JobSkill;
@@ -640,8 +640,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function countFollowings()
 
     {
-
-        return FavouriteCompany::where('user_id', '=', $this->id)->count();
+        // $getCount = FavouriteCompany::select('user_id')
+        // ->where('company_slug', 'like', $this->slug)
+        // 
+        // ->get();
+        $count_favcompany = FavouriteCompany::where('user_id', '=', $this->id)
+        ->select('company_slug', DB::raw('count(*) as total'))
+        ->groupBy('company_slug')
+        ->get();
+        return count($count_favcompany);
+        
 
     }
 

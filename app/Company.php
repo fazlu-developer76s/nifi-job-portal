@@ -219,7 +219,12 @@ class Company extends Authenticatable
 
     {
 
-        return FavouriteCompany::where('company_slug', 'like', $this->slug)->count();
+        $getCount = FavouriteCompany::select('user_id')
+    ->where('company_slug', 'like', $this->slug)
+    ->groupBy('user_id')
+    ->get();
+    return count($getCount);
+
 
     }
 
@@ -337,6 +342,34 @@ class Company extends Authenticatable
                 ->where('company_id', $company_id)
 
                 ->where('status', 'hired')
+
+                ->count();
+
+            if ($count > 0)
+
+                $return = true;
+
+        }
+
+        return $return;
+
+    }
+
+    public function InterviewScheduled($user_id, $job_id, $company_id)
+
+    {
+
+        $return = false;
+
+        if (Auth::guard('company')->check()) {
+
+            $count = FavouriteApplicant::where('user_id', $user_id)
+
+                ->where('job_id', $job_id)
+
+                ->where('company_id', $company_id)
+
+                ->where('status', 'interview')
 
                 ->count();
 

@@ -35,6 +35,8 @@ Route::put('make-not-featured-company', array_merge(['uses' => 'Admin\CompanyCon
 
 
 Route::get('list-applied-users/{job_id}', 'Admin\CompanyController@listAppliedUsers')->name('admin.list.applied.users');
+
+
 Route::post('kyc-autoapproved', 'Admin\CompanyController@approved_kyc')->name('kyc.autoapproved');
 
 

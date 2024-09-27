@@ -191,9 +191,12 @@
                                                 // Initialize an array with null values for each index
                                                 $filtered_jobs = [
                                                     0 => null, // Index 0 for "applied"
-                                                    1 => null, // Index 1 for "shortlist"
-                                                    2 => null, // Index 2 for "hired"
-                                                    3 => null, // Index 3 for "rejected"
+                                                    1 => null, // Index 1 for "view"
+                                                    2 => null, // Index 2 for "download cv"
+                                                    3 => null, // Index 3 for "shortlist"
+                                                    4 => null, // Index 3 for "interview sheduled"
+                                                    5 => null, // Index 4 for "hired"
+                                                    6 => null, // Index 5 for "rejected"
                                                 ];
                                                 // Loop through the jobs and assign them based on their status to the correct index
                                                 foreach ($job->track_job as $job_tracking) {
@@ -202,16 +205,28 @@
                                                             $filtered_jobs[0] = $job_tracking;
                                                             break;
 
-                                                        case 'shortlist':
+                                                        case 'view':
                                                             $filtered_jobs[1] = $job_tracking;
                                                             break;
 
-                                                        case 'hired':
+                                                        case 'download_cv':
                                                             $filtered_jobs[2] = $job_tracking;
                                                             break;
 
-                                                        case 'rejected':
+                                                        case 'shortlist':
                                                             $filtered_jobs[3] = $job_tracking;
+                                                            break;
+
+                                                        case 'interview':
+                                                            $filtered_jobs[4] = $job_tracking;
+                                                            break;
+
+                                                        case 'hired':
+                                                            $filtered_jobs[5] = $job_tracking;
+                                                            break;
+
+                                                        case 'rejected':
+                                                            $filtered_jobs[6] = $job_tracking;
                                                             break;
                                                     }
                                                 }
@@ -233,19 +248,37 @@
                                                         <div class="status">
                                                             <div class="status-dot completed"></div>
                                                             <div class="status-text">
-                                                                <strong>{{ ucfirst($filtered_jobs[0]->status) }}</strong><br>
+                                                                <strong>Applied</strong><br>
                                                             </div>
                                                         </div>
                                                     @endif
 
-                                                    @if (isset($filtered_jobs[1]->status) && $filtered_jobs[1]->status == 'shortlist')
+                                                    @if (isset($filtered_jobs[1]->status) && $filtered_jobs[1]->status == 'view')
                                                         <div class="status">
-                                                            <div class="status-dot in-progress"></div>
+                                                            <div class="status-dot completed"></div>
                                                             <div class="status-text">
-                                                                <strong>Viewed</strong><br>
+                                                                <strong>Application View </strong><br>
                                                             </div>
                                                         </div>
+                                                    @endif
 
+                                                    @if (isset($filtered_jobs[2]->status) && $filtered_jobs[2]->status == 'download_cv')
+                                                        <div class="status">
+                                                            <div class="status-dot completed"></div>
+                                                            <div class="status-text">
+                                                                <strong>Download CV</strong><br>
+                                                            </div>
+                                                        </div>
+                                                        @else
+                                                        <div class="status blur">
+                                                            <div class="status-dot shortlisted"></div>
+                                                            <div class="status-text">
+                                                                <strong>Download CV</strong><br>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+
+                                                    @if (isset($filtered_jobs[3]->status) && $filtered_jobs[3]->status == 'shortlist')
                                                         <div class="status">
                                                             <div class="status-dot shortlisted"></div>
                                                             <div class="status-text">
@@ -254,13 +287,6 @@
                                                         </div>
                                                     @else
                                                         <div class="status blur">
-                                                            <div class="status-dot in-progress"></div>
-                                                            <div class="status-text">
-                                                                <strong>Viewed</strong><br>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="status blur">
                                                             <div class="status-dot shortlisted"></div>
                                                             <div class="status-text">
                                                                 <strong>Shortlisted</strong><br>
@@ -268,37 +294,38 @@
                                                         </div>
                                                     @endif
 
-                                                    @if (isset($filtered_jobs[2]->status) && $filtered_jobs[2]->status == 'hired')
+                                                    @if (isset($filtered_jobs[4]->status) && $filtered_jobs[4]->status == 'interview')
                                                         <div class="status">
-                                                            <div class="status-dot interview"></div>
+                                                            <div class="status-dot shortlisted"></div>
                                                             <div class="status-text">
                                                                 <strong>Interview Scheduled</strong><br>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="status">
-                                                            <div class="status-dot hired"></div>
-                                                            <div class="status-text">
-                                                                <strong>Hired</strong><br>
                                                             </div>
                                                         </div>
                                                     @else
                                                         <div class="status blur">
-                                                            <div class="status-dot interview"></div>
+                                                            <div class="status-dot shortlisted"></div>
                                                             <div class="status-text">
                                                                 <strong>Interview Scheduled</strong><br>
                                                             </div>
                                                         </div>
+                                                    @endif
 
+                                                    @if (isset($filtered_jobs[5]->status) && $filtered_jobs[5]->status == 'hired')
+                                                        <div class="status">
+                                                            <div class="status-dot hired"></div>
+                                                            <div class="status-text">
+                                                                <strong>Hired</strong><br>
+                                                            </div>
+                                                        </div>
+                                                    @else                                                       
                                                         <div class="status blur">
                                                             <div class="status-dot hired"></div>
                                                             <div class="status-text">
                                                                 <strong>Hired</strong><br>
                                                             </div>
                                                         </div>
-                                                    @endif
-
-                                                    @if (isset($filtered_jobs[3]->status) && $filtered_jobs[3]->status == 'rejected')
+                                                    @endif                                                    
+                                                    @if (isset($filtered_jobs[6]->status) && $filtered_jobs[6]->status == 'rejected')
                                                         <div class="status">
                                                             <div class="status-dot rejected"></div>
                                                             <div class="status-text">
@@ -306,6 +333,7 @@
                                                             </div>
                                                         </div>
                                                     @endif
+
                                                 @endif
                                             </div>
 

@@ -18,6 +18,8 @@ Route::get('list-hired-users/{job_id}', 'Company\CompanyController@listHiredUser
 Route::get('list-favourite-applied-users/{job_id}', 'Company\CompanyController@listFavouriteAppliedUsers')->name('list.favourite.applied.users');
 Route::get('add-to-favourite-applicant/{application_id}/{user_id}/{job_id}/{company_id}', 'Company\CompanyController@addToFavouriteApplicant')->name('add.to.favourite.applicant');
 Route::get('remove-from-favourite-applicant/{application_id}/{user_id}/{job_id}/{company_id}', 'Company\CompanyController@removeFromFavouriteApplicant')->name('remove.from.favourite.applicant');
+Route::get('add-to-interview/{application_id}/{user_id}/{job_id}/{company_id}', 'Company\CompanyController@addToInterview')->name('add.to.interview');
+Route::get('remove-from-interview/{application_id}/{user_id}/{job_id}/{company_id}', 'Company\CompanyController@removeFromInterview')->name('remove.from.interview');
 Route::get('hire-from-favourite-applicant/{application_id}/{user_id}/{job_id}/{company_id}', 'Company\CompanyController@hireFromFavouriteApplicant')->name('hire.from.favourite.applicant');
 
 
@@ -36,8 +38,8 @@ Route::get('append-messages', 'CompanyMessagesController@append_messages')->name
 Route::get('append-only-messages', 'CompanyMessagesController@appendonly_messages')->name('append-only-message');
 Route::post('company-submit-messages', 'CompanyMessagesController@submit_message')->name('company.submit-message');
 Route::get('company-message-detail/{id}', 'Company\CompanyController@companyMessageDetail')->name('company.message.detail');
+Route::post('download-cv', 'Company\CompanyController@downloadCv')->name('download.cv');
 });
 Route::put('update-company-profile', 'Company\CompanyController@updateCompanyProfile')->name('update.company.profile');
 Route::post('update-kyc', 'Company\CompanyController@update_kyc')->name('update.kyc');
-
 Route::get('company-profile', 'Company\CompanyController@companyProfile')->name('company.profile');

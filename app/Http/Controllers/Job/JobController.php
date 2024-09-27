@@ -453,7 +453,7 @@ class JobController extends Controller
         $jobs = array();
         $create_job_array = Job::whereIn('id', $myAppliedJobIds)->paginate(10);
         foreach($create_job_array as $job_id){
-          
+            
             $job_track_data = DB::table('job_apply')
             ->leftJoin('job_track', 'job_apply.id', '=', 'job_track.job_apply_id')
             ->select('job_track.created_at', 'job_track.status', 'job_track.id', 'job_apply.job_id')->where('job_apply.job_id',$job_id->id)->where('user_id',$user_id)->get(); 

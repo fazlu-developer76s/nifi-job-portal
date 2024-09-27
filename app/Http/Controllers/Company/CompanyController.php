@@ -126,7 +126,7 @@ class CompanyController extends Controller
     public function index()
 
     {
-
+        
         return view('company_home');
     }
 
@@ -279,6 +279,17 @@ class CompanyController extends Controller
 
     {
 
+        $prev_job_track = DB::table('job_track')->where('job_apply_id', $_GET['job_id'])->where('status', 'shortlist')->first();
+        if (!$prev_job_track) {
+            // tracking code 
+            $job_track_array = array(
+                'job_apply_id' => $_GET['job_id'],
+                'status' => "shortlist"
+            );
+            $track_job = DB::table('job_track')->insert($job_track_array);
+            // tracking code 
+        }
+
         $data['user_id'] = $user_id;
 
         $data['job_id'] = $job_id;
@@ -289,7 +300,7 @@ class CompanyController extends Controller
 
         $data_save = FavouriteApplicant::create($data);
 
-        flash(__('Job seeker has been added in favorites list'))->success();
+        flash(__('Job seeker has been added in Interview Scheduled list'))->success();
 
         return \Redirect::route('applicant.profile', $application_id);
     }
@@ -299,6 +310,11 @@ class CompanyController extends Controller
     public function removeFromFavouriteApplicant(Request $request, $application_id, $user_id, $job_id, $company_id)
 
     {
+
+        $check_reject_job = DB::table('job_track')->where('job_apply_id', $_GET['job_id'])->where('status', 'shortlist')->first();
+        if ($check_reject_job) {
+            $delete_reject = DB::table('job_track')->where('id', $check_reject_job->id)->delete();
+        }
 
         $data['user_id'] = $user_id;
 
@@ -316,6 +332,69 @@ class CompanyController extends Controller
 
 
 
+        flash(__('Job seeker has been removed from Interview Scheduled list'))->success();
+
+        return \Redirect::route('applicant.profile', $application_id);
+    }
+    public function addToInterview(Request $request, $application_id, $user_id, $job_id, $company_id)
+
+    {
+
+        $prev_job_track = DB::table('job_track')->where('job_apply_id', $_GET['job_id'])->where('status', 'interview')->first();
+        if (!$prev_job_track) {
+            // tracking code 
+            $job_track_array = array(
+                'job_apply_id' => $_GET['job_id'],
+                'status' => "interview"
+            );
+            $track_job = DB::table('job_track')->insert($job_track_array);
+            // tracking code 
+        }
+
+        $data['user_id'] = $user_id;
+
+        $data['job_id'] = $job_id;
+
+        $data['company_id'] = $company_id;
+        $data['status'] = "interview";
+
+
+
+        $data_save = FavouriteApplicant::create($data);
+
+        flash(__('Job seeker has been added in favorites list'))->success();
+
+        return \Redirect::route('applicant.profile', $application_id);
+    }
+
+
+
+    public function removeFromInterview(Request $request, $application_id, $user_id, $job_id, $company_id)
+
+    {
+
+        $check_reject_job = DB::table('job_track')->where('job_apply_id', $_GET['job_id'])->where('status', 'interview')->first();
+        if ($check_reject_job) {
+            $delete_reject = DB::table('job_track')->where('id', $check_reject_job->id)->delete();
+        }
+
+        $data['user_id'] = $user_id;
+
+        $data['job_id'] = $job_id;
+
+        $data['company_id'] = $company_id;
+
+        FavouriteApplicant::where('user_id', $user_id)
+
+            ->where('job_id', '=', $job_id)
+
+            ->where('company_id', '=', $company_id)
+            ->where('status', '=', "interview")
+
+            ->delete();
+
+
+
         flash(__('Job seeker has been removed from favorites list'))->success();
 
         return \Redirect::route('applicant.profile', $application_id);
@@ -328,6 +407,17 @@ class CompanyController extends Controller
     public function hireFromFavouriteApplicant(Request $request, $application_id, $user_id, $job_id, $company_id)
 
     {
+
+        $prev_job_track = DB::table('job_track')->where('job_apply_id', $_GET['job_id'])->where('status', 'hired')->first();
+        if (!$prev_job_track) {
+            // tracking code 
+            $job_track_array = array(
+                'job_apply_id' => $_GET['job_id'],
+                'status' => "hired"
+            );
+            $track_job = DB::table('job_track')->insert($job_track_array);
+            // tracking code 
+        }
 
         $data['user_id'] = $user_id;
 
@@ -359,6 +449,10 @@ class CompanyController extends Controller
     public function removehireFromFavouriteApplicant(Request $request, $application_id, $user_id, $job_id, $company_id)
 
     {
+        $check_reject_job = DB::table('job_track')->where('job_apply_id', $_GET['job_id'])->where('status', 'hired')->first();
+        $delete_reject = DB::table('job_track')->where('id', $check_reject_job->id)->delete();
+
+
 
         $data['user_id'] = $user_id;
 
@@ -678,7 +772,7 @@ class CompanyController extends Controller
     {
 
 
-        
+
         $job_application = JobApply::findOrFail($application_id);
 
         $user = $job_application->getUser();
@@ -727,6 +821,16 @@ class CompanyController extends Controller
     {
 
 
+        $prev_job_track = DB::table('job_track')->where('job_apply_id', $_GET['job_id'])->where('status', 'rejected')->first();
+        if (!$prev_job_track) {
+            // tracking code 
+            $job_track_array = array(
+                'job_apply_id' => $_GET['job_id'],
+                'status' => "rejected"
+            );
+            $track_job = DB::table('job_track')->insert($job_track_array);
+            // tracking code 
+        }
 
         $job_application = JobApply::findOrFail($application_id);
 
@@ -758,7 +862,7 @@ class CompanyController extends Controller
 
         $job_application->delete();
 
-        Mail::send(new JobSeekerRejectedMailable($job, $rej));
+        // Mail::send(new JobSeekerRejectedMailable($job, $rej));
 
 
 
@@ -830,9 +934,9 @@ class CompanyController extends Controller
 
         $company = Company::findOrFail(Auth::guard('company')->user()->id);
         $getCompanyJobs = DB::table('jobs')->where('company_id', $company->id)->get();
-        $getUser= array();
+        $getUser = array();
         foreach ($getCompanyJobs as $jobs) {
-    
+
             $functional_area_id = '';
             $functional_area_id = $jobs->functional_area_id;
 
@@ -844,31 +948,31 @@ class CompanyController extends Controller
 
             $location = '';
             $location = $jobs->location;
-            
-            $getUser = DB::table('users') 
-            ->when($functional_area_id, function ($query, $functional_area_id) {
-                return $query->where('functional_area_id', 'LIKE', "%{$functional_area_id}%");
-            })
 
-            ->when($functional_area_id, function ($query, $functional_area_id) {
-                return $query->orWhere('functional_area_id', 'LIKE', "%{$functional_area_id}%");
-            })
-            ->when($state, function ($query, $state) {
-                return $query->orWhere('state_id', $state);
-            })
-        
-            ->when($city, function ($query, $city) {
-                return $query->orWhere('city_id', $city);
-            })
+            $getUser = DB::table('users')
+                ->when($functional_area_id, function ($query, $functional_area_id) {
+                    return $query->where('functional_area_id', 'LIKE', "%{$functional_area_id}%");
+                })
 
-            ->when($location, function ($query, $location) {
-                return $query->orWhere('street_address', $location);
-            })
-            ->paginate(10);
+                ->when($functional_area_id, function ($query, $functional_area_id) {
+                    return $query->orWhere('functional_area_id', 'LIKE', "%{$functional_area_id}%");
+                })
+                ->when($state, function ($query, $state) {
+                    return $query->orWhere('state_id', $state);
+                })
+
+                ->when($city, function ($query, $city) {
+                    return $query->orWhere('city_id', $city);
+                })
+
+                ->when($location, function ($query, $location) {
+                    return $query->orWhere('street_address', $location);
+                })
+                ->paginate(10);
         }
 
         $userIdsArray = array();
-        foreach($getUser as $user){
+        foreach ($getUser as $user) {
             $userIdsArray[] = $user->id;
         }
         // dd($userIdsArray);
@@ -986,6 +1090,8 @@ class CompanyController extends Controller
 
     {
 
+
+
         $cvsSearch = Auth::guard('company')->user();
         //dd($cvsSearch);
         if ($cvsSearch->cvs_package_id && $cvsSearch->cvs_package_end_date >= date('Y-m-d') && ($cvsSearch->cvs_quota - $cvsSearch->availed_cvs_quota) > 0) {
@@ -1010,6 +1116,18 @@ class CompanyController extends Controller
                 $cvsSearch->availed_cvs_quota += 1;
 
                 $cvsSearch->update();
+
+
+                $prev_job_track = DB::table('job_track')->where('job_apply_id', $_GET['job_id'])->where('status', 'view')->first();
+                if (!$prev_job_track) {
+                    // tracking code 
+                    $job_track_array = array(
+                        'job_apply_id' => $_GET['job_id'],
+                        'status' => "view"
+                    );
+                    $track_job = DB::table('job_track')->insert($job_track_array);
+                    // tracking code 
+                }
 
 
 
@@ -1131,5 +1249,21 @@ class CompanyController extends Controller
             $insert = DB::table('companies')->where('id', $company_id)->update($data);
         }
         return response()->json(['success' => 'KYC information submitted successfully.']);
+    }
+
+    public function downloadCv(Request $request)
+    {
+        
+        $job_id = $request->job_id;
+        $prev_job_track = DB::table('job_track')->where('job_apply_id', $job_id)->where('status', 'download_cv')->first();
+        
+        if (!$prev_job_track) {
+            DB::table('job_track')->insert([
+                'job_apply_id' => $job_id,
+                'status' => 'download_cv',
+            ]);
+        }
+        
+        return response()->json(['success' => true]);
     }
 }
