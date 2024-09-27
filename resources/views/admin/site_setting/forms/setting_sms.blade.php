@@ -165,7 +165,7 @@
                                     <label for="inputField" class="control-label">Mobile Number:</label>
                                     <input type="text" class="form-control" id="mobile_number"
                                         oninput="validateMobileNumber(this);" placeholder="Enter Mobile Number"
-                                        required>
+                                        >
                                     <span class="text-danger mobile_number"></span>
                                 </div>
                             </form>

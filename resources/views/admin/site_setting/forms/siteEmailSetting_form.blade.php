@@ -36,7 +36,7 @@
         </div>
     </fieldset>
     <br> 
-    <fieldset>
+    <fieldset class="hidden">
         <legend>SendMail - Pretend Settings:</legend>     
         <div class="form-group {!! APFrmErrHelp::hasError($errors, 'mail_sendmail') !!}">
             {!! Form::label('mail_sendmail', 'Mail Sendmail', ['class' => 'bold']) !!}                    
@@ -50,7 +50,7 @@
         </div>
     </fieldset>    
     <br>
-    <fieldset>
+    <fieldset class="hidden">
         <legend>MailGun Settings:</legend>    
         <div class="form-group {!! APFrmErrHelp::hasError($errors, 'mailgun_domain') !!}">
             {!! Form::label('mailgun_domain', 'Mailgun Domain', ['class' => 'bold']) !!}                    
@@ -64,7 +64,7 @@
         </div>
     </fieldset>
     <br>
-    <fieldset>
+    <fieldset class="hidden">
         <legend>Mandrill Settings:</legend>    
         <div class="form-group {!! APFrmErrHelp::hasError($errors, 'mandrill_secret') !!}">
             {!! Form::label('mandrill_secret', 'Mandrill Secret', ['class' => 'bold']) !!}                    
@@ -73,7 +73,7 @@
         </div>
     </fieldset>
     <br>
-    <fieldset>
+    <fieldset class="hidden">
         <legend>Sparkpost Settings:</legend>    
         <div class="form-group {!! APFrmErrHelp::hasError($errors, 'sparkpost_secret') !!}">
             {!! Form::label('sparkpost_secret', 'Sparkpost Secret', ['class' => 'bold']) !!}                    
@@ -82,7 +82,7 @@
         </div>
     </fieldset>
     <br>
-    <fieldset>
+    <fieldset class="hidden">
         <legend>AMAZON SES Settings:</legend>        
         <div class="form-group {!! APFrmErrHelp::hasError($errors, 'ses_key') !!}">
             {!! Form::label('ses_key', 'SES Key', ['class' => 'bold']) !!}                    

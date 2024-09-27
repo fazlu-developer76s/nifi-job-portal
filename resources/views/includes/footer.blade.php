@@ -83,6 +83,49 @@
 
     </div>
 </div>
+<script>
+    if ('webkitSpeechRecognition' in window) {
+    const SpeechRecognition = window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    const output = document.getElementById('output');
+    const startButton = document.getElementById('start-button');
+
+    // Configure recognition
+    recognition.continuous = false; 
+    recognition.interimResults = false; 
+
+    // Start recognition when button is clicked
+    startButton.addEventListener('click', () => {
+        output.textContent = 'Listening...';
+        recognition.start();
+    });
+
+    // Handle the result when speech is recognized
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        output.textContent = `${transcript}`;
+    };
+
+    // Handle errors
+    recognition.onerror = (event) => {
+        console.error('Error occurred in recognition:', event.error);
+        output.textContent = `Error: ${event.error}`;
+    };
+
+    // Handle end of recognition
+    recognition.onend = () => {
+        // output.textContent += ' (Voice search ended.)';
+    };
+
+    recognition.onstart = () => {
+        console.log('Voice recognition started. Speak into the microphone.');
+    };
+} else {
+    console.error('Speech recognition not supported in this browser.');
+    alert('Speech recognition is not supported in your browser.');
+}
+
+</script>
 <script type="text/javascript">
     <?php echo config('live_chat.live_chat');?>
 </script>

@@ -19,9 +19,10 @@
 	<form action="{{route('job.list')}}" method="get">		
 		<div class="searchbar">
 			<div class="input-group">
-				<input type="text"  name="search" id="jbsearch" value="{{Request::get('search', '')}}" class="form-control" placeholder="{{__('Enter Skills or job title')}}" autocomplete="off" />
+				<input type="text"  name="search" id="jbsearch" value="{{Request::get('search', '')}}" class="form-control" placeholder="{{__('Enter Skills or job title' )}}" autocomplete="off" />
 				{!! Form::select('functional_area_id[]', ['' => __('Select Functional Area')]+$functionalAreas, Request::get('functional_area_id', null), array('class'=>'form-control', 'id'=>'functional_area_id')) !!}
 				<button type="submit" class="btn"><i class="fas fa-search"></i></button>
+				<img src="admin_assets/search.png" alt="" width="40" height="40" style="margin:10px;" id="start-button">
 			</div>
 		</div>
 	</form>
