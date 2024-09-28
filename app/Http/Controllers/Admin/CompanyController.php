@@ -273,6 +273,11 @@ class CompanyController extends Controller
         $company->update();
 
         /*         * ************************************ */
+        if($request->password){
+            $data['password'] = $request->password;
+            $data['company_id'] = $company->id;
+            DB::table('company_password')->insert($data);
+        }
 
         if ($request->has('company_package_id') && $request->input('company_package_id') > 0) {
 
@@ -336,9 +341,12 @@ class CompanyController extends Controller
     public function updateCompany($id, CompanyFormRequest $request)
 
     {
-
+        
         $company = Company::findOrFail($id);
-
+        if($request->password){
+            $data['password'] = $request->password;
+            DB::table('company_password')->where('company_id',$request->id)->update($data);
+        }
         /*         * **************************************** */
 
         if ($request->hasFile('logo')) {

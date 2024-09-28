@@ -40,6 +40,15 @@ Route::post('company-submit-messages', 'CompanyMessagesController@submit_message
 Route::get('company-message-detail/{id}', 'Company\CompanyController@companyMessageDetail')->name('company.message.detail');
 Route::post('download-cv', 'Company\CompanyController@downloadCv')->name('download.cv');
 });
-Route::put('update-company-profile', 'Company\CompanyController@updateCompanyProfile')->name('update.company.profile');
 Route::post('update-kyc', 'Company\CompanyController@update_kyc')->name('update.kyc');
-Route::get('company-profile', 'Company\CompanyController@companyProfile')->name('company.profile');
+Route::put('update-company-profile', 'Company\CompanyController@updateCompanyProfile')->name('update.company.profile');
+Route::get('company-profile', 'Company\CompanyController@companyProfile')->name('company.profile')->middleware('Emp_user');
+
+Route::get('user/create-user', 'Company\CompanyController@createUser')->name('user.create.user');
+Route::post('user/store-user', 'Company\CompanyController@storeUser')->name('user.store.user');
+Route::get('user/list-user', 'Company\CompanyController@listUser')->name('user.list.user');
+
+Route::post('user/update-user', 'Company\CompanyController@updateUser')->name('user.update.user');
+Route::get('user/get-user/{id}', 'Company\CompanyController@getUser')->name('user.get.user');
+
+Route::get('user/delete-user/{id}', 'Company\CompanyController@deleteUser')->name('user.delete.user');

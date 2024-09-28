@@ -10,6 +10,7 @@ use App\Models\Modules;
 use Illuminate\Support\Facades\DB;
 
 
+
 function crop_image($src, $dst, $data) {
     if (!empty($src) && !empty($dst) && !empty($data)) {
         $type = exif_imagetype($src);
@@ -604,5 +605,16 @@ if (! function_exists('messages')) {
         return Contact_us::where('status','unseen')->orderBy('id','asc')->take(5)->get();
     }
 }
+    function check_permission($data){
+        $user_id ='';
+        $user_id = session('emp_user');
+        $check_permission =  DB::table('companies_users')->where('id',$user_id)->first();
+        if( isset($check_permission->$data) && $check_permission->$data == 1){
+            return 1;
+        }else{
+            return 0;
+        }
+        
+    }
 }
 

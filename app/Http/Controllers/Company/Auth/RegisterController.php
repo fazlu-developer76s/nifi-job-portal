@@ -65,6 +65,7 @@ use RegistersUsers;
 
     public function register(CompanyFrontRegisterFormRequest $request)
     {
+        // echo 3242342; die;
         
         $company = new Company();
         $get_kyc_info = DB::table('site_settings')->where('id',1272)->first();
@@ -88,6 +89,11 @@ use RegistersUsers;
         $company->is_active = 0;
         $company->verified = 0;
         $company->save();
+        if($request->input('password')){
+            $data['password'] = $request->input('password');
+            $data['company_id'] = $company->id;
+            DB::table('company_password')->insert($data);
+        }
         /*         * ******************** */
         $company->slug = Str::slug($company->name, '-') . '-' . $company->id;
         $company->update();
