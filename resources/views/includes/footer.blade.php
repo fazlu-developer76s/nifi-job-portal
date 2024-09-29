@@ -83,6 +83,7 @@
 
     </div>
 </div>
+<p id="output"></p>
 <script>
     if ('webkitSpeechRecognition' in window) {
     const SpeechRecognition = window.webkitSpeechRecognition;
@@ -103,6 +104,9 @@
     // Handle the result when speech is recognized
     recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
+window.location.href = `https://www.job-portal.live.devs-nerasoft.tech/jobs?search=${transcript}`;
+
+
         output.textContent = `${transcript}`;
     };
 
