@@ -15,6 +15,7 @@
                         <th>Whatsapp</th>
                         <th>Email</th>
                         <th>SMS</th>
+                        <th>System</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,6 +37,9 @@
                             <td><input type="checkbox"
                                     onclick="saveNotify(this,{{ $employe->id }},{{ $employe->type }},'sms_notify' );" {{ ($employe->sms_notify==1)?'checked':''; }}>
                             </td>
+                            <td><input type="checkbox"
+                                    onclick="saveNotify(this,{{ $employe->id }},{{ $employe->type }},'bell_notify' );" {{ ($employe->bell_notify==1)?'checked':''; }}>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -52,6 +56,7 @@
                         <th>Whatsapp</th>
                         <th>Email</th>
                         <th>SMS</th>
+                        <th>System</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,6 +78,9 @@
                           </td>
                           <td><input type="checkbox"
                                   onclick="saveNotify(this,{{ $candidate->id }},{{ $candidate->type }},'sms_notify' );" {{ ($candidate->sms_notify==1)?'checked':''; }}>
+                          </td>
+                          <td><input type="checkbox"
+                                  onclick="saveNotify(this,{{ $candidate->id }},{{ $candidate->type }},'bell_notify' );" {{ ($candidate->bell_notify==1)?'checked':''; }}>
                           </td>
                       </tr>
                     @endforeach

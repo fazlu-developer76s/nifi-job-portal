@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Job;
 
 use Auth;
 use DB;
+use Mail;
 use Input;
 use Redirect;
+use App\Mail\ContactUs;
 use Carbon\Carbon;
 use App\Job;
 use App\JobApply;
@@ -412,8 +414,9 @@ class JobController extends Controller
         $data['company_slug'] = $get_company_info->slug;
         $data['user_id'] = Auth::user()->id;
         $data_save = FavouriteCompany::create($data);
+
         
-        // Favourite Company 
+    
 
         $jobApply = new JobApply();
         $jobApply->user_id = $user_id;
@@ -424,7 +427,9 @@ class JobController extends Controller
         $jobApply->salary_currency = $request->post('salary_currency');
         $jobApply->comment = $request->post('comment');
         $jobApply->save();
-
+        // notification code
+        sendnotification(2,'Job Apply',$user_id,$job->id);
+        // notification code
         /*         * ******************************* */
         if ((bool) config('jobseeker.is_jobseeker_package_active')) {
             $user->availed_jobs_quota = $user->availed_jobs_quota + 1;
@@ -440,6 +445,8 @@ class JobController extends Controller
         );
         $track_job = DB::table('job_track')->insert($job_track_array);
         // tracking code 
+
+
         flash(__('You have successfully applied for this job'))->success();
         return \Redirect::route('job.detail', $job_slug);
     }

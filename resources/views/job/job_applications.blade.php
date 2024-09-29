@@ -75,8 +75,9 @@
 
                                         <div class="d-flex justify-content-end jobskrbtnact">
                                             <a class="me-auto profbtn"
-                                                href="{{ route('applicant.profile', $job_application->id) }}"
-                                                target="_blank">{{ __('View Profile') }}</a>
+                                            href="{{ route('applicant.profile', $job_application->id) }}?{{ http_build_query(['job_id' => $job_application->id]) }}"
+                                            target="_blank">{{ __('View Profile') }}</a>
+                                         
                                             {{-- <button class="move-btn backward" onclick="moveTask(this, 'backward')"><i
                                                     class="fas fa-reply"></i></button>
                                             <button class="move-btn forward ms-1" onclick="moveTask(this, 'forward')"><i

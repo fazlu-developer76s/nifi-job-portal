@@ -394,6 +394,9 @@ class CompanyController extends Controller
     }
     public function applicantProfile($application_id)
     {
+        
+        
+
         $job_application = JobApply::findOrFail($application_id);
         $user = $job_application->getUser();
         $job = $job_application->getJob();
@@ -405,6 +408,22 @@ class CompanyController extends Controller
         $user->update();
         $is_applicant = 'yes';
         /*         * ********************************************** */
+        
+        $prev_job_track = DB::table('job_track')->where('job_apply_id', $_GET['job_id'])->where('status', 'view')->first();
+        if ($prev_job_track) {
+            // tracking code 
+            $job_track_array = array(
+                'job_apply_id' => $_GET['job_id'],
+                'status' => "view"
+            );
+            $track_job = DB::table('job_track')->insert($job_track_array);
+            // tracking code 
+            // notification code
+            $status="view";
+            sendnotification(2,'Job Track Status',$user->id,$job->id,$status);
+            // notification code
+        }
+
         return view('user.applicant_profile')
             ->with('job_application', $job_application)
             ->with('user', $user)
@@ -556,6 +575,9 @@ class CompanyController extends Controller
     }
     public function unlock($user_id)
     {
+            
+    
+        
         $cvsSearch = Auth::guard('company')->user();
         //dd($cvsSearch);
         if ($cvsSearch->cvs_package_id && $cvsSearch->cvs_package_end_date >= date('Y-m-d') && ($cvsSearch->cvs_quota - $cvsSearch->availed_cvs_quota) > 0) {
@@ -568,16 +590,7 @@ class CompanyController extends Controller
                 $cvsSearch->availed_cvs_ids  = $newString;
                 $cvsSearch->availed_cvs_quota += 1;
                 $cvsSearch->update();
-                $prev_job_track = DB::table('job_track')->where('job_apply_id', $_GET['job_id'])->where('status', 'view')->first();
-                if (!$prev_job_track) {
-                    // tracking code 
-                    $job_track_array = array(
-                        'job_apply_id' => $_GET['job_id'],
-                        'status' => "view"
-                    );
-                    $track_job = DB::table('job_track')->insert($job_track_array);
-                    // tracking code 
-                }
+            
                 $unlock = Unlocked_users::where('company_id', Auth::guard('company')->user()->id)->first();
                 if (null !== ($unlock)) {
                     $unlock->unlocked_users_ids  = $newString;

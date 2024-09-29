@@ -5,7 +5,7 @@ namespace App\Mail;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class JobAppliedJobSeekerMailable extends Mailable
+class JobTrack extends Mailable
 {
 
     use SerializesModels;
@@ -18,11 +18,12 @@ class JobAppliedJobSeekerMailable extends Mailable
      *
      * @return void
      */
-    public function __construct($job, $jobApply,$company)
+    public function __construct($job, $jobApply,$company,$status)
     {
         $this->job = $job;
         $this->jobApply = $jobApply;
         $this->company = $company;
+        $this->status = $status;
     }
 
     /**
@@ -35,6 +36,7 @@ class JobAppliedJobSeekerMailable extends Mailable
     
     $company = $this->company;
     $user = $this->jobApply;
+    $job_status = $this->status;
     
 
     $recipientAddress = config('mail.recieve_to.address');
@@ -46,14 +48,15 @@ class JobAppliedJobSeekerMailable extends Mailable
     ])
     ->replyTo($recipientAddress, $recipientName)
     ->to($user->email, $user->name)
-    ->subject($user->name . ' you have applied for the job "' . $this->job->title)
-    ->view('emails.job_applied_job_seeker_message')
+    ->subject($user->name . ' your Job Status "' . $this->job->title)
+    ->view('emails.job_track')
     ->with([
         'job_title' => $this->job->title,
         'company_name' => $company->name,
         'user_name' => $user->name,
+        'job_status' => $job_status,
         'company_link' => route('company.detail', $company->slug),
-        'job_link' => route('job.detail', [$this->job->slug])
+        'job_link' => route('job.detail', [$this->job->slug]),
     ]);
     
 }

@@ -1,5 +1,6 @@
 <?php
 
+// use Mail;
 use App\User;
 use App\Models\Menu;
 use App\Models\Widgets;
@@ -8,28 +9,31 @@ use App\Models\ModulesData;
 use App\Models\Contact_us;
 use App\Models\Modules;
 use Illuminate\Support\Facades\DB;
+use App\Mail\JobAppliedJobSeekerMailable;
+use App\Mail\JobTrack;
 
 
 
-function crop_image($src, $dst, $data) {
+function crop_image($src, $dst, $data)
+{
     if (!empty($src) && !empty($dst) && !empty($data)) {
         $type = exif_imagetype($src);
         switch ($type) {
-          case IMAGETYPE_GIF:
-            $src_img = imagecreatefromgif($src);
-            break;
+            case IMAGETYPE_GIF:
+                $src_img = imagecreatefromgif($src);
+                break;
 
-          case IMAGETYPE_JPEG:
-            $src_img = imagecreatefromjpeg($src);
-            break;
+            case IMAGETYPE_JPEG:
+                $src_img = imagecreatefromjpeg($src);
+                break;
 
-          case IMAGETYPE_PNG:
-            $src_img = imagecreatefrompng($src);
-            break;
+            case IMAGETYPE_PNG:
+                $src_img = imagecreatefrompng($src);
+                break;
         }
 
         if (!$src_img) {
-            $this -> msg = "Failed to read the image file";
+            $this->msg = "Failed to read the image file";
             return;
         }
 
@@ -45,7 +49,7 @@ function crop_image($src, $dst, $data) {
         // Rotate the source image
         if (is_numeric($degrees) && $degrees != 0) {
             // PHP's degrees is opposite to CSS's degrees
-            $new_img = imagerotate( $src_img, -$degrees, imagecolorallocatealpha($src_img, 0, 0, 0, 127) );
+            $new_img = imagerotate($src_img, -$degrees, imagecolorallocatealpha($src_img, 0, 0, 0, 127));
 
             imagedestroy($src_img);
             $src_img = $new_img;
@@ -108,35 +112,36 @@ function crop_image($src, $dst, $data) {
 
         if ($result) {
             if (!imagepng($dst_img, $dst)) {
-                $this -> msg = "Failed to save the cropped image file";
+                $this->msg = "Failed to save the cropped image file";
             }
         } else {
-            $this -> msg = "Failed to crop the image file";
+            $this->msg = "Failed to crop the image file";
         }
 
         imagedestroy($src_img);
         imagedestroy($dst_img);
     }
-  }
-  function crop_coupon_image($src, $dst, $data) {
+}
+function crop_coupon_image($src, $dst, $data)
+{
     if (!empty($src) && !empty($dst) && !empty($data)) {
         $type = exif_imagetype($src);
         switch ($type) {
-          case IMAGETYPE_GIF:
-            $src_img = imagecreatefromgif($src);
-            break;
+            case IMAGETYPE_GIF:
+                $src_img = imagecreatefromgif($src);
+                break;
 
-          case IMAGETYPE_JPEG:
-            $src_img = imagecreatefromjpeg($src);
-            break;
+            case IMAGETYPE_JPEG:
+                $src_img = imagecreatefromjpeg($src);
+                break;
 
-          case IMAGETYPE_PNG:
-            $src_img = imagecreatefrompng($src);
-            break;
+            case IMAGETYPE_PNG:
+                $src_img = imagecreatefrompng($src);
+                break;
         }
 
         if (!$src_img) {
-            $this -> msg = "Failed to read the image file";
+            $this->msg = "Failed to read the image file";
             return;
         }
 
@@ -152,7 +157,7 @@ function crop_image($src, $dst, $data) {
         // Rotate the source image
         if (is_numeric($degrees) && $degrees != 0) {
             // PHP's degrees is opposite to CSS's degrees
-            $new_img = imagerotate( $src_img, -$degrees, imagecolorallocatealpha($src_img, 0, 0, 0, 127) );
+            $new_img = imagerotate($src_img, -$degrees, imagecolorallocatealpha($src_img, 0, 0, 0, 127));
 
             imagedestroy($src_img);
             $src_img = $new_img;
@@ -215,25 +220,31 @@ function crop_image($src, $dst, $data) {
 
         if ($result) {
             if (!imagepng($dst_img, $dst)) {
-                $this -> msg = "Failed to save the cropped image file";
+                $this->msg = "Failed to save the cropped image file";
             }
         } else {
-            $this -> msg = "Failed to crop the image file";
+            $this->msg = "Failed to crop the image file";
         }
 
         imagedestroy($src_img);
         imagedestroy($dst_img);
     }
-  }
+}
 
 
-function displayImage($dir,$file){
-        $parentparentdir=dirname(dirname(dirname(dirname(__FILE__))));
-        
-        if($file==''){ return $dir.'no_image.jpg';}
-        if(file_exists($parentparentdir. DIRECTORY_SEPARATOR.'user-picture/home/'.$file)){return $dir.$file;}else{return $dir.'no_image.jpg';}
-        
+function displayImage($dir, $file)
+{
+    $parentparentdir = dirname(dirname(dirname(dirname(__FILE__))));
+
+    if ($file == '') {
+        return $dir . 'no_image.jpg';
     }
+    if (file_exists($parentparentdir . DIRECTORY_SEPARATOR . 'user-picture/home/' . $file)) {
+        return $dir . $file;
+    } else {
+        return $dir . 'no_image.jpg';
+    }
+}
 
 
 if (! function_exists('widget')) {
@@ -249,7 +260,7 @@ if (! function_exists('widget')) {
         $array = $widget->widget_data;
         return $array;
     }
-} 
+}
 
 if (! function_exists('dataArray')) {
     /**
@@ -260,10 +271,10 @@ if (! function_exists('dataArray')) {
      */
     function dataArray($id)
     {
-        $array = ModulesData::select('title', 'id')->where('module_id',$id)->where('status','active')->pluck('title', 'id')->toArray();
+        $array = ModulesData::select('title', 'id')->where('module_id', $id)->where('status', 'active')->pluck('title', 'id')->toArray();
         return $array;
     }
-} 
+}
 
 if (! function_exists('widgetPage')) {
     /**
@@ -278,7 +289,7 @@ if (! function_exists('widgetPage')) {
         $array = $widget->page;
         return $array;
     }
-}  
+}
 if (! function_exists('dropdown')) {
     /**
      * Assign high numeric IDs to a config item to force appending.
@@ -288,10 +299,10 @@ if (! function_exists('dropdown')) {
      */
     function dropdown($id)
     {
-        $array = ModulesData::select('title', 'id')->where('module_id',$id)->where('status','active')->pluck('title', 'id')->toArray();
+        $array = ModulesData::select('title', 'id')->where('module_id', $id)->where('status', 'active')->pluck('title', 'id')->toArray();
         return $array;
     }
-} 
+}
 if (! function_exists('module')) {
     /**
      * Assign high numeric IDs to a config item to force appending.
@@ -299,17 +310,17 @@ if (! function_exists('module')) {
      * @param  array  $array
      * @return array
      */
-    function module($id,$paginate='')
+    function module($id, $paginate = '')
     {
-      if($paginate !== ''){
-        $array = ModulesData::where('module_id',$id)->where('status','active')->paginate($paginate);
-      }else{
-        $array = ModulesData::where('module_id',$id)->where('status','active')->get();
-      }
-        
+        if ($paginate !== '') {
+            $array = ModulesData::where('module_id', $id)->where('status', 'active')->paginate($paginate);
+        } else {
+            $array = ModulesData::where('module_id', $id)->where('status', 'active')->get();
+        }
+
         return $array;
     }
-}   
+}
 
 if (! function_exists('moduleSlug')) {
     /**
@@ -320,11 +331,11 @@ if (! function_exists('moduleSlug')) {
      */
     function moduleSlug($id)
     {
-      	$array = Modules::findorFail($id);
-        
+        $array = Modules::findorFail($id);
+
         return $array;
     }
-}   
+}
 
 
 if (! function_exists('setting')) {
@@ -339,7 +350,7 @@ if (! function_exists('setting')) {
         $array = DB::table('settings')->first();
         return $array;
     }
-}   
+}
 
 
 if (! function_exists('services')) {
@@ -351,10 +362,10 @@ if (! function_exists('services')) {
      */
     function services()
     {
-        $array = Modules_data::where('modules_id', 2)->where('status','active')->take(8)->get();
+        $array = Modules_data::where('modules_id', 2)->where('status', 'active')->take(8)->get();
         return $array;
     }
-}   
+}
 
 if (! function_exists('unique_slug')) {
     /**
@@ -363,26 +374,25 @@ if (! function_exists('unique_slug')) {
      * @param  array  $array
      * @return array
      */
-    function unique_slug($string,$table,$field='slug',$key=NULL,$value=NULL)
+    function unique_slug($string, $table, $field = 'slug', $key = NULL, $value = NULL)
     {
-            $slug = url_title($string);
-            $slug = strtolower($slug);
-            $i = 0;
-            $params = array ();
+        $slug = url_title($string);
+        $slug = strtolower($slug);
+        $i = 0;
+        $params = array();
+        $params[$field] = $slug;
+
+        if ($key) $params["$key !="] = $value;
+
+        while (DB::table($table)->where('slug', $params)->first()) {
+            if (!preg_match('/-{1}[0-9]+$/', $slug))
+                $slug .= '-' . ++$i;
+            else
+                $slug = preg_replace('/[0-9]+$/', ++$i, $slug);
+
             $params[$field] = $slug;
-
-            if($key)$params["$key !="] = $value;
-
-            while (DB::table($table)->where('slug',$params)->first())
-            {  
-                if (!preg_match ('/-{1}[0-9]+$/', $slug ))
-                    $slug .= '-' . ++$i;
-                else
-                    $slug = preg_replace ('/[0-9]+$/', ++$i, $slug );
-
-                $params[$field] = $slug;
-            }  
-            return $slug;  
+        }
+        return $slug;
     }
 }
 if (! function_exists('title')) {
@@ -394,16 +404,16 @@ if (! function_exists('title')) {
      */
     function title($id)
     {
-        $array = ModulesData::select('title')->where('id',$id)->where('status','active')->first();
+        $array = ModulesData::select('title')->where('id', $id)->where('status', 'active')->first();
         //dd($array);
         $title = null;
-        if(null!==($array)){
-          $title = $array->title;
+        if (null !== ($array)) {
+            $title = $array->title;
         }
-        
+
         return $title;
     }
-}  
+}
 
 if (! function_exists('url_title')) {
     /**
@@ -414,12 +424,9 @@ if (! function_exists('url_title')) {
      */
     function url_title($str, $separator = '-', $lowercase = FALSE)
     {
-            if ($separator === 'dash')
-        {
+        if ($separator === 'dash') {
             $separator = '-';
-        }
-        elseif ($separator === 'underscore')
-        {
+        } elseif ($separator === 'underscore') {
             $separator = '_';
         }
 
@@ -429,23 +436,21 @@ if (! function_exists('url_title')) {
             '&.+?;'         => '',
             '[^a-z0-9 _-]'      => '',
             '\s+'           => $separator,
-            '('.$q_separator.')+'   => $separator
+            '(' . $q_separator . ')+'   => $separator
         );
 
         $str = strip_tags($str);
-        foreach ($trans as $key => $val)
-        {
-            $str = preg_replace('#'.$key.'#i', $val, $str);
+        foreach ($trans as $key => $val) {
+            $str = preg_replace('#' . $key . '#i', $val, $str);
         }
 
-        if ($lowercase === TRUE)
-        {
+        if ($lowercase === TRUE) {
             $str = strtolower($str);
         }
 
         return trim(trim($str, $separator));
     }
-} 
+}
 
 
 if (! function_exists('get_menus')) {
@@ -458,49 +463,48 @@ if (! function_exists('get_menus')) {
     function get_menus($id)
     {
         $manues = '';
-        $classli='';
-        $spancart='';
+        $classli = '';
+        $spancart = '';
         $nav_link = '';
-        if($id==1){
-          $nav_link = 'nav-link';
+        if ($id == 1) {
+            $nav_link = 'nav-link';
         }
-        $parent_menus = Menu::where('parent_id',0)->where('menu_type_id',$id)->orderBy('order', 'ASC')->get();
-        foreach($parent_menus as $menu){
-             if (is_child($menu->id) == TRUE) {
-                $classli='class="dropdown dropnav"';
-                $spancart='<i class="fas fa-caret-down"></i>';
+        $parent_menus = Menu::where('parent_id', 0)->where('menu_type_id', $id)->orderBy('order', 'ASC')->get();
+        foreach ($parent_menus as $menu) {
+            if (is_child($menu->id) == TRUE) {
+                $classli = 'class="dropdown dropnav"';
+                $spancart = '<i class="fas fa-caret-down"></i>';
+            } else {
+                $classli = 'class="nav-item"';
+                $spancart = '';
             }
-            else{
-                $classli='class="nav-item"';
-                $spancart='';
+            if ($menu->menu_is == 'internal') {
+                $menu_url = url('/') . '/' . $menu->slug;
+            } else {
+                $menu_url = $menu->slug;
             }
-            if($menu->menu_is=='internal'){
-                $menu_url=url('/').'/'.$menu->slug;
-            }else{
-                $menu_url=$menu->slug;
-            }
-          $manues.='<li '.$classli.'>';
-          $manues.='<a href="'.$menu_url.'" class="'.$nav_link.'">'.$menu->title.''.$spancart.'</a>';
-          if (is_child($menu->id) == TRUE) {
-              $manues.='<ul class="dropdown-menu">';
-              if(null!==($menu->submenus)){
-                foreach($menu->submenus as $submenu){
+            $manues .= '<li ' . $classli . '>';
+            $manues .= '<a href="' . $menu_url . '" class="' . $nav_link . '">' . $menu->title . '' . $spancart . '</a>';
+            if (is_child($menu->id) == TRUE) {
+                $manues .= '<ul class="dropdown-menu">';
+                if (null !== ($menu->submenus)) {
+                    foreach ($menu->submenus as $submenu) {
 
-                  if($submenu->menu_is=='internal'){
-                        $submenu_url=url('/').'/'.$submenu->slug;
-                    }else{
-                        $submenu_url=$submenu->slug;
+                        if ($submenu->menu_is == 'internal') {
+                            $submenu_url = url('/') . '/' . $submenu->slug;
+                        } else {
+                            $submenu_url = $submenu->slug;
+                        }
+                        $manues .= '<li>';
+                        $manues .= '<a href="' . $submenu_url . '" class="' . $nav_link . '">' . $submenu->title . '</a>';
+                        $manues .= '</li>';
                     }
-                   $manues.='<li>';
-                   $manues.='<a href="'.$submenu_url.'" class="'.$nav_link.'">'.$submenu->title.'</a>';
-                   $manues.='</li>';
                 }
-              }
-              
-              $manues.='</ul>'; 
-          }
-         $manues.='</li>';
-        }         
+
+                $manues .= '</ul>';
+            }
+            $manues .= '</li>';
+        }
 
         return $manues;
     }
@@ -517,45 +521,44 @@ if (! function_exists('get_footer_menus')) {
     function get_footer_menus()
     {
         $manues = '';
-        $classli='';
-        $spancart='';
-        $parent_menus = Menu::where('parent_id',0)->where('footer',1)->orderBy('order', 'asc')->get();
+        $classli = '';
+        $spancart = '';
+        $parent_menus = Menu::where('parent_id', 0)->where('footer', 1)->orderBy('order', 'asc')->get();
 
-        foreach($parent_menus as $menu){
-             if (is_child($menu->id) == TRUE) {
-                $classli='class="dropdown dropnav"';
-                $spancart='<i class="fas fa-caret-down"></i>';
+        foreach ($parent_menus as $menu) {
+            if (is_child($menu->id) == TRUE) {
+                $classli = 'class="dropdown dropnav"';
+                $spancart = '<i class="fas fa-caret-down"></i>';
+            } else {
+                $classli = 'class="nav-item"';
+                $spancart = '';
             }
-            else{
-                $classli='class="nav-item"';
-                $spancart='';
+            if ($menu->is_external == 'Y') {
+                $menu_url = url('/') . '/' . $menu->url;
+            } else {
+                $menu_url = $menu->url;
             }
-            if($menu->is_external=='Y'){
-                $menu_url=url('/').'/'.$menu->url;
-            }else{
-                $menu_url=$menu->url;
-            }
-          $manues.='<li>';
-          $manues.='<a href="'.$menu_url.'">'.$menu->title.''.$spancart.'</a>';
-          if (is_child($menu->id) == TRUE) {
-              $manues.='<ul class="dropdown-menu">';
-              if(null!==($menu->submenus)){
-                foreach($menu->submenus as $submenu){
-                  if($submenu->is_external=='N'){
-                        $submenu_url=url('/').'/'.$submenu->url;
-                    }else{
-                        $submenu_url=$submenu->url;
+            $manues .= '<li>';
+            $manues .= '<a href="' . $menu_url . '">' . $menu->title . '' . $spancart . '</a>';
+            if (is_child($menu->id) == TRUE) {
+                $manues .= '<ul class="dropdown-menu">';
+                if (null !== ($menu->submenus)) {
+                    foreach ($menu->submenus as $submenu) {
+                        if ($submenu->is_external == 'N') {
+                            $submenu_url = url('/') . '/' . $submenu->url;
+                        } else {
+                            $submenu_url = $submenu->url;
+                        }
+                        $manues .= '<li>';
+                        $manues .= '<a href="' . $submenu_url . '" class="nav-link">' . $submenu->title . '</a>';
+                        $manues .= '</li>';
                     }
-                   $manues.='<li>';
-                   $manues.='<a href="'.$submenu_url.'" class="nav-link">'.$submenu->title.'</a>';
-                   $manues.='</li>';
                 }
-              }
-              
-              $manues.='</ul>'; 
-          }
-         $manues.='</li>';
-        }         
+
+                $manues .= '</ul>';
+            }
+            $manues .= '</li>';
+        }
 
         return $manues;
     }
@@ -570,7 +573,7 @@ if (! function_exists('is_child')) {
      */
     function is_child($id)
     {
-        $child_menus = Menu::where('parent_id',$id)->first();
+        $child_menus = Menu::where('parent_id', $id)->first();
         if ($child_menus) {
             return TRUE;
         } else {
@@ -580,41 +583,86 @@ if (! function_exists('is_child')) {
 
 
     if (! function_exists('messages_count')) {
-    /**
-     * Assign high numeric IDs to a config item to force appending.
-     *
-     * @param  array  $array
-     * @return array
-     */
-    function messages_count()
-    {
-        return Contact_us::where('status','unseen')->count();
+        /**
+         * Assign high numeric IDs to a config item to force appending.
+         *
+         * @param  array  $array
+         * @return array
+         */
+        function messages_count()
+        {
+            return Contact_us::where('status', 'unseen')->count();
+        }
     }
-}
 
 
-if (! function_exists('messages')) {
-    /**
-     * Assign high numeric IDs to a config item to force appending.
-     *
-     * @param  array  $array
-     * @return array
-     */
-    function messages()
-    {
-        return Contact_us::where('status','unseen')->orderBy('id','asc')->take(5)->get();
+    if (! function_exists('messages')) {
+        /**
+         * Assign high numeric IDs to a config item to force appending.
+         *
+         * @param  array  $array
+         * @return array
+         */
+        function messages()
+        {
+            return Contact_us::where('status', 'unseen')->orderBy('id', 'asc')->take(5)->get();
+        }
     }
-}
-    function check_permission($data){
-        $user_id ='';
+    function check_permission($data)
+    {
+        $user_id = '';
         $user_id = session('emp_user');
-        $check_permission =  DB::table('companies_users')->where('id',$user_id)->first();
-        if( isset($check_permission->$data) && $check_permission->$data == 1){
+        $check_permission =  DB::table('companies_users')->where('id', $user_id)->first();
+        if (isset($check_permission->$data) && $check_permission->$data == 1) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
+    }
+
+    function sendnotification($type, $title, $user_id, $job_id,$status='')
+    {
+        $get_notification = DB::table('notification_settings')->where('type', $type)->where('title', $title)->first();
+
+        if ($get_notification->title == "Job Apply") {
+            sendJobApplyNotification($get_notification, $user_id, $job_id);
+        }
+
+        if ($get_notification->title == "Job Track Status") {
+            JobtrackNotification($get_notification, $user_id, $job_id,$status);
+        }
+    }
+
+    function sendJobApplyNotification($get_notification, $user_id, $job_id)
+    {
+        if ($get_notification->email_notify == 1) {
+            $job = DB::table('jobs')->where('id', $job_id)->first();
+            $candidate = DB::table('users')->where('id', $user_id)->first();
+            $company = DB::table('companies')->where('id', $job->company_id)->first();
+            $sentMessage =  Mail::send(new JobAppliedJobSeekerMailable($job, $candidate, $company));
+        }
+        if($get_notification->bell_notify==1){
+            $title = "".$candidate->name." you have applied for the job ".$job->title."";
+            insertBellNotification($user_id,$get_notification->type,$title);
+        }
+    }
+
+    function JobtrackNotification($get_notification, $user_id, $job_id,$status)
+    {
         
+        if ($get_notification->email_notify == 1) {
+            $job = DB::table('jobs')->where('id', $job_id)->first();
+            $candidate = DB::table('users')->where('id', $user_id)->first();
+            $company = DB::table('companies')->where('id', $user_id)->first();
+            $sentMessage =  Mail::send(new JobTrack($job, $candidate, $company,$status));
+        }
+        if($get_notification->bell_notify==1){
+            $title = "".$candidate->name." Your Application View Job Title - ".$job->title." Company Name : ".$company->name."";
+            insertBellNotification($user_id,$get_notification->type,$title);
+        }
+    }
+
+    function insertBellNotification($user_id,$type,$title){
+     DB::table('bell_notification')->insert(['user_id'=>$user_id,'type'=>$type,'title'=>$title]);
     }
 }
-
