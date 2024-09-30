@@ -21,24 +21,20 @@
                                         style="font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:22px;font-weight:400;color:#333;padding-bottom:30px; text-align: left;">
                                         <p>You have applied for a job posted by "{{ $company_name }}"</p>
 
-                                        @if ($job_status === 'applied')
-                                            <p>Your application has been received. Please use the following link to view
-                                                your application:</p>
-                                        @elseif($job_status === 'shortlisted')
+                                        @IF($job_status === 'shortlist')
                                             <p>Congratulations! You have been shortlisted for the next round. View your
                                                 application details here:</p>
-                                        @elseif($job_status === 'scheduled')
-                                            <p>Your interview has been scheduled. Please check your interview details here:
-                                            </p>
                                         @elseif($job_status === 'hired')
                                             <p>Congratulations! You have been hired. Please view the details of your job
                                                 offer here:</p>
                                         @elseif($job_status === 'view')
                                             <p>View Your Profile:</p>
                                             <p>Please review your job application details here:</p>
-                                        @elseif($job_status === 'interview_scheduled')
+                                        @elseif($job_status === 'interview')
                                             <p>Your interview has been scheduled. Please view the details and confirm your
                                                 availability here:</p>
+                                                @elseif($job_status === 'rejected')
+                                        <p>We regret to inform you that your application has been rejected. Thank you for your interest in the position.</p>
                                         @else
                                             <p>Here are the details of your job application:</p>
                                         @endif

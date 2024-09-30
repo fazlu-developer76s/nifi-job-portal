@@ -71,6 +71,10 @@ class SeekerSendController extends Controller
 
     function submit_message(Request $request)
     {
+       
+        $get_permission = 1;
+        $CheckPermission = sendnotification(1,"New chat Message",null,null,null,$get_permission);
+       
         $this->validate($request, [
             'message' => 'required',
         ], [
@@ -86,8 +90,9 @@ class SeekerSendController extends Controller
         $data['name'] = $company->name;
         $data['email'] = $company->email;
         $data['seeker_name'] = $user->name;
-
-        //Mail::send(new MessageSendMail($data));
+        if($CheckPermission->email_notify == 1){
+            Mail::send(new MessageSendMail($data));
+        }
 
         if ($message->save() == true) {
             $arr = array('msg' => 'Your message have successfully been posted. ', 'status' => true);

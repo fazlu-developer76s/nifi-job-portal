@@ -10,7 +10,10 @@ use App\Models\Contact_us;
 use App\Models\Modules;
 use Illuminate\Support\Facades\DB;
 use App\Mail\JobAppliedJobSeekerMailable;
+use App\Mail\JobAppliedEmp;
 use App\Mail\JobTrack;
+use App\Mail\FavJob;
+use App\Mail\FavCompany;
 
 
 
@@ -620,10 +623,12 @@ if (! function_exists('is_child')) {
         }
     }
 
-    function sendnotification($type, $title, $user_id, $job_id,$status='')
+    function sendnotification($type, $title, $user_id, $job_id,$status='',$get_permission='')
     {
         $get_notification = DB::table('notification_settings')->where('type', $type)->where('title', $title)->first();
-
+        if($get_permission == 1){
+            return $get_notification;
+        }
         if ($get_notification->title == "Job Apply") {
             sendJobApplyNotification($get_notification, $user_id, $job_id);
         }
@@ -631,6 +636,20 @@ if (! function_exists('is_child')) {
         if ($get_notification->title == "Job Track Status") {
             JobtrackNotification($get_notification, $user_id, $job_id,$status);
         }
+
+        if($get_notification->title == "Fav Job Added"){
+            FavJobNotification($get_notification, $user_id, $job_id);
+        }
+
+        if($get_notification->title == "Fav Company Add"){
+            FavCompanyNotification($get_notification, $user_id, $job_id);
+        }
+
+        // company notification  
+        if($get_notification->title == "Job Apply Seeker"){
+            sendJobApplyNotificationEmp($get_notification, $user_id, $job_id);
+        }
+        
     }
 
     function sendJobApplyNotification($get_notification, $user_id, $job_id)
@@ -653,14 +672,57 @@ if (! function_exists('is_child')) {
         if ($get_notification->email_notify == 1) {
             $job = DB::table('jobs')->where('id', $job_id)->first();
             $candidate = DB::table('users')->where('id', $user_id)->first();
-            $company = DB::table('companies')->where('id', $user_id)->first();
+            $company = DB::table('companies')->where('id', $job->company_id)->first();
             $sentMessage =  Mail::send(new JobTrack($job, $candidate, $company,$status));
         }
         if($get_notification->bell_notify==1){
-            $title = "".$candidate->name." Your Application View Job Title - ".$job->title." Company Name : ".$company->name."";
+            $title = "".$candidate->name." Your Application ".ucwords($status)." Job Title - ".$job->title." Company Name : ".$company->name."";
             insertBellNotification($user_id,$get_notification->type,$title);
         }
     }
+    function FavJobNotification($get_notification, $user_id, $job_id,){
+      
+        if ($get_notification->email_notify == 1) {
+            $job = DB::table('jobs')->where('id', $job_id)->first();
+            $candidate = DB::table('users')->where('id', $user_id)->first();
+            $company = DB::table('companies')->where('id', $job->company_id)->first();
+            $sentMessage =  Mail::send(new FavJob($job, $candidate, $company));
+        }
+        if($get_notification->bell_notify==1){
+            $title = "".$candidate->name." Add Fav  Job Title - ".$job->title." Company Name : ".$company->name."";
+            insertBellNotification($user_id,$get_notification->type,$title);
+        }
+    }
+    function FavCompanyNotification($get_notification, $user_id, $company_slug){
+        if ($get_notification->email_notify == 1) { 
+            
+            $candidate = DB::table('users')->where('id', $user_id)->first();
+            $company = DB::table('companies')->where('slug', $company_slug)->first();
+            $sentMessage =  Mail::send(new FavCompany($candidate, $company));
+        }
+        if($get_notification->bell_notify==1){
+            $title = "".$candidate->name." Add Fav Company - ".$company->name."";
+            insertBellNotification($user_id,$get_notification->type,$title);
+        }
+    }
+
+    // company notification  
+
+    function sendJobApplyNotificationEmp($get_notification, $user_id, $job_id)
+    {
+   
+        if ($get_notification->email_notify == 1) {
+            $job = DB::table('jobs')->where('id', $job_id)->first();
+            $candidate = DB::table('users')->where('id', $user_id)->first();
+            $company = DB::table('companies')->where('id', $job->company_id)->first();
+            $sentMessage =  Mail::send(new JobAppliedEmp($job, $candidate, $company));
+        }
+        if($get_notification->bell_notify==1){
+            $title = "".$company->name."  applied  job ".$candidate->name . " Job Title : ".$job->title."";
+            insertBellNotification($user_id,$get_notification->type,$title);
+        }
+    }
+    
 
     function insertBellNotification($user_id,$type,$title){
      DB::table('bell_notification')->insert(['user_id'=>$user_id,'type'=>$type,'title'=>$title]);

@@ -340,7 +340,10 @@ class JobController extends Controller
     public function addToFavouriteJob(Request $request, $job_slug)
     {
         
+
         $job = Job::where('slug', 'like', $job_slug)->first();
+        $user_id = Auth::user()->id;
+        sendnotification(2,'Fav Job Added',$user_id,$job->id);
         // Favourite Company 
         $get_company_info = DB::table('companies')->where('id',$job->company_id)->first();
         $data['company_slug'] = $get_company_info->slug;
@@ -429,6 +432,7 @@ class JobController extends Controller
         $jobApply->save();
         // notification code
         sendnotification(2,'Job Apply',$user_id,$job->id);
+        sendnotification(1,'Job Apply Seeker',$user_id,$job->id);
         // notification code
         /*         * ******************************* */
         if ((bool) config('jobseeker.is_jobseeker_package_active')) {

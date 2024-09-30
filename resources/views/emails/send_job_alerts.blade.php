@@ -18,7 +18,7 @@
 		<?php $company = $job->getCompany(); ?> 
 		<?php if(isset($company)){?>
 			<div style="border-top: 1px solid #ddd; padding-top: 15px; margin-top: 15px;">
-			<a href="{{route('job.detail', [$job->id,$job->slug])}}" target="_blank" data-saferedirecturl="https://www.google.com/url?q={{route('job.detail', [$job->id,$job->slug])}}" style="font-family:Helvetica, Arial, sans-serif; color: #0036CA; display: inline-block;">{{$job->title}}</a>
+			<a href="{{route('job.detail', [$job->slug])}}" target="_blank" data-saferedirecturl="https://www.google.com/url?q={{route('job.detail', [$job->id,$job->slug])}}" style="font-family:Helvetica, Arial, sans-serif; color: #0036CA; display: inline-block;">{{$job->title}}</a>
 			
 			<p style="font-family: Helvetica, Arial, sans-serif; font-size: 16px;font-weight:400;color: #000;text-align: left; margin:15px 0 0 0;">{{$company->name}}</p>
 				

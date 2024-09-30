@@ -274,7 +274,7 @@ Route::get('cronjob/set-count-company', 'Job8Controller@set_count_company')->nam
 
 Route::get('cronjob/remove-duplicate-companies', 'Job8Controller@remove_duplicates')->name('remove-duplicate-companies');
 
-Route::get('cronjob/recover-companies', 'Job8Controller@recover_companies')->name('recover-companies');
+Route::get('recover-companies', 'Job8Controller@recover_companies')->name('recover-companies');
 
 Route::get('cronjob/recover-jobs', 'Job8Controller@recover_jobs')->name('recover-jobs');
 

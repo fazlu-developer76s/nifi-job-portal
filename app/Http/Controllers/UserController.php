@@ -191,6 +191,8 @@ class UserController extends Controller
 
     public function addToFavouriteCompany(Request $request, $company_slug)
     {
+        $user_id = Auth::user()->id;
+        sendnotification(2,'Fav Company Add',$user_id,$company_slug);
         $data['company_slug'] = $company_slug;
         $data['user_id'] = Auth::user()->id;
         $data_save = FavouriteCompany::create($data);
