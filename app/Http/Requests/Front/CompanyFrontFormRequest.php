@@ -44,7 +44,7 @@ class CompanyFrontFormRequest extends Request
                         "website" => "required|url|max:150",
                         "no_of_employees" => "required|max:15",
                         "established_in" => "required|max:12",
-                        "fax" => "required|max:30",
+                        // "fax" => "required|max:30",
                         "phone" => "required|max:30",
                         "logo" => 'image',
                         "country_id" => "required",

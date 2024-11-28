@@ -79,7 +79,7 @@ if (!isset($seo)) {
         <![endif]-->
 
     @stack('styles')
-
+        
 
 
     {!! $siteSetting->ganalytics !!}

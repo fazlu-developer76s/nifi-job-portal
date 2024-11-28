@@ -109,11 +109,12 @@
                 {{-- @if (null !== $profileCv)<a href="{{asset('cvs/'.$profileCv->cv_file)}}"  onclick="DownloadCv($job_application->id);" class="btn"><i class="fa fa-download" aria-hidden="true" ></i> {{__('Download CV')}}</a>@endif --}}
                 @if (null !== $profileCv)
                     <a href="#"
-                        onclick="event.preventDefault(); downloadCv({{ $job_application->id }}, '{{ asset('cvs/' . $profileCv->cv_file) }}');"
+                        onclick="event.preventDefault(); downloadCv({{ (!empty($job_application->id))?$job_application->id:''; }}, '{{ asset('cvs/' . $profileCv->cv_file) }}');"
                         class="btn">
                         <i class="fa fa-download" aria-hidden="true"></i> {{ __('Download CV') }}
                     </a>
                 @endif
+
 
 
                 @if (auth()->check() && auth()->user()->id != $user->id)

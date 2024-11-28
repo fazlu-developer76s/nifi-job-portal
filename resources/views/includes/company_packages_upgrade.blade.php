@@ -9,7 +9,7 @@
         <h3>{{__('Upgrade Package')}}</h3>
 
         <div class="row"> @foreach($packages as $package)
-
+            @if($loop->iteration==1)
             <div class="col-md-4 col-sm-6 col-xs-12">
 
                 <ul class="boxes">
@@ -62,7 +62,8 @@
 		   <li class="order payu"><a href="{{route('payu.order.package', ['package_id='.$package->id, 'type=upgrade'])}}">{{__('PayU')}}</a></li>
 		@endif
 		@if((bool)$siteSetting->is_nifi_payment_active)
-		   <li class="order payu"><a href="{{route('payu.order.package', ['package_id='.$package->id, 'type=upgrade'])}}">{{__('Nifi Payment')}}</a></li>
+		   <!--<li class="order payu"><a href="{{route('payu.order.package', ['package_id='.$package->id, 'type=upgrade'])}}">{{__('Nifi Payment')}}</a></li>-->
+		   <li class="order paypal"><a href="{{route('order.free.package', $package->id)}}"> {{__('Subscribe Free Package')}}</a></li>
 		@endif
 		</ul>
 		</div>
@@ -73,7 +74,7 @@
 				
 
             </div>
-
+                @endif
             @endforeach </div>
 
     </div>

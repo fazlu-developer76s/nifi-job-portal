@@ -264,7 +264,7 @@
             {!! APFrmErrHelp::showErrors($errors, 'established_in') !!}
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="formrow {!! APFrmErrHelp::hasError($errors, 'website') !!}">
             <label>{{__('Website URL')}}</label>
             {!! Form::text('website', null, array('class'=>'form-control', 'id'=>'website', 'placeholder'=>__('Website'))) !!}
@@ -273,14 +273,14 @@
     </div>
 
 
-    <div class="col-md-4">
+    <div class="col-md-4 d-none">
         <div class="formrow {!! APFrmErrHelp::hasError($errors, 'fax') !!}">
             <label>{{__('Fax')}}</label>
             {!! Form::text('fax', null, array('class'=>'form-control', 'id'=>'fax', 'placeholder'=>__('Fax'))) !!}
             {!! APFrmErrHelp::showErrors($errors, 'fax') !!}
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="formrow {!! APFrmErrHelp::hasError($errors, 'phone') !!}">
             <label>{{__('Phone')}}</label>
             {!! Form::text('phone', null, array('class'=>'form-control', 'id'=>'phone', 'placeholder'=>__('Phone'))) !!}

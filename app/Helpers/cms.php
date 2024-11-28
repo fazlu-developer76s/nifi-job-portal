@@ -625,11 +625,14 @@ if (! function_exists('is_child')) {
 
     function sendnotification($type, $title, $user_id, $job_id,$status='',$get_permission='')
     {
+       
         $get_notification = DB::table('notification_settings')->where('type', $type)->where('title', $title)->first();
+       
         if($get_permission == 1){
             return $get_notification;
         }
         if ($get_notification->title == "Job Apply") {
+
             sendJobApplyNotification($get_notification, $user_id, $job_id);
         }
 

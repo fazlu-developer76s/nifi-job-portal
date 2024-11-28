@@ -539,7 +539,6 @@ trait JobTrait
     public function storeFrontJob(JobFrontFormRequest $request)
 
     {
-
         $company = Auth::guard('company')->user();
 
 
@@ -549,7 +548,7 @@ trait JobTrait
         $job->company_id = $company->id;
 
         $job = $this->assignJobValues($job, $request);
-
+    
         $job->save();
 
         /*         * ******************************* */
@@ -563,15 +562,14 @@ trait JobTrait
         /*         * ************************************ */
 
         /*         * ************************************ */
-
+ 
         $this->storeJobSkills($request, $job->id);
-
+  
         /*         * ************************************ */
 
         $this->updateFullTextSearch($job);
 
         /*         * ************************************ */
-
 
 
         /*         * ******************************* */
@@ -582,14 +580,11 @@ trait JobTrait
 
         /*         * ******************************* */
 
-
-
-        event(new JobPosted($job));
-
+        // event(new JobPosted($job));
+     
         flash('Job has been added!')->success();
-
         return \Redirect::route('edit.front.job', array($job->id));
-
+        
     }
 
 

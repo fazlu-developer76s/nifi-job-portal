@@ -32,7 +32,7 @@ $direction = MiscHelper::getLangDirection($lang);
                         <ul class="nav nav-tabs">              
                             <li class="active"> <a href="#site" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Site </a> </li>              
                             <li class=""> <a href="#email" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Email </a> </li>
-                            <li class=""> <a href="#Setting_sms" data-toggle="tab" onclick="hideUpdateButton('1');" aria-expanded="false"> SMS Setting </a> </li>
+                            {{-- <li class=""> <a href="#Setting_sms" data-toggle="tab" onclick="hideUpdateButton('1');" aria-expanded="false"> SMS Setting </a> </li> --}}
                             <li class=""> <a href="#Whatsap_setting" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Whatsapp Setting </a> </li>
                             <li class=""> <a href="#social" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Social Networks </a> </li>
                             <li class=""> <a href="#ads" data-toggle="tab" onclick="hideUpdateButton('0');" aria-expanded="false"> Manage Ads </a> </li>
@@ -53,7 +53,7 @@ $direction = MiscHelper::getLangDirection($lang);
                         <div class="tab-content">              
                             <div class="tab-pane fade active in" id="site"> @include('admin.site_setting.forms.form') </div>
                             <div class="tab-pane fade" id="email"> @include('admin.site_setting.forms.siteEmailSetting_form') </div>
-                            <div class="tab-pane fade" id="Setting_sms"> @include('admin.site_setting.forms.setting_sms') </div>
+                            {{-- <div class="tab-pane fade" id="Setting_sms"> @include('admin.site_setting.forms.setting_sms') </div> --}}
                             <div class="tab-pane fade" id="Whatsap_setting"> @include('admin.site_setting.forms.whatsap_setting') </div>
                             <div class="tab-pane fade" id="social"> @include('admin.site_setting.forms.siteSocialSetting_form') </div>
                             <div class="tab-pane fade" id="ads"> @include('admin.site_setting.forms.siteAds_form') </div>
@@ -74,7 +74,6 @@ $direction = MiscHelper::getLangDirection($lang);
                         <div class="form-actions" >
                             {!! Form::button('Update <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>', array('class'=>'btn btn-large btn-primary hide_update_button ', 'type'=>'submit')) !!}
                         </div>
-                        
                         {!! Form::close() !!}
                     </div>
                 </div>

@@ -10,7 +10,7 @@
         @endif
 
         @if(check_permission('public_profile_per') == 1 || empty(session('emp_user')))
-        <li><a href="{{ route('company.detail', Auth::guard('company')->user()->slug) }}"><i class="fas fa-user-alt" aria-hidden="true"></i> {{__('Company Public Profile')}}</a></li>
+        <li><a href="{{ route('company.detail', Auth::guard('company')->user()->slug) }}" target="_blank"><i class="fas fa-user-alt" aria-hidden="true" ></i> {{__('Company Public Profile')}}</a></li>
         @endif 
         
         @if(check_permission('post_job_per') == 1 || empty(session('emp_user')))

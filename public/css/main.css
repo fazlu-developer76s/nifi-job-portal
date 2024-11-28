@@ -481,6 +481,26 @@ h6 {
 }
 
 .header.issticky{background: #033d66;}
+.lefthdr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.hdr {
+    display: flex;
+    padding: 24px 0;
+    align-items: center;
+}
+.logoBlock {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logoBlock a img {
+    max-height: 90px;
+    filter: invert(1);
+}
 .navbar-nav{margin-left: auto;}
 .navbar{padding: 0;}
 
@@ -5753,5 +5773,15 @@ Large Mobile Screen
 .usernav li {
 	width: 50%;
 	text-align: center;
+}
+}
+
+@media screen and (max-width: 1024px) {
+.lefthdr {
+    display: flex;
+    justify-content: space-between!important;
+}
+.logoBlock {
+    display: flex;
 }
 }

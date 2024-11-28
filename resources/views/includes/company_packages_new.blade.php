@@ -3,6 +3,7 @@
     <div class="four-plan">
         <h3>{{__('Our Packages')}}</h3>
         <div class="row"> @foreach($packages as $package)
+        @if($loop->iteration==1)
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <ul class="boxes">
                     <li class="plan-name">{{$package->package_title}}</li>
@@ -59,6 +60,7 @@
 				
 				
             </div>
+            @endif
             @endforeach </div>
     </div>
     <!---end four-paln--> 
