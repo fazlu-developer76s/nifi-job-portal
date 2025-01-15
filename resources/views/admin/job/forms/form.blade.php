@@ -146,11 +146,17 @@
         {!! Form::select('gender_id', ['' => __('No preference')]+$genders, null, array('class'=>'form-control', 'id'=>'gender_id')) !!}
         {!! APFrmErrHelp::showErrors($errors, 'gender_id') !!}                                       
     </div>
-    <div class="form-group {!! APFrmErrHelp::hasError($errors, 'expiry_date') !!}">
+    {{-- <div class="form-group {!! APFrmErrHelp::hasError($errors, 'expiry_date') !!}">
         {!! Form::label('expiry_date', 'Job expiry date', ['class' => 'bold']) !!}
         {!! Form::text('expiry_date', null, array('class'=>'form-control datepicker', 'id'=>'expiry_date', 'placeholder'=>'Job expiry date', 'autocomplete'=>'off')) !!}
         {!! APFrmErrHelp::showErrors($errors, 'expiry_date') !!}
+    </div> --}}
+    <div class="form-group {!! APFrmErrHelp::hasError($errors, 'expiry_date') !!}">
+        <label for="expiry_date" class="bold">Job Expiry Date</label>
+        <input type="date" name="expiry_date" id="expiry_date" class="form-control" placeholder="Job expiry date" value="{{ old('expiry_date', \Carbon\Carbon::now()->addMonths(3)->format('Y-m-d')) }}" autocomplete="off">
+        {!! APFrmErrHelp::showErrors($errors, 'expiry_date') !!}
     </div>
+    
     <div class="form-group {!! APFrmErrHelp::hasError($errors, 'degree_level_id') !!}" id="degree_level_id_div">
         {!! Form::label('degree_level_id', 'Required Degree Level', ['class' => 'bold']) !!}                    
         {!! Form::select('degree_level_id', ['' => 'Select Required Degree Level']+$degreeLevels, null, array('class'=>'form-control', 'id'=>'degree_level_id')) !!}

@@ -313,7 +313,7 @@
 
                     <div class="job-header benefits">
                         <div class="contentbox">
-                            <h3><i class="fa fa-file-text" aria-hidden="true"></i> {{ __('Benefits') }}</h3>
+                            <h3><i class="fa fa-file-text" aria-hidden="true"></i> {{ __('Requirement & Benefits') }}</h3>
                             <p>{!! $job->benefits !!}</p>
                         </div>
                     </div>

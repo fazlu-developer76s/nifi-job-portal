@@ -462,7 +462,9 @@ h6 {
 
 
 .header {
-	padding:15px 0;	
+	padding-inline: 15px 0 !important;
+    padding-block: 5px 0 !important;
+	/* padding:15px 0;	 */
 	position: fixed;
 	z-index:10;
 	width: 100%;
@@ -471,6 +473,9 @@ h6 {
 	background: -webkit-linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
 	background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#000000",GradientType=1);
+}
+.header .logo_res{
+width: 80px !important;
 }
 .header .col-md-5 {
 	padding-right: 0;
@@ -488,7 +493,7 @@ h6 {
 }
 .hdr {
     display: flex;
-    padding: 24px 0;
+    padding: 10px 0;
     align-items: center;
 }
 .logoBlock {

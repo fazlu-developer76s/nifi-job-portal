@@ -70,7 +70,8 @@ use RegistersUsers;
         $company = new Company();
         $get_kyc_info = DB::table('site_settings')->where('id',1272)->first();
 
-        $company->name = $request->input('name');
+        $company->name = $request->input('company_name');
+        $company->ceo = $request->input('name');
         $company->email = $request->input('email');
         $company->company_type = $request->input('company_type');
         $company->company_name = $request->input('company_name');

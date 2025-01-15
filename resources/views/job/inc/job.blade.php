@@ -12,14 +12,14 @@
     </div>
     <div class="col-md-12">
         <div class="formrow {!! APFrmErrHelp::hasError($errors, 'description') !!}">
-           <label for="">Description</label>
+           <label for="">Job Description </label>
         {!! Form::textarea('description', null, array('class'=>'form-control', 'id'=>'description', 'placeholder'=>__('Job description'))) !!}
             {!! APFrmErrHelp::showErrors($errors, 'description') !!} </div>
     </div>
 	
 	 <div class="col-md-12">
         <div class="formrow {!! APFrmErrHelp::hasError($errors, 'benefits') !!}">
-        <label for="">Benefits</label>    
+        <label for="">Job Requirement</label>    
         {!! Form::textarea('benefits', null, array('class'=>'form-control', 'id'=>'benefits', 'placeholder'=>__('Job Benefits'))) !!}
             {!! APFrmErrHelp::showErrors($errors, 'benefits') !!} </div>
     </div>

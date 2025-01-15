@@ -202,9 +202,9 @@
                                             <div class="formrow">
                                                 <input type="text" id="company_pan" name="company_pan" class="form-control" placeholder="{{__('Company PAN')}}">
                                             </div>
-                                            <div class="formrow">
+                                            {{-- <div class="formrow">
                                                 <input type="text" id="company_coi" name="company_coi" class="form-control" placeholder="{{__('Company COI')}}">
-                                            </div>
+                                            </div> --}}
                                             <div class="formrow">
                                                 <input type="text" id="company_gst" name="company_gst" class="form-control" placeholder="{{__('Company GST ')}}">
                                             </div>

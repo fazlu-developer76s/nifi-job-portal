@@ -40,12 +40,12 @@
         </div>
     </div>
 
-    <div class="col-md-6">
+    {{-- <div class="col-md-6">
         <div class="formrow">
             <label for="company_coi">Company COI</label>
             <input type="text" name="company_coi" class="form-control" id="company_coi" placeholder="Company COI" value="{{ $company->company_coi ?? old('company_coi') }}">
         </div>
-    </div>
+    </div> --}}
 
     <div class="col-md-6">
         <div class="formrow">
@@ -60,13 +60,13 @@
             <input type="file" name="company_pan_attachment" class="form-control" id="company_pan_attachment">
         </div>
     </div>
-
+{{-- 
     <div class="col-md-6">
         <div class="formrow">
             <label for="company_coi_attachment">Attach Company COI</label>
             <input type="file" name="company_coi_attachment" class="form-control" id="company_coi_attachment">
         </div>
-    </div>
+    </div> --}}
 
     <div class="col-md-6">
         <div class="formrow">
@@ -478,7 +478,7 @@
                 // Validate text fields
                 validateField("#company_name", "Company Name is required.");
                 validateField("#company_pan_no", "Company PAN Number is required.");
-                validateField("#company_coi", "Company COI is required.");
+                // validateField("#company_coi", "Company COI is required.");
                 validateField("#company_gst", "Company GST Number is required.");
             }
             if(company_type == "partnership"){
@@ -516,12 +516,12 @@
                     validatePDF("#company_pan_attachment", "Company PAN Attachment must be a PDF.");
                 }
 
-                if (!$("#company_coi_attachment")[0].files.length) {
-                    valid = false;
-                    $("#company_coi_attachment").after('<span class="error" style="color:red;">Company COI Attachment is required.</span>');
-                } else {
-                    validatePDF("#company_coi_attachment", "Company COI Attachment must be a PDF.");
-                }
+                // if (!$("#company_coi_attachment")[0].files.length) {
+                //     valid = false;
+                //     $("#company_coi_attachment").after('<span class="error" style="color:red;">Company COI Attachment is required.</span>');
+                // } else {
+                //     validatePDF("#company_coi_attachment", "Company COI Attachment must be a PDF.");
+                // }
 
                 if (!$("#company_gst_attachment")[0].files.length) {
                     // valid = false;
@@ -582,10 +582,10 @@
             if(company_type == "private_limited" || company_type == "public_limited"){
                 formData.append('company_name', $("#company_name").val());
                 formData.append('company_pan_no', $("#company_pan_no").val());
-                formData.append('company_coi', $("#company_coi").val());
+                // formData.append('company_coi', $("#company_coi").val());
                 formData.append('company_gst', $("#company_gst").val());
                 formData.append('company_pan_attachment', $("#company_pan_attachment")[0].files[0]);
-                formData.append('company_coi_attachment', $("#company_coi_attachment")[0].files[0]);
+                // formData.append('company_coi_attachment', $("#company_coi_attachment")[0].files[0]);
                 formData.append('company_gst_attachment', $("#company_gst_attachment")[0].files[0]);
             }
             if(company_type == "partnership"){

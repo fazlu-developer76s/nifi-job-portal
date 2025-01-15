@@ -26,11 +26,11 @@
                                     <img src="{{ asset('uploads/functional_area/' . $functionalArea->image) }}" alt="">
                                 @else
                                     <!-- Use your dummy image path or URL here -->
-                                    <img src="{{ asset('images/no-image.png') }}" alt="Dummy Image">
+                                    <img src="{{ asset('images/no-image1.png') }}" alt="Dummy Image">
                                 @endif
                                 </div>                                   
                                 <div class="catedata">
-                                    <h3>{!! \Illuminate\Support\Str::limit($functionalArea->functional_area, $limit = 20, $end = '...') !!}</h3>
+                                    <h6>{{ $functionalArea->functional_area }}</h6>
                                     <div class="badge"><i class="fas fa-briefcase"></i> ({{$functional_area_id_num_jobs->num_jobs}}) {{__('Jobs')}}</div>
                                 </div>
                             </a>

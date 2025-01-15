@@ -70,7 +70,7 @@
             allowOutsideClick: false
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = 'https://www.job-portal.live.devs-nerasoft.tech/my-profile'; // Fixed redirection
+                window.location.href = 'http://127.0.0.1:8000/my-profile'; // Fixed redirection
             }
         });
     </script>

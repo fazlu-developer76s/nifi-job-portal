@@ -17,6 +17,7 @@ use App\Http\Controllers\Controller;
 use App\Traits\JobTrait;
 use App\Helpers\MiscHelper;
 use App\Helpers\DataArrayHelper;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 class JobController extends Controller
@@ -83,8 +84,12 @@ class JobController extends Controller
 
                         })
                         ->addColumn('company_id', function ($jobs) {
-                            return $jobs->getCompany('name');
+                            return Carbon::parse($jobs->expiry_date)->isPast() 
+                            ? $jobs->getCompany('name') . '<span style="color:red;"> Expired Job</span>' 
+                            : $jobs->getCompany('name');
+ 
                         })
+                       
                         ->addColumn('city_id', function ($jobs) {
                             return $jobs->getCity('city') . '(' . $jobs->getState('state') . '-' . $jobs->getCountry('country') . ')';
                         })

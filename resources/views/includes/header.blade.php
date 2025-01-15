@@ -5,7 +5,7 @@
                             <div class="lefthdr">
                                 <div class="logoBlock">
                                     <a href="{{url('/')}}" class="logo">
-                                        <img src="{{ asset('/') }}sitesetting_images/thumb/{{ $siteSetting->site_logo }}" alt="{{ $siteSetting->site_name }}" />
+                                        <img src="{{ asset('/') }}sitesetting_images/thumb/{{ $siteSetting->site_logo }}" alt="{{ $siteSetting->site_name }}"  class="logo_res"/>
                                     </a>
                                 </div>
                                 <div class="navbar-header navbar-light">
