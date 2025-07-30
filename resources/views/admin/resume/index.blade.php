@@ -15,7 +15,7 @@
             <div class="page-bar">
                 <ul class="page-breadcrumb">
                     <li>
-                        <a href="http://127.0.0.1:8000/admin/home">Home</a>
+                        <a href="https://www.primeplum.in/admin/home">Home</a>
                         <i class="fa fa-circle"></i>
                     </li>
                     <li> <span>Resume</span> </li>

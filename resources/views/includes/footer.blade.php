@@ -104,7 +104,7 @@
     // Handle the result when speech is recognized
     recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-window.location.href = `http://127.0.0.1:8000/jobs?search=${transcript}`;
+window.location.href = `https://www.primeplum.in/jobs?search=${transcript}`;
 
 
         output.textContent = `${transcript}`;
